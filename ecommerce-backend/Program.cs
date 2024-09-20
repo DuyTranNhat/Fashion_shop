@@ -16,6 +16,7 @@ builder.Services.AddDbContext<FashionShopContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
@@ -30,6 +31,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(x => x
+    .WithOrigins("http://localhost:5173")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetIsOriginAllowed(origin => true));
+
+app.UseCors("AllowReactLocalhost");
 app.UseAuthorization();
 
 app.MapControllers();

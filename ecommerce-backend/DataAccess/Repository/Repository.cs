@@ -20,6 +20,7 @@ namespace ecommerce_backend.DataAccess.Repository
             dbSet.Add(entity);
         }
 
+
         public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query;
@@ -61,6 +62,9 @@ namespace ecommerce_backend.DataAccess.Repository
                     query = query.Include(includeProp);
                 }
             }
+            
+
+
             return query.ToList();
         }
 
