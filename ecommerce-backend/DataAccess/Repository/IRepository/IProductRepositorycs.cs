@@ -2,7 +2,7 @@
 
 namespace ecommerce_backend.DataAccess.Repository.IRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface IProductRepository : IRepository<Category>
     {
         void Update(Category obj);
     }
