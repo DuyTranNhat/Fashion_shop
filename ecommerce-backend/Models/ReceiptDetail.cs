@@ -9,11 +9,11 @@ public partial class ReceiptDetail
 
     public int VariantId { get; set; }
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    public decimal? UnitPrice { get; set; }
+    public decimal UnitPrice { get; set; }
 
     public virtual Receipt Receipt { get; set; } = null!;
 
-    public virtual ProductVariant Variant { get; set; } = null!;
+    public virtual Variant Variant { get; set; } = null!;
 }

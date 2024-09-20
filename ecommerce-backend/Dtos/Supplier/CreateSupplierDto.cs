@@ -12,7 +12,7 @@ namespace ecommerce_backend.Dtos.Supplier
 
         public string? Address { get; set; }
 
-        public bool? Status { get; set; }
+        public bool Status { get; set; }
 
         public string? Notes { get; set; }
 

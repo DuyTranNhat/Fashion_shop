@@ -11,19 +11,19 @@ public partial class Product
 
     public int? SupplierId { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
 
-    public bool? Status { get; set; }
-
-    public virtual ICollection<CampaignProduct> CampaignProducts { get; set; } = new List<CampaignProduct>();
+    public virtual ICollection<CampaignVariant> CampaignVariants { get; set; } = new List<CampaignVariant>();
 
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
 
-    public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
-
     public virtual Supplier? Supplier { get; set; }
+
+    public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
+
+    public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
 }

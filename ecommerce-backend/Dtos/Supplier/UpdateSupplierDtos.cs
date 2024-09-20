@@ -9,8 +9,8 @@
         public string? Phone { get; set; }
 
         public string? Address { get; set; }
-
-        public bool? Status { get; set; }
+        
+        public bool Status { get; set; }
 
         public string? Notes { get; set; }
     }
