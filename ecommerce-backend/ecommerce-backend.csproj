@@ -7,6 +7,7 @@
     <InvariantGlobalization>false</InvariantGlobalization>
     <RootNamespace>ecommerce_backend</RootNamespace>
     <UserSecretsId>136a4251-47ab-4bd6-83e1-6452a7a4ad6c</UserSecretsId>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
