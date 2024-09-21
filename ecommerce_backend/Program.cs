@@ -1,7 +1,7 @@
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.DataAccess.Repository;
-using Microsoft.EntityFrameworkCore;
 using ecommerce_backend.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,6 @@ builder.Services.AddDbContext<FashionShopContext>(options => {
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +28,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
 app.UseCors(x => x
     .WithOrigins("http://localhost:5173")
@@ -39,6 +37,9 @@ app.UseCors(x => x
     .SetIsOriginAllowed(origin => true));
 
 app.UseCors("AllowReactLocalhost");
+
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();

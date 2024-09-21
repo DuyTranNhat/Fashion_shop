@@ -12,6 +12,7 @@ public partial class Value
     public string Value1 { get; set; } = null!;
 
     public virtual Attribute Attribute { get; set; } = null!;
+    public virtual ICollection<VariantValue> VariantValues { get; set; }
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
 }

@@ -9,6 +9,8 @@ public partial class Attribute
 
     public string Name { get; set; } = null!;
 
+    public virtual ICollection<ProductAttribute> ProductAttributes { get; set; }
+
     public virtual ICollection<Value> Values { get; set; } = new List<Value>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
