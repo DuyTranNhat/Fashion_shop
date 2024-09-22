@@ -4,6 +4,9 @@ import CustomerLayout from '../layouts/CustomerLayout';
 import Product from '../pages/admin/Product/Product';
 import Shop from '../pages/customer/Shop';
 import Category from '../pages/admin/Category/Category';
+import Supplier from '~/pages/admin/Supplier/Supplier'; 
+import InputSupplier from '~/pages/admin/Supplier/InputSupplier';
+import EditSupplier from '~/pages/admin/Supplier/EditSupplier';
 
 const router = createBrowserRouter([
     {
@@ -17,6 +20,18 @@ const router = createBrowserRouter([
             {
                 path: "categories",
                 element: <Category />,
+            },
+            {
+                path: "Supplier",
+                element: <Supplier />,
+            },
+            {
+                path: "supplier/create",
+                element: <InputSupplier />,
+            },
+            {
+                path: "supplier/edit/:id",
+                element: <EditSupplier />,
             },
         ],
     },

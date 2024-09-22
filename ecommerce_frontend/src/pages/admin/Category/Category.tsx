@@ -4,7 +4,7 @@ import { FaPen } from "react-icons/fa";
 import { SlTrash } from "react-icons/sl";
 import { toast } from 'react-toastify';
 import { categoryGetAPI } from '~/Services/CatergoryService';
-import Table from '~/Components/admin/Table/Table';
+import RecursiveTable from '~/Components/admin/Table/RecursiveTable';
 
 const configs = [
     {
@@ -61,16 +61,11 @@ const Category = () => {
         })
     }
 
-    console.log("------------", catgories);
-    
-
     return (
-        // <Table configs={configs} data={1} />
         <div className='container-fluid pt-4 px-4' >
-            <h1>Category Table</h1>
-            <Table configs={configs} data={catgories} />
+            <h1>Category RecursiveTable</h1>
+            <RecursiveTable configs={configs} data={catgories} />
         </div>
-        
     )
 }
 

@@ -18,8 +18,5 @@ namespace ecommerce_backend.Dtos.Supplier
         public bool? Status { get; set; }
 
         public string? Notes { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
-
     }
 }

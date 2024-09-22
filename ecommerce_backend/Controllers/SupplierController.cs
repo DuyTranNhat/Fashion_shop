@@ -25,10 +25,9 @@ namespace ecommerce_backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<Supplier> SupplierList = _unitOfWork.Supplier.GetAll(
-          /*  c=> c.SupplierId == 10, includeProperties:"products"*/
-            ).ToList();
-            return Ok(SupplierList);
+            var SupplierList = _unitOfWork.Supplier.GetAll();
+            var SupplierListDto = SupplierList.Select(c => c.ToSupplierDto()).ToList();
+            return Ok(SupplierListDto);
         }
 
         //Create Supplier
@@ -52,7 +51,7 @@ namespace ecommerce_backend.Controllers
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSupplierDtos supplierDto)
-        {
+        {   
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -67,8 +66,8 @@ namespace ecommerce_backend.Controllers
         }
 
         //Hide Supplier(update Status of Supplier)
-        [HttpDelete]
-        [Route("{id:int}")]
+        [HttpPut]
+        [Route("updateStatus/{id:int}")]
         public async Task<IActionResult> UpdateStatus([FromRoute] int id)
         {
             if(!ModelState.IsValid)
@@ -81,7 +80,21 @@ namespace ecommerce_backend.Controllers
                 return NotFound();
             }
 
-            return Ok(existingSupplier);
+            return Ok(existingSupplier.ToSupplierDto());
+        }
+
+        [HttpGet]
+        [Route("getByID/{id:int}")]
+        public async Task<IActionResult> getByID([FromRoute] int id)
+        {
+            Supplier supplierExisting = _unitOfWork.Supplier.Get(c => c.SupplierId == id);
+
+            if (supplierExisting == null)
+            {
+                return NotFound();    
+            }
+
+            return Ok(supplierExisting.ToSupplierDto());
         }
     }
 
