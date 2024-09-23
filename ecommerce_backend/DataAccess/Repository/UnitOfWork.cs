@@ -10,7 +10,7 @@ namespace ecommerce_backend.DataAccess.Repository
         public ISupplierRepository Supplier { get; private set; }
         public IProductRepository Product { get; private set; }
 
-        
+        public IAttributeRepository Attribute { get; private set; }
 
         public UnitOfWork(FashionShopContext db)
         {
@@ -18,6 +18,7 @@ namespace ecommerce_backend.DataAccess.Repository
             Category = new CategoryRepository(_db);
             Supplier = new SupplierRepository(_db);
             Product = new ProductRepository(_db);
+            Attribute = new AttributeRepository(_db);
         }
 
 
