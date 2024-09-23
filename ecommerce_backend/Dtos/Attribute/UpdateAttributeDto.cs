@@ -4,17 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ecommerce_backend.Dtos.Attribute
 {
-    public class AttributeDto
+    public class UpdateAttributeDto
     {
-        [Required]
-        public int AttributeId { get; set; }
         [Required]
         [MinLength(1)]
         [MaxLength(255)]
         public string Name { get; set; }
-        [Required]
-        public bool Status { get; set; }
-        [Required]
-        public virtual ICollection<ValueDto> Values { get; set; } = new List<ValueDto>();
+        public virtual ICollection<UpdateValueDto> Values { get; set; } = new List<UpdateValueDto>();
     }
 }

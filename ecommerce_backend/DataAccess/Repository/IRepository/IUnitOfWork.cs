@@ -5,6 +5,7 @@
         ICategoryRepository Category { get; }
         ISupplierRepository Supplier { get; }
         //IProductRepository Category { get; }
+        IAttributeRepository Attribute { get; }
         void Save();
     }
 }

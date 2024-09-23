@@ -26,5 +26,4 @@ public partial class Product
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
 
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
-    public virtual ICollection<ProductAttribute> ProductAttributes { get; set; }
 }

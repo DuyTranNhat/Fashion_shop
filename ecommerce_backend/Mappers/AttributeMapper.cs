@@ -1,28 +1,27 @@
 ﻿using ecommerce_backend.Dtos.Attribute;
-using ecommerce_backend.Dtos.ProductAttribute;
 using ecommerce_backend.Models;
 using System;
 
 namespace ecommerce_backend.Mappers
 {
-    public static class ProductAttributeMapper
+    public static class AttributeMapper
     {
-        public static ProductAttributeDto ToProductAttributeDto(this ProductAttribute productAttributeModel)
+        public static AttributeDto ToAttributeDto(this Models.Attribute attributeModel)
         {
-            return new ProductAttributeDto
+            return new AttributeDto
             {
-                AttributeId = productAttributeModel.AttributeId,
-                Name = productAttributeModel.Name,
-                AttributeValues = productAttributeModel.AttributeValues,
-                VariantAttributes = productAttributeModel.VariantAttributes
+                AttributeId = attributeModel.AttributeId,
+                Name = attributeModel.Name,
+                Status = attributeModel.Status,
+                Values = (attributeModel.Values.Select(v => v.ToValueDto())).ToList()
             };
         }
-        public static ProductAttribute ToProductAttributeFromCreateDto(this CreateAttributeDto productAttriDto)
+        public static Models.Attribute ToAttributeFromCreateDto(this CreateAttributeDto attributeDto)
         {
-            return new ProductAttribute
-            {
-                Name = productAttriDto.Name,
-            };
+            var attributeModel =  new Models.Attribute{ Name = attributeDto.Name, Status = true };
+            attributeModel.Values = (attributeDto.Values.Select(v => v.ToValueModelFromCreate(attributeModel.AttributeId))).ToList();
+            return attributeModel;
         }
+        
     }
 }
