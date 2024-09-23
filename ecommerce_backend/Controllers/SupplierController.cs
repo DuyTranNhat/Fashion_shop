@@ -8,8 +8,6 @@ using System.Text.Json;
 
 namespace ecommerce_backend.Controllers
 {
-
-
     [ApiController]
     [Route("api/[controller]")]
     public class SupplierController : Controller
@@ -26,7 +24,7 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> GetAll()
         {
             List<Supplier> SupplierList = _unitOfWork.Supplier.GetAll(
-          /*  c=> c.SupplierId == 10, includeProperties:"products"*/
+            /*  c=> c.SupplierId == 10, includeProperties:"products"*/
             ).ToList();
             return Ok(SupplierList);
         }
@@ -71,12 +69,12 @@ namespace ecommerce_backend.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateStatus([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // check containt Supplier 
-            var existingSupplier = await  _unitOfWork.Supplier.UpdateStatus(id);
-            if(existingSupplier == null)
+            var existingSupplier = await _unitOfWork.Supplier.UpdateStatus(id);
+            if (existingSupplier == null)
             {
                 return NotFound();
             }

@@ -16,7 +16,6 @@ namespace ecommerce_backend.Mappers
                 Address = supplierModel.Address,
                 Status = supplierModel.Status,
                 Notes = supplierModel.Notes,
-                Products = supplierModel.Products.Select(c => c).ToList()
             };
         }
 

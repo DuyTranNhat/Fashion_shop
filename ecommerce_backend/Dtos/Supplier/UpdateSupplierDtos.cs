@@ -1,15 +1,25 @@
-﻿namespace ecommerce_backend.Dtos.Supplier
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ecommerce_backend.Dtos.Supplier
 {
     public class UpdateSupplierDtos
     {
+        [Required]
+        [MaxLength(255)]
         public string? Name { get; set; }
 
+        [Required]
+        [EmailAddress]
+        [MaxLength(255)]
         public string? Email { get; set; }
-
+        [Required]
+        [Phone]
+        [MaxLength(50)]
         public string? Phone { get; set; }
-
+        [Required]
+        [MaxLength(500)]
         public string? Address { get; set; }
-        
+        [Required]
         public bool Status { get; set; }
 
         public string? Notes { get; set; }

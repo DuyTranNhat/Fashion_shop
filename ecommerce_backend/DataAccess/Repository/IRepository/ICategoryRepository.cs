@@ -6,5 +6,6 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
     {
         void Update(Category obj);
         Task<List<Category>> getAllRecursive();
+        Task<Category> GetById(int id);
     }
 }

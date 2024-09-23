@@ -15,7 +15,19 @@ namespace ecommerce_backend.DataAccess.Repository
         {
             _db = db;
         }
-    
+
+        public async Task<Supplier> GetById(int id)
+        {
+            var existingSupplier = await _db.Suppliers.FirstOrDefaultAsync(item => item.SupplierId == id);
+
+            if (existingSupplier == null)
+            {
+                return null;
+            }
+
+            return existingSupplier;
+        }
+
         //Update
         public async Task<Supplier> Update(int id, UpdateSupplierDtos obj)
         {

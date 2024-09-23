@@ -4,7 +4,7 @@
     {
         ICategoryRepository Category { get; }
         ISupplierRepository Supplier { get; }
-        //IProductRepository Category { get; }
+        IProductRepository Product { get; }
         void Save();
     }
 }

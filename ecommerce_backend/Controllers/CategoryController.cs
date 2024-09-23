@@ -21,19 +21,26 @@ namespace ecommerce_backend.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost] 
+       /* //GetById
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok()
+        }
+*/
+        [HttpPost]
         public async Task<IActionResult> AddCategory(CreateCatergoryDto categoryCreate, [FromQuery] int? CategoryParentId = null)
         {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-               
-                Category categoryModel = categoryCreate.ToCategoryFromCreate(CategoryParentId);
-           
-                _unitOfWork.Category.Add(categoryModel);
-                _unitOfWork.Save();
-                return Ok(categoryModel); 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Category categoryModel = categoryCreate.ToCategoryFromCreate(CategoryParentId);
+
+            _unitOfWork.Category.Add(categoryModel);
+            _unitOfWork.Save();
+            return Ok(categoryModel);
         }
 
         [HttpGet]
