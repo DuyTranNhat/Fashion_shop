@@ -5,6 +5,7 @@
         ICategoryRepository Category { get; }
         ISupplierRepository Supplier { get; }
         IProductRepository Product { get; }
+        ISlideRepository Slide { get; }
         void Save();
     }
 }

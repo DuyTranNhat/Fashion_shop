@@ -9,8 +9,7 @@ namespace ecommerce_backend.DataAccess.Repository
         public ICategoryRepository Category { get; private set; }
         public ISupplierRepository Supplier { get; private set; }
         public IProductRepository Product { get; private set; }
-
-        
+        public ISlideRepository Slide { get; private set; }
 
         public UnitOfWork(FashionShopContext db)
         {
@@ -18,6 +17,7 @@ namespace ecommerce_backend.DataAccess.Repository
             Category = new CategoryRepository(_db);
             Supplier = new SupplierRepository(_db);
             Product = new ProductRepository(_db);
+            Slide = new SlideRepository(_db);
         }
 
 
