@@ -59,7 +59,7 @@ namespace ecommerce_backend.DataAccess.Repository
                 return null;
             }
 
-           existingSupplier.Status = false;
+           existingSupplier.Status = !existingSupplier.Status;
 
             await _db.SaveChangesAsync();
 
