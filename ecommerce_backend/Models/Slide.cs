@@ -13,5 +13,5 @@ public partial class Slide
 
     public string? Image { get; set; }
 
-    public bool Status { get; set; } = true;
+    public bool Status { get; set; }
 }
