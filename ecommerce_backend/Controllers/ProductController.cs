@@ -37,7 +37,7 @@ namespace ecommerce_backend.Controllers
         }
 
         //GetById
-        [HttpGet("{id:int}")]
+        [HttpGet("getByID/{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,7 +49,6 @@ namespace ecommerce_backend.Controllers
                 return NotFound();
 
             return Ok(productModel.ToGetProductDto());
-
         }
 
         //create product
@@ -69,7 +68,7 @@ namespace ecommerce_backend.Controllers
         }
 
         [HttpPut]
-        [Route("{id:int}")]
+        [Route("update/{id:int}")]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] updateProductDto updateProduct)
         {
             if (!ModelState.IsValid)
