@@ -50,7 +50,7 @@ public partial class FashionShopContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-    => optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=FashionShop;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=FashionShop;Integrated Security=True;TrustServerCertificate=True");
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
