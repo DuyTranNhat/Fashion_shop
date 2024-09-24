@@ -326,12 +326,17 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("receipts");
 
             entity.Property(e => e.ReceiptId).HasColumnName("receipt_id");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("datetime")
+                .HasColumnName("create_date");
             entity.Property(e => e.ReceiptDate)
                 .HasColumnType("datetime")
                 .HasColumnName("receipt_date");
-            entity.Property(e => e.TotalAmount)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("total_amount");
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasDefaultValue("Pending")
+                .HasColumnName("status");
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("total_price");
