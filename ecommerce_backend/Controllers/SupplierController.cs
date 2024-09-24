@@ -11,7 +11,7 @@ namespace ecommerce_backend.Controllers
 
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     public class SupplierController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -52,3 +52,4 @@ packages/
 # Ignore ReSharper files
 _ReSharper*/
 *.sln.DotSettings.user
+.fake

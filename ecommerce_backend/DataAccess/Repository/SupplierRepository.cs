@@ -16,7 +16,7 @@ namespace ecommerce_backend.DataAccess.Repository
             _db = db;
         }
     
-        //Update
+        //Update 
         public async Task<Supplier> Update(int id, UpdateSupplierDtos obj)
         {
             var existingSupplier = await _db.Suppliers.FirstOrDefaultAsync(item => item.SupplierId == id);
