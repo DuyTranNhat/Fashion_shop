@@ -19,6 +19,7 @@ namespace ecommerce_backend.Mappers
         public static Models.Attribute ToAttributeFromCreateDto(this CreateAttributeDto attributeDto)
         {
             var attributeModel =  new Models.Attribute{ Name = attributeDto.Name, Status = true };
+            Console.WriteLine(attributeModel.AttributeId);
             attributeModel.Values = (attributeDto.Values.Select(v => v.ToValueModelFromCreate(attributeModel.AttributeId))).ToList();
             return attributeModel;
         }
