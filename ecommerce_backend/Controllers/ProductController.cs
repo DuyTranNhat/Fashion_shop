@@ -16,7 +16,6 @@ namespace ecommerce_backend.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-
         public ProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

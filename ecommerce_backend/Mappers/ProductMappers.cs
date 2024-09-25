@@ -26,7 +26,6 @@ namespace ecommerce_backend.Mappers
                 SupplierId = productModel.SupplierId,
                 Name = productModel.Name,
                 Description = productModel.Description,
-
             };
         }
 

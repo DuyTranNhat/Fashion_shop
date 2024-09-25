@@ -470,9 +470,12 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("variants");
 
             entity.Property(e => e.VariantId).HasColumnName("variant_id");
-            entity.Property(e => e.Price)
+            entity.Property(e => e.importPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
+            entity.Property(e => e.salePrice)
+               .HasColumnType("decimal(10, 2)")
+               .HasColumnName("price");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.Status)
