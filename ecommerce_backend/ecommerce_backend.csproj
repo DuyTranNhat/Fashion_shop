@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Assets\Images\Slides\" />
     <Folder Include="DataAccess\Data\" />
   </ItemGroup>
 

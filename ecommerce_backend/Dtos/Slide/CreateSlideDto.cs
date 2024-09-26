@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ecommerce_backend.Dtos.Slide
 {
@@ -13,8 +15,10 @@ namespace ecommerce_backend.Dtos.Slide
         [MaxLength(255)]
         public string? Link { get; set; }
         [Required]
+        public IFormFile Image { get; set; } = null;
+        [Required]
         [MinLength(1)]
         [MaxLength(255)]
-        public string? Image { get; set; }
+        public string? Description { get; set; }
     }
 }

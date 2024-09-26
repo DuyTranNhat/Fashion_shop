@@ -3,6 +3,7 @@ using ecommerce_backend.Dtos.Receipt;
 using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace ecommerce_backend.Controllers
 {
@@ -34,7 +35,23 @@ namespace ecommerce_backend.Controllers
             if (receiptModel == null) return NotFound();
             return Ok(receiptModel.ToReceiptDto());
         }
-
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string keyword)
+        {
+            keyword = keyword.Trim();
+            if (string.IsNullOrWhiteSpace(keyword)) return BadRequest();
+            var receiptModels = _unitOfWork.Receipt.handleSearch(keyword);
+            if (receiptModels == null) return NoContent();
+            var receiptDtos = receiptModels.Select(item => item.ToReceiptDto());
+            return Ok(receiptDtos);
+        }
+        [HttpGet("filter")]
+        public async Task<IActionResult> Filter([FromQuery] string status)
+        {
+            var receipts = _unitOfWork.Receipt.GetAll(x=>x.Status == status, includeProperties: "ReceiptDetails");
+            var receiptDtos = receipts.Select(item => item.ToReceiptDto());
+            return Ok(receiptDtos);
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceiptDto receiptDto)
         {
