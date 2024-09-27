@@ -4,6 +4,8 @@ using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using static ecommerce_backend.PublicClasses.UploadHandler;
 
 namespace ecommerce_backend.Controllers
 {
@@ -35,12 +37,31 @@ namespace ecommerce_backend.Controllers
             if (slideModel == null) return NotFound();
             return Ok(slideModel.ToSlideDto());
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string keyword)
+        {
+            keyword = keyword.Trim();
+            if (string.IsNullOrWhiteSpace(keyword)) return BadRequest();
+            var slideModels = _unitOfWork.Slide.handleSearch(keyword);
+            if (slideModels == null) return NoContent();
+            var slideDtos = slideModels.Select(item => item.ToSlideDto());
+            return Ok(slideDtos);
+        }
+        [HttpGet("filter")]
+        public async Task<IActionResult> Filter([FromQuery] string status)
+        {
+            var slideModels = _unitOfWork.Slide.GetAll(x => x.Status == Boolean.Parse(status));
+            var slideDtos = slideModels.Select(item => item.ToSlideDto());
+            return Ok(slideDtos);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> create([FromBody] CreateSlideDto slideDto)
+        public async Task<IActionResult> Create([FromForm] CreateSlideDto slideDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var slideModel = slideDto.ToSlideFromCreate();
+            var result = handleUpload(slideDto.Image);
+            if (!Path.Exists(result)) return BadRequest(result);
+            var slideModel = slideDto.ToSlideFromCreate(result);
             _unitOfWork.Slide.Add(slideModel);
             _unitOfWork.Save();
             return CreatedAtAction(nameof(GetById), new { id = slideModel.SlideId }, slideModel);
@@ -48,7 +69,7 @@ namespace ecommerce_backend.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSlideDto slideDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromForm] UpdateSlideDto slideDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var slideModel = _unitOfWork.Slide.Update(id, slideDto);

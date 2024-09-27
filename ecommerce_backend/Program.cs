@@ -2,6 +2,10 @@ using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.DataAccess.Repository;
 using ecommerce_backend.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ecommerce_backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +16,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<FashionShopContext>(options => {
+builder.Services.AddDbContext<FashionShopContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Thêm các dịch vụ như Authentication và JWT Bearer
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "your-issuer",
+        ValidAudience = "your-audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+    };
+});
+
 
 var app = builder.Build();
 
@@ -44,4 +70,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+// Sử dụng authentication
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();
+

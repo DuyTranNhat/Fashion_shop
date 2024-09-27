@@ -7,5 +7,6 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
     {
         Slide? Update(int id, UpdateSlideDto obj);
         Slide? UpdateStatus(int id);
+        IEnumerable<Models.Slide>? handleSearch(string keyword);
     }
 }

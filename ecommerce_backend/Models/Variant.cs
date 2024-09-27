@@ -11,11 +11,13 @@ public partial class Variant
 
     public string VariantName { get; set; } = null!;
 
-    public decimal Price { get; set; }
-
     public int Quantity { get; set; }
 
     public string? Status { get; set; }
+
+    public decimal ImportPrice { get; set; }
+
+    public decimal SalePrice { get; set; }
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 

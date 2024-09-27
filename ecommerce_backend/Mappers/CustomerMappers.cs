@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ecommerce_backend.Dtos.Customer;
+using ecommerce_backend.Models;
+
+namespace ecommerce_backend.Mappers
+{
+    public static class CustomerMappers
+    {
+        public static CustomerDto ToCustomerDto(this Customer customerModel)
+        {
+            return new CustomerDto
+            {
+                CustomerId = customerModel.CustomerId,
+                Name = customerModel.Name, 
+                Email = customerModel.Email,
+                Phone = customerModel.Phone,
+                Address = customerModel.Address,
+                ImageUrl = customerModel.ImageUrl,
+                Password = customerModel.Password,
+            };
+        }
+
+        public static Customer ToCustomerFromCreateDto(this CreateCustomerDto customerDto)
+        {
+            return new Customer
+            {
+                Name = customerDto.Name,
+                Email = customerDto.Email,
+                Phone = customerDto.Phone,
+                Address = customerDto.Address,
+                ImageUrl = customerDto.ImageUrl,
+                Password = customerDto.Password,
+            };
+        }
+    }
+}

@@ -1,6 +1,6 @@
 ﻿using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Models;
-
+using static ecommerce_backend.PublicClasses.UploadHandler;
 namespace ecommerce_backend.Mappers
 {
     public static class SlideMappers
@@ -13,26 +13,20 @@ namespace ecommerce_backend.Mappers
                 Title = slide.Title,
                 Link = slide.Link,
                 Image = slide.Image,
-                Status = slide.Status
+                Status = slide.Status,
+                Description = slide.Description
             };
         }
-        public static Slide ToSlideFromCreate(this CreateSlideDto slidedto)
+        public static Slide ToSlideFromCreate(this CreateSlideDto slidedto, string path)
         {
             return new Slide
             {
                 Title = slidedto.Title,
                 Link = slidedto.Link,
-                Image = slidedto.Image
+                Image = path,
+                Description = slidedto.Description
             };
         }
-        public static Slide ToSlideFromUpdate(this UpdateSlideDto slidedto)
-        {
-            return new Slide
-            {
-                Title = slidedto.Title,
-                Link = slidedto.Link,
-                Image = slidedto.Image
-            };
-        }
+
     }
 }

@@ -3,6 +3,7 @@ using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Attribute;
 using ecommerce_backend.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ecommerce_backend.Controllers
 {
@@ -22,6 +23,19 @@ namespace ecommerce_backend.Controllers
             var attributeDtos = attributeModels.Select(x => x.ToAttributeDto());
             return Ok(attributeDtos);
         }
+
+        [HttpGet("getActive")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var attributeModels = _unitOfWork.Attribute.GetAll(x=>x.Status, includeProperties: "Values");
+            attributeModels.ToList().ForEach(x =>
+            {
+                x.Values = (x.Values.Where(v => v.Status)).ToList();
+            });
+            var attributeDtos = attributeModels.Select(x => x.ToAttributeDto());
+            return Ok(attributeDtos);
+        }
+
         [HttpGet("getByID/{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -29,6 +43,16 @@ namespace ecommerce_backend.Controllers
             var attributeModel = _unitOfWork.Attribute.Get(x => x.AttributeId == id, "Values");
             if (attributeModel == null) return NotFound();
             return Ok(attributeModel.ToAttributeDto());
+        }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string keyword)
+        {
+            keyword = keyword.Trim();
+            if (string.IsNullOrWhiteSpace(keyword)) return BadRequest();
+            var attributeModels = _unitOfWork.Attribute.handleSearch(keyword);
+            if (attributeModels == null) return NoContent();
+            var attributeDtos = attributeModels.Select(x => x.ToAttributeDto());
+            return Ok(attributeDtos);
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAttributeDto attributeDto)

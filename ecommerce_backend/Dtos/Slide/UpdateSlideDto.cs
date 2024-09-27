@@ -13,8 +13,10 @@ namespace ecommerce_backend.Dtos.Slide
         [MaxLength(255)]
         public string? Link { get; set; }
         [Required]
+        public IFormFile Image { get; set; } = null;
+        [Required]
         [MinLength(1)]
         [MaxLength(255)]
-        public string? Image { get; set; }
+        public string? Description { get; set; }
     }
 }
