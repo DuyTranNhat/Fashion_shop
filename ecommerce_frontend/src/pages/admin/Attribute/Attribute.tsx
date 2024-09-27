@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Table from '~/Components/admin/Table/Table'
 import { AttributeGet } from '~/Models/Attribute'
-import { attributeGetAPI } from '~/Services/AttributeService'
+import { attributeActiveAPI, attributeGetAPI } from '~/Services/AttributeService'
 
 
 
@@ -13,15 +13,32 @@ const Attribute = () => {
     const [attribues, setAttributes] = useState<AttributeGet[]>([])
     const navigate = useNavigate()
 
-    
+    const activeStatus = (attributeId: number): void => { // Hàm trả về kiểu void
+        attributeActiveAPI(attributeId)
+            .then(res => {
+                if (res?.data) {
+                    setAttributes((prev: AttributeGet[]): AttributeGet[] => {  
+                        return prev.map((attribute: AttributeGet): any => 
+                            {
+                                return attribute.attributeId === attributeId
+                                ? { ...attribute, status: !attribute.status }  
+                                : attribute}
+                            );
+                        });
+                    }
+            }).catch(error => toast.error("Failed to update status"));
+    };
+
+
 
     useEffect(() => {
         attributeGetAPI()
-        .then(res => {
-            if(res?.data) {
-                setAttributes(res?.data)
-            }
-        }).catch(error => toast.error(error))
+            .then(res => {
+                if (res?.data) {
+                    
+                    setAttributes(res?.data)
+                }
+            }).catch(error => toast.error(error))
     }, [])
 
 
@@ -41,7 +58,7 @@ const Attribute = () => {
                 <td>
                     <div className="form-check form-switch">
                         <input className="form-check-input " type="checkbox" id="flexSwitchCheckDefault"
-                            // onChange={() => onStatusChange(attributeGet.attributeGetId)} 
+                            onChange={() => activeStatus(attributeGet.attributeId)}
                             checked={attributeGet.status} />
                     </div>
                 </td>
@@ -65,7 +82,8 @@ const Attribute = () => {
 
     return (
         <div className='container-fluid pt-4 px-4' >
-
+            
+            <h1>Category Management</h1>
             <div className="col-12">
                 <div className="bg-light rounded h-100 p-4">
                     <div className='d-flex' >

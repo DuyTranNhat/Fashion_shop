@@ -11,6 +11,19 @@ export type ValueGet = {
     status: boolean
 }
 
+export type AttributeUpdate = {
+    name: string,
+    values: VallueUpdate[]
+}
+
+
+export type VallueUpdate = {
+    valueId: number,
+    value1: string,
+    status: boolean
+    
+}
+
 export type AttributePost = {
     name: string,
     values: ValuePost[]

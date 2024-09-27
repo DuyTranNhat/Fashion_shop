@@ -21,8 +21,6 @@ export type ProductFormInput = {
     description: string;
 }
 
-
-
 // Define validation schema using Yup
 const validationSchema = yup.object().shape({
     name: yup.string().required('Name is required').max(255, 'Name is too long'),

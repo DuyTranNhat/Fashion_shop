@@ -60,6 +60,8 @@ const Product = () => {
         <div className='container-fluid pt-4 px-4' >
 
             <div className="col-12">
+              <h1 className='py-3' >Product Management</h1>
+
                 <div className="bg-light rounded h-100 p-4">
                     <div className='d-flex' >
                         <h6 className="mb-4">Product Sample List</h6>

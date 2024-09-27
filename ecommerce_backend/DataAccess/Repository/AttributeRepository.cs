@@ -18,7 +18,6 @@ namespace ecommerce_backend.DataAccess.Repository
         }
 
 
-
         public Models.Attribute Update(int id, UpdateAttributeDto obj)
         {
             var attributeModel = _db.Attributes.Include(x=>x.Values).FirstOrDefault(a => a.AttributeId == id);

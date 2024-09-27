@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import * as yup from 'yup';
 import { IoIosAdd } from "react-icons/io";
-import { FiTrash } from "react-icons/fi";
 
 // Định nghĩa props
 type Props = {
@@ -18,35 +17,43 @@ export type AttributeFormInput = {
 };
 
 export type ValueFormInput = {
+  valueId?: number;
   value1: string;
+  status: boolean;
 };
 
+// Định nghĩa schema validation bằng Yup
 // Định nghĩa schema validation bằng Yup
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required').max(255, 'Name is too long'),
   values: yup
     .array()
-    .required()
     .of(
       yup.object().shape({
         value1: yup.string().required('Value is required'),
+        valueId: yup.number(),
+        status: yup.boolean().required(),
       })
     )
-    .min(1, 'At least one value is required'), // Bắt buộc ít nhất 1 giá trị
+    .min(1, 'At least one value is required') // Bắt buộc ít nhất 1 giá trị
+    .required(),
 });
+
 
 const FormAttribute = ({ handleAttribute, attribute }: Props) => {
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<AttributeFormInput>({
     resolver: yupResolver(validationSchema),
-    defaultValues: attribute || { name: '', values: [{ value1: '' }] }, // Đảm bảo có mảng `values` ngay từ đầu
+    defaultValues: attribute || { name: '', values: [{ value1: '', valueId: 0, status: true }] }, // Đảm bảo có mảng `values` ngay từ đầu
   });
+
   // Sử dụng useFieldArray để quản lý mảng các giá trị
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: 'values', // Tên trường mảng trong form
   });
@@ -56,11 +63,16 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
     handleAttribute(data);
   };
 
+  // Hàm xử lý cập nhật status khi người dùng thay đổi checkbox
+  const handleStatusChange = (index: number, checked: boolean) => {
+    setValue(`values.${index}.status`, checked);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Name Input */}
       <hr />
-      <h6 className='mb-4' >Attribute</h6>
+      <h6 className='mb-4'>Attribute</h6>
       <div className="form-floating mb-3">
         <input
           type="text"
@@ -74,7 +86,7 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
 
       {/* Value Array Inputs */}
       <div className="mb-3">
-        <h6 className='mb-4' >Values</h6>
+        <h6 className='mb-4'>Values</h6>
         {fields.map((field, index) => (
           <div key={field.id} className="input-group mb-2">
             <input
@@ -83,24 +95,28 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
               placeholder={`Value ${index + 1}`}
               {...register(`values.${index}.value1` as const)} // Đăng ký trường giá trị trong mảng
             />
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => remove(index)} // Xóa giá trị
-            >
-            <FiTrash /> 
-            </button>
+            {/* Checkbox để thay đổi trạng thái status */}
+            <div className="form-check form-switch ms-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id={`statusCheck-${index}`}
+                defaultChecked={field.status}
+                onChange={(e) => handleStatusChange(index, e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor={`statusCheck-${index}`}></label>
+            </div>
             {errors.values?.[index]?.value1 && (
               <div className="invalid-feedback">{errors.values[index]?.value1?.message}</div>
             )}
           </div>
         ))}
 
-        <div className='d-flex' >
+        <div className='d-flex'>
           <button
             type="button"
-            className="btn btn-success  me-2"
-            onClick={() => append({ value1: '' })} // Thêm một giá trị mới
+            className="btn btn-success me-2"
+            onClick={() => append({ value1: '', valueId: 0, status: true })} // Thêm một giá trị mới
           >
             <IoIosAdd />
           </button>

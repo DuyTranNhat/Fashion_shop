@@ -63,7 +63,7 @@ namespace ecommerce_backend.Controllers
             _unitOfWork.Save();
             return CreatedAtAction(nameof(GetById), new { id = attributeModel.AttributeId }, attributeModel.ToAttributeDto());
         }
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateAttributeDto attributeDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
