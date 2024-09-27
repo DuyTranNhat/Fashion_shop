@@ -7,7 +7,7 @@ const api = "https://localhost:7000/api/Supplier";
 
 export const supplierGetAPI = async () => {
     try {
-        const data = await axios.get<[]>(api);
+        const data = await axios.get<SupplierGet[]>(api);
         return data;
     } catch (error) {
         handleError(error);

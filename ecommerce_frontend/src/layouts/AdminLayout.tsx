@@ -5,6 +5,8 @@ import Navbar from '../Components/admin/Navbar/Navbar';
 
 
 const AdminLayout = () => {
+    console.log(123);
+    
     return (
         <div className="container-fluid position-relative bg-white d-flex p-0">
             <Sidebar />
