@@ -11,8 +11,8 @@ public partial class Variant
 
     public string VariantName { get; set; } = null!;
 
-    public decimal importPrice { get; set; }
-    public decimal salePrice { get; set; }
+    public decimal ImportPrice { get; set; }
+    public decimal SalePrice { get; set; }
 
     public int Quantity { get; set; }
 

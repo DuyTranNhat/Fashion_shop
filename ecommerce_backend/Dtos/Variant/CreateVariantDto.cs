@@ -18,6 +18,7 @@ namespace ecommerce_backend.Dtos.NewFolder
         [Required]
         [Column(TypeName = "decimal(10,2)")]
         public decimal salePrice { get; set; }
-        public List<CreateImageDto> createImageDtos { get; set; }
+        //public List<CreateImageDto> createImageDtos { get; set; }
+        public List<IFormFile> listFile { get; set; }
     }
 }

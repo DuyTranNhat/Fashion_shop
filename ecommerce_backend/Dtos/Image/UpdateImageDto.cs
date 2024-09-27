@@ -2,7 +2,7 @@
 
 namespace ecommerce_backend.Dtos.Image
 {
-    public class CreateImageDto
+    public class UpdateImageDto
     {
         [Required]
         [MaxLength(255)]
