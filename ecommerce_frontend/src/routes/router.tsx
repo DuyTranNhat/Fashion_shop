@@ -9,6 +9,9 @@ import InputSupplier from '~/pages/admin/Supplier/InputSupplier';
 import EditSupplier from '~/pages/admin/Supplier/EditSupplier';
 import InputProduct from '~/pages/admin/Product/InputProduct';
 import EditProduct from '~/pages/admin/Product/EditProduct';
+import Attribute from '~/pages/admin/Attribute/Attribute';
+import InputAttribute from '~/pages/admin/Attribute/InputAttribute';
+import EditAttribute from '~/pages/admin/Attribute/EditAttribute';
 
 const router = createBrowserRouter([
     {
@@ -24,7 +27,7 @@ const router = createBrowserRouter([
                 element: <Category />,
             },
             {
-                path: "Supplier",
+                path: "suppliers",
                 element: <Supplier />,
             },
             {
@@ -42,6 +45,18 @@ const router = createBrowserRouter([
             {
                 path: "product/edit/:id",
                 element: <EditProduct />,
+            },
+            {
+                path: "attributes",
+                element: <Attribute />
+            },
+            {
+                path: "attribue/create",
+                element: <InputAttribute />
+            },
+            {
+                path: "attribute/edit/:id",
+                element: <EditAttribute />
             },
         ],
     },

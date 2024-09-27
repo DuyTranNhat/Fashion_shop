@@ -22,7 +22,7 @@ namespace ecommerce_backend.Controllers
             var attributeDtos = attributeModels.Select(x => x.ToAttributeDto());
             return Ok(attributeDtos);
         }
-        [HttpGet("{id}")]
+        [HttpGet("getByID/{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
