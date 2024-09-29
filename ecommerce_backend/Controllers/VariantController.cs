@@ -99,10 +99,5 @@ namespace ecommerce_backend.Controllers
 
             return Ok(variantModel.ToGetVariantDto());
         }
-
-
-       
-
-
     }
 }
