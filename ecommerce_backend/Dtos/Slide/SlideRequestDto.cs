@@ -1,24 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace ecommerce_backend.Dtos.Slide
 {
-    public class CreateSlideDto
+    public class SlideRequestDto
     {
         [Required]
         [MinLength(1)]
         [MaxLength(255)]
         public string Title { get; set; } = null!;
+
         [Required]
         [MinLength(1)]
         [MaxLength(255)]
         public string? Link { get; set; }
+
         [Required]
-        public IFormFile Image { get; set; } = null;
+        public IFormFile ImageFile { get; set; } = null!;
+
         [Required]
         [MinLength(1)]
         [MaxLength(255)]
         public string? Description { get; set; }
+
+        [Required]
+        public bool Status { get; set; }
     }
 }

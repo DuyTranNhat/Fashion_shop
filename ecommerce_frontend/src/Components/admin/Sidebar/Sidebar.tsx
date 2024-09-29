@@ -5,7 +5,7 @@ const AdminSidebar = () => {
     const navigate = useNavigate()
     return (
         <div className="sidebar pe-4 pb-3">
-            <nav className="navbar bg-light navbar-light pl-0">
+            <nav className="navbar navbar-light pl-0">
                 <a href="index.html" className="navbar-brand mx-4 mb-3">
                     <h3 className="text-primary"><i className="fa fa-hashtag me-2"></i>DASHMIN</h3>
                 </a>
@@ -32,11 +32,11 @@ const AdminSidebar = () => {
                     <a onClick={() => navigate("/admin/suppliers")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Supplier</a>
                     <a onClick={() => navigate("/admin/categories")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Categories</a>
                     <a href="chart.html" className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>
-                    <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="far fa-file-alt me-2"></i>Pages</a>
+                    <div className="nav-item dropdown" style={{cursor:"pointer"}}>
+                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="far fa-file-alt me-2"></i>Banner</a>
                         <div className="dropdown-menu bg-transparent border-0">
-                            <a className="dropdown-item">Sign In</a>
-                            <a className="dropdown-item">Sign Up</a>
+                            <a className="dropdown-item">Promotion</a>
+                            <a onClick={() => navigate("/admin/slider")} className="dropdown-item">Slider</a>
                             <a className="dropdown-item">404 Error</a>
                             <a className="dropdown-item">Blank Page</a>
                         </div>

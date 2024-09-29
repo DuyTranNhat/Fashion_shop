@@ -10,8 +10,6 @@ const EditSupplier = () => {
   const { id } = useParams<{ id: string }>(); // Lấy ID từ URL
   const [supplier, setSupplier] = useState<SupplierFormInput | null>(null);
 
-    console.log("123", supplier);
-    
 
   // Fetch data of the supplier when component loads
   useEffect(() => {
@@ -24,7 +22,6 @@ const EditSupplier = () => {
         })
         .catch((error) => {
           toast.warning('Failed to load supplier data.');
-          console.error(error);
         });
     }
   }, [id]);
@@ -41,7 +38,6 @@ const EditSupplier = () => {
       })
       .catch((error) => {
         toast.warning('Update failed.');
-        console.error(error);
       });
   };
 

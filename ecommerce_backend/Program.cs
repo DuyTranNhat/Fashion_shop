@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ecommerce_backend.Models;
+using ecommerce_backend.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<FashionShopContext>(options =>
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ImageService>();
 
 // Thêm các dịch vụ như Authentication và JWT Bearer
 builder.Services.AddAuthentication(options =>
@@ -65,6 +67,7 @@ app.UseCors(x => x
 app.UseCors("AllowReactLocalhost");
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
