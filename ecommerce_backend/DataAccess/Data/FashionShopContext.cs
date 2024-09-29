@@ -446,6 +446,10 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.ImportPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("import_price");
+            entity.Property(e => e.SalePrice)
+               .HasColumnType("decimal(10, 2)")
+               .HasColumnName("sale_price");
+
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.SalePrice)
