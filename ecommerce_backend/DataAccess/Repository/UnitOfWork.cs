@@ -29,14 +29,11 @@ namespace ecommerce_backend.DataAccess.Repository
             Category = new CategoryRepository(_db);
             Supplier = new SupplierRepository(_db);
             Product = new ProductRepository(_db);
-<<<<<<< HEAD
             Variant = new VariantRepository(_db);
             Image = new ImageRepository(_db);
-=======
             Customer = new CustomerRepository(_db);
             MarketingCampaign = new MarketingCampaignRepository(_db);
 
->>>>>>> 38d6eea0a311aee171b9765838f14d0bde461ecf
         }
 
 
