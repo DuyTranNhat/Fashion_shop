@@ -49,6 +49,8 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> Create([FromBody] CreateOrderDetailDto orderDetailDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (_unitOfWork.Order.Get(o => o.OrderId == orderDetailDto.OrderId) == null) return NotFound(new {message = "Order not found"});
+            if (_unitOfWork.Variant.Get(v => v.VariantId == orderDetailDto.VariantId) == null) return NotFound(new { message = "Variant not found" });
             var orderdetailModel = orderDetailDto.ToOrderDetailFromCreate();
             _unitOfWork.OrderDetail.Add(orderdetailModel);
             _unitOfWork.Save();
