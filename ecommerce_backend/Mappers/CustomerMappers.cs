@@ -54,6 +54,21 @@ namespace ecommerce_backend.Mappers
             };
         }
 
+        public static CustomerDto ToCustomerDtoWithCarts(this Customer customerModel)
+        {
+            return new CustomerDto
+            {
+                CustomerId = customerModel.CustomerId,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Phone = customerModel.Phone,
+                Address = customerModel.Address,
+                ImageUrl = customerModel.ImageUrl,
+                Password = customerModel.Password,
+                Carts = customerModel.Carts.Select(c => c.ToCartDto()).ToList()
+            };
+        }
+
         public static Customer ToCustomerFromCreateDto(this CreateCustomerDto customerDto)
         {
             return new Customer
