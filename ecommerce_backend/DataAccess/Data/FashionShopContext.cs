@@ -13,6 +13,7 @@ public partial class FashionShopContext : DbContext
     {
     }
 
+    //
     public virtual DbSet<Models.Attribute> Attributes { get; set; }
 
     public virtual DbSet<CampaignVariant> CampaignVariants { get; set; }
