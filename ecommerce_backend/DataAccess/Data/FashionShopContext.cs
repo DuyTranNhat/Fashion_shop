@@ -45,6 +45,7 @@ public partial class FashionShopContext : DbContext
     public virtual DbSet<Value> Values { get; set; }
 
     public virtual DbSet<Variant> Variants { get; set; }
+    public virtual DbSet<Cart> Carts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -88,6 +89,23 @@ public partial class FashionShopContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__campaign___produ__5535A963");
         });
+
+        modelBuilder.Entity<Cart>()
+       .HasKey(c => c.CartId);
+
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Customer)
+            .WithMany(c => c.Carts)
+            .HasForeignKey(c => c.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Variant)
+            .WithMany(v => v.Carts)
+            .HasForeignKey(c => c.VariantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
 
         modelBuilder.Entity<Category>(entity =>
         {

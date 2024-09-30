@@ -28,4 +28,5 @@ public partial class Variant
     public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; } = new List<ReceiptDetail>();
 
     public virtual ICollection<Value> Values { get; set; } = new List<Value>();
+    public virtual ICollection<Cart> Carts { get; set; }
 }
