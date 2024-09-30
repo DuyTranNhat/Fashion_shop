@@ -26,12 +26,10 @@ const EditProduct = () => {
           }
         })
         .catch(error => {
-          console.error("Error fetching product:", error);
           toast.error("Failed to fetch product details.");
         });
     }
   }, [id]);
-  console.log(product);
 
 
   const handleProduct = (form: ProductFormInput) => {

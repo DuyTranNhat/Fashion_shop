@@ -8,5 +8,6 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
     {
         Receipt? Update(int id, UpdateReceiptDto updateReceiptDto);
         Receipt? UpdateStatus(int id, string status);
+        IEnumerable<Models.Receipt>? handleSearch(string keyword);
     }
 }

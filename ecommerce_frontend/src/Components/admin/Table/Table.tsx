@@ -6,7 +6,7 @@ type Props = {
 const Table = ({ configs, data }: Props) => {
     const renderedRows = data.map((company : any, index : number) => {
         return (
-            <tr key={company.cik}>
+            <tr className="" key={company.cik}>
                 {configs.map((config: any) => {
                     return <td>{config.render(company, index)}</td>
                 })}
@@ -18,7 +18,7 @@ const Table = ({ configs, data }: Props) => {
 
         return (
             <th
-                className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="p-4 text-xs font-medium text-gray-500 uppercase tracking-wider  align-items-center"
                 key={config.label}
             >
                 {config.label}
@@ -29,7 +29,7 @@ const Table = ({ configs, data }: Props) => {
     return (
                 <table className="table">
                     <thead>
-                        <tr>
+                        <tr className="" >
                             {renderedHeaders}
                         </tr>
                     </thead>

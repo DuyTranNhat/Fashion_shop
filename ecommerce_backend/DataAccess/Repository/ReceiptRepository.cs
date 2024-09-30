@@ -4,6 +4,9 @@ using ecommerce_backend.Dtos.Receipt;
 using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Linq;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ecommerce_backend.DataAccess.Repository
 {
@@ -53,6 +56,15 @@ namespace ecommerce_backend.DataAccess.Repository
             if (receiptModel == null) return null;
             receiptModel.Status = status;
             return receiptModel;
+        }
+        public IEnumerable<Models.Receipt>? handleSearch(string keyword)
+        {
+            bool isNumeric = int.TryParse(keyword, out int parsedId);
+            var receiptModels = GetAll(x =>
+                isNumeric && x.ReceiptId == parsedId
+            , includeProperties: "ReceiptDetails");
+            if (receiptModels.IsNullOrEmpty()) return null;
+            return receiptModels;
         }
     }
 }

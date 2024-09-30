@@ -46,9 +46,8 @@ public partial class FashionShopContext : DbContext
     public virtual DbSet<Variant> Variants { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        => optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=FashionShop;Integrated Security=True;TrustServerCertificate=True");
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-UGUU7LBC\\SQLEXPRESS02;Initial Catalog=FashionShop;Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -372,6 +371,9 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("slide");
 
             entity.Property(e => e.SlideId).HasColumnName("slide_id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Image)
                 .HasMaxLength(255)
                 .HasColumnName("image");
@@ -438,11 +440,18 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("variants");
 
             entity.Property(e => e.VariantId).HasColumnName("variant_id");
-            entity.Property(e => e.Price)
+            entity.Property(e => e.ImportPrice)
                 .HasColumnType("decimal(10, 2)")
-                .HasColumnName("price");
+                .HasColumnName("import_price");
+            entity.Property(e => e.SalePrice)
+               .HasColumnType("decimal(10, 2)")
+               .HasColumnName("sale_price");
+
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.SalePrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("sale_price");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false)

@@ -62,7 +62,7 @@ const RecursiveTable = ({ configs, data }: Props) => {
 
     return (
         <div className="col-12">
-            <div className="bg-light rounded h-100 p-4">
+            <div className="rounded h-100 p-4">
                 <h6 className="mb-4">Category List</h6>
                 <div className="table-responsive">
                     <table className="table">

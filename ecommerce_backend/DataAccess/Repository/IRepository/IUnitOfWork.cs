@@ -6,6 +6,8 @@
         ISupplierRepository Supplier { get; }
 
         IProductRepository Product { get; }
+        IVariantRepository Variant { get; }
+        IImageRepository Image { get; }
         IAttributeRepository Attribute { get; }
         ISlideRepository Slide { get; }
         IReceiptRepository Receipt { get; }

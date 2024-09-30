@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Data\" />
+    <Folder Include="Dtos\Test\" />
+    <Folder Include="wwwroot\images\slides\" />
   </ItemGroup>
 
 </Project>
