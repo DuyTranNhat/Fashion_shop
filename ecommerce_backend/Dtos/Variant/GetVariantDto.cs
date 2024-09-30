@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using ecommerce_backend.Models;
 using ecommerce_backend.Dtos.Product;
 using ecommerce_backend.Dtos.Image;
+using ecommerce_backend.Dtos.Value;
 
 namespace ecommerce_backend.Dtos.Variant
 {
@@ -21,8 +22,8 @@ namespace ecommerce_backend.Dtos.Variant
 
         public string Status { get; set; }
 
-        public virtual  ProductDto Product { get; set; }
-
         public virtual List<ImageDto> Images { get; set; }
+
+        public virtual List<VariantValueDto> Values { get; set; } = new List<VariantValueDto>();
     }
 }

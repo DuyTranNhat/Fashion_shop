@@ -7,5 +7,9 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
     public interface IVariantRepository : IRepository<Variant>
     { 
         public Task<Variant> Edit(int id, UpdateVariantDto obj);
+
+        Variant? UpdateStatus(int id, string status);
+
+        void UpdateVariantQuantity(Receipt receipt);
     }
 }

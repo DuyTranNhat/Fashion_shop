@@ -14,6 +14,7 @@
         //IProductRepository Category { get; }
         ICustomerRepository Customer { get; }
         IMarketingCampaignRepository MarketingCampaign { get; }
+        IValueRepository Value { get; }
         void Save();
     }
 }

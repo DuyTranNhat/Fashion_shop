@@ -7,6 +7,7 @@ using ecommerce_backend.Dtos.Product;
 using ecommerce_backend.Mappers;
 using System.Net.WebSockets;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ecommerce_backend.DataAccess.Repository;
 
 namespace ecommerce_backend.Controllers
 {
@@ -28,7 +29,7 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var products = _unitOfWork.Product.GetAll(includeProperties: "Category,Supplier");
+            var products = _unitOfWork.Product.GetAll(includeProperties: "Category,Supplier,Attributes");
 
             var productDtos = products.Select(item => item.ToGetProductDto());
 
@@ -42,7 +43,7 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier");
+            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier,Attributes");
 
             if (productModel == null)
                 return NotFound();
@@ -54,16 +55,14 @@ namespace ecommerce_backend.Controllers
         [HttpPost]
         public async Task<IActionResult> create([FromBody] CreateProductDto productCreate)
         {
-            //check model binding
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             Product productModel = productCreate.ToProductFromCreateDto();
-
             _unitOfWork.Product.Add(productModel);
+            _unitOfWork.Attribute.CreateProductAttribute(productModel,productCreate.Attributes);
             _unitOfWork.Save();
-
-            return CreatedAtAction(nameof(GetById), new { id = productModel.ProductId }, productModel);
+            return CreatedAtAction(nameof(GetById), new { id = productModel.ProductId }, productModel.ToGetProductDto());
         }
 
         [HttpPut]

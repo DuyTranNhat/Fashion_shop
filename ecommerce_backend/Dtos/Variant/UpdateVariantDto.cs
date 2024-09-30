@@ -8,12 +8,8 @@ namespace ecommerce_backend.Dtos.Variant
     public class UpdateVariantDto
     {
         [Required]
-        public int ProductId { get; set; }
-        [Required]
         [MaxLength(255)]
         public string VariantName { get; set; }
-        [Required]
-        public int Quantity { get; set; }
         [Required]
         [MaxLength(255)]
         public string Status { get; set; }
