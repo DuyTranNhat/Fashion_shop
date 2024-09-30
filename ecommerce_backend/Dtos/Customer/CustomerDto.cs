@@ -1,5 +1,5 @@
 using ecommerce_backend.Dtos.Order;
-using ecommerce_backend.Dtos.Preview;
+using ecommerce_backend.Dtos.ProductReview;
 using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Dtos.Customer
@@ -21,7 +21,7 @@ namespace ecommerce_backend.Dtos.Customer
         public string Password { get; set; } = null!;
         public virtual ICollection<OrderDto> Orders { get; set; } = new List<OrderDto>();
 
-        public virtual ICollection<ProductPreviewDto> ProductReviews { get; set; } = new List<ProductPreviewDto>();
+        public virtual ICollection<ProductReviewDto> ProductReviews { get; set; } = new List<ProductReviewDto>();
 
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ecommerce_backend.Dtos.ProductReview;
-using ecommerce_backend.Dtos.Review;
 using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Mappers
