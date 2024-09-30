@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using ecommerce_backend.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,36 +18,64 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "FashionShop API", Version = "v1" });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer", 
+        BearerFormat = "JWT", 
+        In = ParameterLocation.Header, 
+        Description = "Please insert JWT token into field"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+    {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new string[] { } 
+    }});
+});
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddDbContext<FashionShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// Thêm các dịch vụ như Authentication và JWT Bearer
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
-        ValidateLifetime = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "your-issuer",
-        ValidAudience = "your-audience",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+        IssuerSigningKey = new SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+        ),
+        ValidateLifetime = true
     };
 });
 
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin")); 
+    options.AddPolicy("Customer", policy => policy.RequireClaim("role", "customer"));
+});
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
@@ -66,14 +98,10 @@ app.UseCors("AllowReactLocalhost");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-
-// Sử dụng authentication
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.Run();
 

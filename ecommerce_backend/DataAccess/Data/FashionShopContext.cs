@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ecommerce_backend.DataAccess.Data;
 
 public partial class FashionShopContext : DbContext
 {
-    public FashionShopContext()
-    {
-    }
-
-    public FashionShopContext(DbContextOptions<FashionShopContext> options)
+    public FashionShopContext(DbContextOptions<FashionShopContext> options) 
         : base(options)
     {
     }

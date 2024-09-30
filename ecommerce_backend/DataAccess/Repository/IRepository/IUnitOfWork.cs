@@ -12,6 +12,9 @@
         //IProductRepository Category { get; }
         ICustomerRepository Customer { get; }
         IMarketingCampaignRepository MarketingCampaign { get; }
+        IOrderRepository Order { get; }
+        IProductReviewRepository ProductReview { get; }
+        IOrderDetailRepository OrderDetail { get; }
         void Save();
     }
 }
