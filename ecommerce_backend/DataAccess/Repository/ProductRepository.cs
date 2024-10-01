@@ -1,6 +1,7 @@
 ﻿using ecommerce_backend.DataAccess.Data;
 using ecommerce_backend.DataAccess.Repository;
 using ecommerce_backend.DataAccess.Repository.IRepository;
+using ecommerce_backend.Dtos.Attribute;
 using ecommerce_backend.Dtos.Product;
 using ecommerce_backend.Models;
 using Microsoft.AspNetCore.Http.HttpResults;

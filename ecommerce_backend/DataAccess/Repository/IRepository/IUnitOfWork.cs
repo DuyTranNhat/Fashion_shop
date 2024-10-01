@@ -17,6 +17,7 @@
         IProductReviewRepository ProductReview { get; }
         IOrderDetailRepository OrderDetail { get; }
         ICartRepository Cart { get; }
+        IValueRepository Value { get; }
         void Save();
     }
 }

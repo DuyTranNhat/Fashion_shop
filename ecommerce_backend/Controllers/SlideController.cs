@@ -69,6 +69,7 @@ namespace ecommerce_backend.Controllers
             string imageUrl = null;
             if (slideDto.ImageFile != null)
             {
+                _imageService.setDirect("images/slides");
                 imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile, null); // No existing image
             }
 
@@ -103,6 +104,7 @@ namespace ecommerce_backend.Controllers
             // Handling the image file if provided
             if (slideDto.ImageFile != null)
             {
+                _imageService.setDirect("images/slides");
                 imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile, existingSlide.Image);
             }
 

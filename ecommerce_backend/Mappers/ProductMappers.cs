@@ -38,9 +38,9 @@ namespace ecommerce_backend.Mappers
                 SupplierId = productModel.SupplierId,
                 Name = productModel.Name,
                 Description = productModel.Description,
-                CategoryDto = productModel.Category.ToCategoryDto(),
-                SupplierDto = productModel.Supplier.ToSupplierDto(),
-
+                CategoryDto = productModel.Category?.ToCategoryDto(),
+                SupplierDto = productModel.Supplier?.ToSupplierDto(),
+                Attributes = productModel.Attributes.Select(a => a.ToAttributeDto()).ToList()
             };
         }
 

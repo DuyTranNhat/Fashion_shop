@@ -1,4 +1,5 @@
-﻿using ecommerce_backend.Dtos.Category;
+﻿using ecommerce_backend.Dtos.Attribute;
+using ecommerce_backend.Dtos.Category;
 using ecommerce_backend.Dtos.Supplier;
 using ecommerce_backend.Models;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace ecommerce_backend.Dtos.Product
 
         public string? Description { get; set; }
 
+        public virtual ICollection<CreateProuctAttributeDto> Attributes { get; set; } = new List<CreateProuctAttributeDto>();
 
     }
 }

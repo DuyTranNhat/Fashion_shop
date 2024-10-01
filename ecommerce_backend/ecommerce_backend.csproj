@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dtos\Test\**" />
+    <Content Remove="Dtos\Test\**" />
+    <EmbeddedResource Remove="Dtos\Test\**" />
+    <None Remove="Dtos\Test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
@@ -28,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Data\" />
-    <Folder Include="Dtos\Test\" />
     <Folder Include="wwwroot\images\slides\" />
   </ItemGroup>
 
