@@ -49,7 +49,7 @@ namespace ecommerce_backend.DataAccess.Repository
 
             return existingSupplier;
         }
-
+            
         public async Task<Supplier> UpdateStatus(int id)
         {
             var existingSupplier = await _db.Suppliers.FirstOrDefaultAsync(item => item.SupplierId == id);

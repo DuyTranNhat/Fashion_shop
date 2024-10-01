@@ -60,7 +60,7 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("attributes");
 
             entity.Property(e => e.AttributeId).HasColumnName("attribute_id");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Name)    
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");

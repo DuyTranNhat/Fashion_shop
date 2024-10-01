@@ -14,7 +14,8 @@ const Supplier = () => {
     useEffect(() => {
         getSuppliers()
     }, [])
-
+    
+    console.log(suppliers);
 
 
 
@@ -106,7 +107,7 @@ const Supplier = () => {
         <div className='container-fluid pt-4 px-4' >
             <h1 className='py-3' >Supplier Management</h1>
             <div className="col-12">
-                <div className="bg-light rounded h-100 p-4">
+                <div className="bg-light rounded custom-container  h-100 p-4">
                     <div className='d-flex py-2' >
                         <h6 className="mb-4">Supplier List</h6>
                         <button className='btn btn-primary ms-auto'

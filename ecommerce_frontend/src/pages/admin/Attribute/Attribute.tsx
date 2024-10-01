@@ -85,7 +85,7 @@ const Attribute = () => {
             
             <h1>Category Management</h1>
             <div className="col-12">
-                <div className="bg-light rounded h-100 p-4">
+                <div className="custom-container bg-light rounded h-100 p-4">
                     <div className='d-flex' >
                         <h6 className="mb-4">Attribute List</h6>
                         <button className='btn btn-primary ms-auto'

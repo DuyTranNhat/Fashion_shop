@@ -43,8 +43,6 @@ builder.Services.AddSwaggerGen(options => {
     }});
 });
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddDbContext<FashionShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

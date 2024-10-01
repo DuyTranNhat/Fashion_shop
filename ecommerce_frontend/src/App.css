@@ -13,6 +13,22 @@
   z-index: 99;
 }
 
+.custom-container {
+  border: 2px solid #e0e0e0; /* Light gray border for a clean look */
+  border-radius: 8px !important; /* Rounded corners for a modern feel */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08); /* Soft shadow for depth */
+  padding: 16px; /* Padding inside the container for better spacing */
+  background-color: #ffffff; /* White background for a clean appearance */
+}
+
+.custom-container--right {
+  border-right: 2px solid #e0e0e0; /* Light gray border for a clean look */
+  border-radius: 8px !important; /* Rounded corners for a modern feel */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08); /* Soft shadow for depth */
+  background-color: #ffffff; /* White background for a clean appearance */
+}
+
+
 .bg-light {
   background: var(--light) !important;
 }

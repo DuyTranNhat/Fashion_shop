@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const AdminSidebar = () => {
     const navigate = useNavigate()
     return (
-        <div className="sidebar pe-4 pb-3">
+        <div className="custom-container--right sidebar pe-4 pb-3">
             <nav className="navbar navbar-light pl-0">
                 <a href="index.html" className="navbar-brand mx-4 mb-3">
                     <h3 className="text-primary"><i className="fa fa-hashtag me-2"></i>DASHMIN</h3>

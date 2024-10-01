@@ -54,7 +54,7 @@ namespace ecommerce_backend.Controllers
         [HttpGet("{id:int}/previews")]
         public async Task<IActionResult> GetByIdWithPreviews([FromRoute] int id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState); 
             var customerModel = _unitOfWork.Customer.Get(customer => customer.CustomerId == id, includeProperties: "ProductReviews");
             if (customerModel == null) return NotFound();
             return Ok(customerModel.ToCustomerDtoWithPreviews());

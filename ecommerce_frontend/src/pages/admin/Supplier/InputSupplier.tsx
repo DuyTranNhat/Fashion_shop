@@ -21,7 +21,7 @@ const InputSupplier = () => {
 
     return (
         <div>
-            <div className="bg-light rounded h-100 p-4">
+            <div className="custom-container m-4 bg-light rounded h-100 p-4">
                 <h6 className="mb-4">Add a new supplier</h6>
                 <FormSupplier handleSupllier={handleSubmit}  />
             </div>
