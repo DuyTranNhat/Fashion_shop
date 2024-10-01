@@ -79,11 +79,8 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-<<<<<<< HEAD
             /*string path = Path.Combine("..", "ecommerce_frontend", "public", "assets", "imgs", "sliders");*/
             var listImage = await ImageMapper.UploadListImages("Assets\\Images\\ProductImage",obj.listFile);
-=======
->>>>>>> 1b74efa36c43880ac7debafbb05d37a3eb0481fb
 
             List<CreateImageDto> listCreateImageDto = new List<CreateImageDto>();
             if (obj.listFile!=null)

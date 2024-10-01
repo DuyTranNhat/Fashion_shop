@@ -19,19 +19,13 @@ namespace ecommerce_backend.DataAccess.Repository
         {
             _db = db;
         }
-<<<<<<< HEAD
-      
-        public async Task<Variant> Edit(int id, UpdateVariantDto obj)
-=======
         public async Task<Variant?> Edit(int id, UpdateVariantDto obj, List<UpdateImageDto> listUpdateImageDto)
->>>>>>> 1b74efa36c43880ac7debafbb05d37a3eb0481fb
         {
             var existingVariant = await _db.Variants.Include(variant=>variant.Values).ThenInclude(value=>value.Attribute).FirstOrDefaultAsync(item => item.VariantId == id);
             if (existingVariant == null)
                 return null;
 
             var images = _db.Images.Where(item => item.VariantId == id).ToList();
-<<<<<<< HEAD
             var listIFormFile = await ImageMapper.UploadListImages("Assets\\Images\\ProductImage", obj.listFile);
             var updateImageModels = new List<Models.Image>();
 
@@ -40,8 +34,6 @@ namespace ecommerce_backend.DataAccess.Repository
 
 
 
-=======
->>>>>>> 1b74efa36c43880ac7debafbb05d37a3eb0481fb
             if (!images.IsNullOrEmpty())
             {
                 foreach (Models.Image item in images)
