@@ -44,7 +44,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // Lấy hóa đơn theo id kèm theo chi tiết hóa đơn
-        [HttpGet("{id:int}/orderdetail")]
+        [HttpGet("orderdetails/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetByIdWithOrderDetail([FromRoute] int id)
         {
@@ -65,6 +65,17 @@ namespace ecommerce_backend.Controllers
             _unitOfWork.Order.Add(orderModel);
             _unitOfWork.Save();
             return CreatedAtAction(nameof(GetById), new {id = orderModel.OrderId}, orderModel);
+        }
+
+        // Cập nhật trạng thái đơn hàng
+        [HttpPut("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> PayOrder([FromRoute] int id, [FromBody] UpdateOrderDto orderDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var orderModel = _unitOfWork.Order.UpdateStatusAsync(id, orderDto);
+            if( orderModel == null) return NotFound("Order not found");
+            return Ok(orderModel);
         }
     }
 }

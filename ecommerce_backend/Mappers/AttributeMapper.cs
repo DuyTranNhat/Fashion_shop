@@ -23,6 +23,19 @@ namespace ecommerce_backend.Mappers
             attributeModel.Values = (attributeDto.Values.Select(v => v.ToValueModelFromCreate(attributeModel.AttributeId))).ToList();
             return attributeModel;
         }
-        
+        public static AttributeVariantValueDto ToAttributeVariantValueDto(this Models.Attribute attributeModel)
+        {
+            if (attributeModel == null)
+            {
+                throw new ArgumentNullException(nameof(attributeModel), "Attribute model cannot be null.");
+            }
+            return new AttributeVariantValueDto
+            {
+                AttributeId = attributeModel.AttributeId,
+                Name = attributeModel.Name
+            };
+        }
+
+
     }
 }

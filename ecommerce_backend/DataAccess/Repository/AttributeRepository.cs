@@ -70,5 +70,14 @@ namespace ecommerce_backend.DataAccess.Repository
             if (attributeModels.IsNullOrEmpty()) return null;
             return attributeModels;
         }
+
+        public void CreateProductAttribute(Product product,ICollection<CreateProuctAttributeDto> productAttributes)
+        {
+            productAttributes.ToList().ForEach(a =>
+            {
+                var attribute = _db.Attributes.FirstOrDefault(attribtue => attribtue.AttributeId == a.AttributeId);
+                product.Attributes.Add(attribute);
+            });
+        }
     }
 }

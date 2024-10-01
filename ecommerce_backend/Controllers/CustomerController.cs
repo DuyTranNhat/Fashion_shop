@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Customer;
 using ecommerce_backend.Mappers;
@@ -8,7 +9,7 @@ namespace ecommerce_backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -34,30 +35,41 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(customer => customer.CustomerId == id);
-            if (customerModel == null) return NotFound();
+            if (customerModel == null) return NotFound("Customer not found");
             return Ok(customerModel.ToCustomerDto());
         }
 
         // lấy khách hàng theo id kèm theo lịch sử mua hàng
         [Authorize]
-        [HttpGet("{id:int}/orders")]
+        [HttpGet("orders/{id:int}")]
         public async Task<IActionResult> GetByIdWithOrders([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(customer => customer.CustomerId == id, includeProperties: "Orders");
-            if (customerModel == null) return NotFound();
+            if (customerModel == null) return NotFound("Customer not found");
             return Ok(customerModel.ToCustomerDtoWithOrders());
         }
 
         // lấy khách hàng theo id kèm theo lịch sử preview
         [Authorize]
-        [HttpGet("{id:int}/previews")]
+        [HttpGet("previews/{id:int}")]
         public async Task<IActionResult> GetByIdWithPreviews([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState); 
             var customerModel = _unitOfWork.Customer.Get(customer => customer.CustomerId == id, includeProperties: "ProductReviews");
-            if (customerModel == null) return NotFound();
+            if (customerModel == null) return NotFound("Customer not found");
             return Ok(customerModel.ToCustomerDtoWithPreviews());
+        }
+
+        // Lấy khách hàng theo id kèm theo giỏ hàng
+        [Authorize]
+        [HttpGet("carts/{id:int}")]
+        public async Task<IActionResult> GetByIdWithCarts([FromRoute] int id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var customerModel = _unitOfWork.Customer.Get(customerModel => customerModel.CustomerId == id, includeProperties: "Carts");
+            if (customerModel == null) return NotFound("Customer not found");
+            return Ok(customerModel.ToCustomerDtoWithCarts());
         }
 
         // tìm kiếm khách hàng theo từ khóa 
@@ -66,7 +78,7 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> Search([FromQuery] string keyword)
         {
             var customers = await _unitOfWork.Customer.SearchAsync(keyword);
-            if (customers == null || !customers.Any()) return NotFound();
+            if (customers == null || !customers.Any()) return NotFound("Customer not found");
             return Ok(customers);
         }
 
@@ -78,7 +90,7 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = await _unitOfWork.Customer.UpdateAsync(id, customerDto);
-            if (customerModel == null) return NotFound();
+            if (customerModel == null) return NotFound("Customer not found");
             return Ok(customerModel.ToCustomerDto());
         }
     }

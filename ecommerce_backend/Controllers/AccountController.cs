@@ -33,7 +33,7 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
-            if(customerModel == null) return BadRequest("User already exists");
+            if(customerModel != null) return BadRequest("User already exists");
             customerModel = customerDto.ToCustomerFromCreateDto();
             string hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(customerModel.Password, 13);
             customerModel.Password = hashedPassword;

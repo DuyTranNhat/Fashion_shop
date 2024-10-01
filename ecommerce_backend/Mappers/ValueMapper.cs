@@ -23,5 +23,16 @@ namespace ecommerce_backend.Mappers
                 Status = value.Status
             };
         }
+
+        public static VariantValueDto ToVariantValueDto(this Value value)
+        {
+            return new VariantValueDto
+            {
+                ValueId = value.ValueId,
+                Value1 = value.Value1,
+                Status = value.Status,
+                Attribute = value.Attribute.ToAttributeVariantValueDto()
+            };
+        }
     }
 }
