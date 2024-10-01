@@ -1,5 +1,7 @@
 ﻿using ecommerce_backend.DataAccess.Data;
 using ecommerce_backend.DataAccess.Repository.IRepository;
+using static ecommerce_backend.DataAccess.Repository.IRepository.IVariantRepository;
+
 using ecommerce_backend.Dtos.Receipt;
 using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Models;
@@ -20,7 +22,9 @@ namespace ecommerce_backend.DataAccess.Repository
         public Receipt? Update(int id, UpdateReceiptDto updateReceiptDto)
         {
             var receiptModel = _db.Receipts.Include(x=>x.ReceiptDetails).FirstOrDefault(x => x.ReceiptId == id);
+
             if (receiptModel == null) return null;
+            if (receiptModel.Status != "Pending") return null;
             receiptModel.ReceiptDate = updateReceiptDto.ReceiptDate;
             List<ReceiptDetail> tmpList = receiptModel.ReceiptDetails.ToList();
             updateReceiptDto.ReceiptDetails.ToList().ForEach( updateRD =>
@@ -47,13 +51,20 @@ namespace ecommerce_backend.DataAccess.Repository
                     receiptModel.ReceiptDetails.Remove(x);
                 });
             }
+            receiptModel.TotalPrice = receiptModel.ReceiptDetails.Sum(rd => rd.UnitPrice * rd.Quantity);
             return receiptModel;
         }
 
         public Receipt? UpdateStatus(int id, string status)
         {
-            var receiptModel = _db.Receipts.FirstOrDefault(x => x.ReceiptId == id);
+            var receiptModel = _db.Receipts.Include(r=>r.ReceiptDetails).FirstOrDefault(x => x.ReceiptId == id);
             if (receiptModel == null) return null;
+            if (receiptModel.Status == "Completed" || receiptModel.Status == "Expired") return null;
+            if (status == "Completed")
+            {
+                IVariantRepository variantRepository = new VariantRepository(_db);
+                variantRepository.UpdateVariantQuantity(receiptModel);
+            }
             receiptModel.Status = status;
             return receiptModel;
         }
@@ -66,5 +77,7 @@ namespace ecommerce_backend.DataAccess.Repository
             if (receiptModels.IsNullOrEmpty()) return null;
             return receiptModels;
         }
+
+
     }
 }

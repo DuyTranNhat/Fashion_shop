@@ -21,6 +21,7 @@ namespace ecommerce_backend.DataAccess.Repository
         public IProductReviewRepository ProductReview { get; private set; }
         public IOrderDetailRepository OrderDetail { get; private set; }
         public ICartRepository Cart { get; private set; }
+        public IValueRepository Value { get; set; }
 
         public UnitOfWork(FashionShopContext db)
         {
@@ -39,6 +40,7 @@ namespace ecommerce_backend.DataAccess.Repository
             ProductReview = new ProductReviewRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
             Cart = new CartRepository(_db);
+            Value = new ValueRepository(_db);
         }
 
 

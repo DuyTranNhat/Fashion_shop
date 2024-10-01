@@ -1,4 +1,5 @@
 ﻿using ecommerce_backend.Dtos.Image;
+using ecommerce_backend.Dtos.Value;
 using ecommerce_backend.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,8 @@ namespace ecommerce_backend.Dtos.NewFolder
         [Required]
         [Column(TypeName = "decimal(10,2)")]
         public decimal salePrice { get; set; }
-        //public List<CreateImageDto> createImageDtos { get; set; }
-        public List<IFormFile> listFile { get; set; }
+        public List<IFormFile>? listFile { get; set; } = null;
+        [Required]
+        public List<CreateVariantValueDto> Values { get; set; }
     }
 }

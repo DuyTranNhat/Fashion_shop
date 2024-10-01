@@ -28,7 +28,7 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var variants = _unitOfWork.Variant.GetAll(includeProperties: "Product");
+            var variants = _unitOfWork.Variant.GetAll(includeProperties: "Images,Values.Attribute");
 
             var variantDtos = variants.Select(item => item.ToGetVariantDto());
 
@@ -42,7 +42,7 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var variants = _unitOfWork.Variant.GetAll(item => item.Status == status, includeProperties: "Product,Images").ToList();
+            var variants = _unitOfWork.Variant.GetAll(item => item.Status == status, includeProperties: "Images,Values.Attribute").ToList();
 
             var variantDtos = variants.Select(item => item.ToGetVariantDto());
             if (variantDtos == null)
@@ -58,7 +58,7 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingVariant = _unitOfWork.Variant.Get(item => item.VariantId == id, includeProperties: "Product,Images");
+            var existingVariant = _unitOfWork.Variant.Get(item => item.VariantId == id, includeProperties: "Images,Values.Attribute");
 
             if (existingVariant == null)
                 return NotFound();
@@ -68,19 +68,16 @@ namespace ecommerce_backend.Controllers
 
         //Create
         [HttpPost("create")]
-        public async Task<IActionResult> Create( [FromForm]CreateVariantDto obj)
+        public async Task<IActionResult> Create([FromBody]CreateVariantDto obj)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var listImage = await ImageMapper.UploadImages("Assets\\Images\\",obj.listFile);
-
-            var variantModel = obj.ToVariantFromCreateDto(listImage);
-
+            Variant variantModel = obj.ToVariantFromCreateDto(listImage);
             _unitOfWork.Variant.Add(variantModel);
+            _unitOfWork.Value.CreateVariantValue(variantModel, obj.Values);
             _unitOfWork.Save();
-
             return CreatedAtAction(nameof(GetById), new { id = variantModel.VariantId }, variantModel.ToGetVariantDto());
-            //return Ok(listImage);
         }
 
         //Edit variant 
@@ -90,14 +87,21 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var variantModel = await _unitOfWork.Variant.Edit(id, updateVariant);
-
-
             if (variantModel == null)
                 return NotFound();
 
-
-
             return Ok(variantModel.ToGetVariantDto());
         }
+
+        [HttpPut("updateStatus/{id:int}")]
+        public async Task<IActionResult> ChangeStauts([FromRoute] int id, [FromBody] string status)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var variantModel = _unitOfWork.Variant.UpdateStatus(id, status);
+            if (variantModel == null) return NotFound("Không tìm thấy Variant");
+            _unitOfWork.Save();
+            return Ok(variantModel.ToGetVariantDto());
+        }
+
     }
 }

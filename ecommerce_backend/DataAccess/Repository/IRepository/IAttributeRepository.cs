@@ -8,5 +8,7 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
         Models.Attribute Update(int id, UpdateAttributeDto obj);
         Models.Attribute UpdateStaus(int id);
         IEnumerable<Models.Attribute>? handleSearch(string keyword);
+
+        void CreateProductAttribute(Product product, ICollection<CreateProuctAttributeDto> productAttributes);
     }
 }
