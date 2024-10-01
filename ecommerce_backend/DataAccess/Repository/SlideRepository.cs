@@ -3,7 +3,6 @@ using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Models;
 using Microsoft.IdentityModel.Tokens;
-using static ecommerce_backend.PublicClasses.UploadHandler;
 
 namespace ecommerce_backend.DataAccess.Repository
 {
@@ -14,16 +13,21 @@ namespace ecommerce_backend.DataAccess.Repository
         {
             _db = db;
         }
-        public Slide? Update(int id, UpdateSlideDto obj)
+
+
+        public Slide? Update(int id, UpdateSlideDto obj, string result)
         {
             var slide = _db.Slides.FirstOrDefault(s => s.SlideId == id);
             if (slide == null) return null;
+
+            string newPath = result.Replace(@"..\ecommerce_frontend\public", "");
+
+
+            slide.Image = newPath;
             slide.Title = obj.Title;
             slide.Link = obj.Link;
-            var result = handleUpload(obj.Image);
-            if (!Path.Exists(result)) return null;
-            if (File.Exists(slide.Image)) File.Delete(slide.Image);
-            slide.Image = result;
+            slide.Description = obj.Description;
+
             return slide;
         }
         public Slide? UpdateStatus(int id)

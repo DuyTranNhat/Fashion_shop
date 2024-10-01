@@ -12,6 +12,11 @@ import EditProduct from '~/pages/admin/Product/EditProduct';
 import Attribute from '~/pages/admin/Attribute/Attribute';
 import InputAttribute from '~/pages/admin/Attribute/InputAttribute';
 import EditAttribute from '~/pages/admin/Attribute/EditAttribute';
+import { Slide } from 'react-toastify';
+import Banner from '~/pages/admin/Banner/Banner';
+import InputBanner from '~/pages/admin/Banner/InputBanner';
+import EditBanner from '~/pages/admin/Banner/EditBanner';
+
 
 const router = createBrowserRouter([
     {
@@ -57,6 +62,18 @@ const router = createBrowserRouter([
             {
                 path: "attribute/edit/:id",
                 element: <EditAttribute />
+            },
+            {
+                path: "slider",
+                element: <Banner />
+            },
+            {
+                path: "slider/create",
+                element: <InputBanner />
+            },
+            {
+                path: "banner/edit/:id",
+                element: <EditBanner />
             },
         ],
     },

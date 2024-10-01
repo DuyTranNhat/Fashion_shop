@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ecommerce_backend.Dtos.Customer;
+using ecommerce_backend.Dtos.Order;
 using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Mappers
@@ -14,12 +15,57 @@ namespace ecommerce_backend.Mappers
             return new CustomerDto
             {
                 CustomerId = customerModel.CustomerId,
-                Name = customerModel.Name, 
+                Name = customerModel.Name,
                 Email = customerModel.Email,
                 Phone = customerModel.Phone,
                 Address = customerModel.Address,
                 ImageUrl = customerModel.ImageUrl,
                 Password = customerModel.Password,
+            };
+        }
+
+        public static CustomerDto ToCustomerDtoWithOrders(this Customer customerModel)
+        {
+            return new CustomerDto
+            {
+                CustomerId = customerModel.CustomerId,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Phone = customerModel.Phone,
+                Address = customerModel.Address,
+                ImageUrl = customerModel.ImageUrl,
+                Password = customerModel.Password,
+                Orders = customerModel.Orders.Select(order => order.ToOrderDto()).ToList()
+            };
+        }
+
+        public static CustomerDto ToCustomerDtoWithPreviews(this Customer customerModel)
+        {
+            return new CustomerDto
+            {
+                CustomerId = customerModel.CustomerId,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Phone = customerModel.Phone,
+                Address = customerModel.Address,
+                ImageUrl = customerModel.ImageUrl,
+                Password = customerModel.Password,
+                ProductReviews = customerModel.ProductReviews.Select(review => review.ToProductReviewDto()).ToList()
+            };
+        }
+
+        public static CustomerDto ToCustomerDtoWithCarts(this Customer customerModel)
+        {
+            return new CustomerDto
+            {
+                CustomerId = customerModel.CustomerId,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Phone = customerModel.Phone,
+                Address = customerModel.Address,
+                ImageUrl = customerModel.ImageUrl,
+                Password = customerModel.Password,
+                Carts = customerModel.Carts.Select(c => c.ToCartDto()).ToList()
             };
         }
 

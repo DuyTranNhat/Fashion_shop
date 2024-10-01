@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using ecommerce_backend.Dtos.Category;
 using ecommerce_backend.Mappers;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ecommerce_backend.Controllers
 {

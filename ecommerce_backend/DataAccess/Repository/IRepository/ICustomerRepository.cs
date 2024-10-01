@@ -9,11 +9,7 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        public Task<Customer> GetByIdAsync(int id);
-
         public Task<Customer> UpdateAsync(int id, UpdateCustomerDto customerDto);
-
         public Task<IEnumerable<Customer>> SearchAsync(string keyword);
-        public Task<Customer> AuthenticateAsync(string email, string password);
     }
 }

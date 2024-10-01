@@ -4,7 +4,6 @@
     {
         ICategoryRepository Category { get; }
         ISupplierRepository Supplier { get; }
-
         IProductRepository Product { get; }
         IVariantRepository Variant { get; }
         IImageRepository Image { get; }
@@ -14,6 +13,11 @@
         //IProductRepository Category { get; }
         ICustomerRepository Customer { get; }
         IMarketingCampaignRepository MarketingCampaign { get; }
+        IOrderRepository Order { get; }
+        IProductReviewRepository ProductReview { get; }
+        IOrderDetailRepository OrderDetail { get; }
+        ICartRepository Cart { get; }
+        IValueRepository Value { get; }
         void Save();
     }
 }

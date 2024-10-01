@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ecommerce_backend.DataAccess.Data;
 
 public partial class FashionShopContext : DbContext
 {
-    public FashionShopContext()
-    {
-    }
-
-    public FashionShopContext(DbContextOptions<FashionShopContext> options)
+    public FashionShopContext(DbContextOptions<FashionShopContext> options) 
         : base(options)
     {
     }
 
+    //
     public virtual DbSet<Models.Attribute> Attributes { get; set; }
 
     public virtual DbSet<CampaignVariant> CampaignVariants { get; set; }
@@ -47,11 +45,19 @@ public partial class FashionShopContext : DbContext
     public virtual DbSet<Value> Values { get; set; }
 
     public virtual DbSet<Variant> Variants { get; set; }
+<<<<<<< HEAD
 /*
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-BQLF5L6\\SQLNEWINSTANCE;Initial Catalog=FashionShop;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 */
+=======
+    public virtual DbSet<Cart> Cart { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=FashionShop;Integrated Security=True;TrustServerCertificate=True");
+
+>>>>>>> 1b74efa36c43880ac7debafbb05d37a3eb0481fb
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Models.Attribute>(entity =>
@@ -90,6 +96,71 @@ public partial class FashionShopContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__campaign___produ__5535A963");
         });
+
+        modelBuilder.Entity<Cart>()
+       .HasKey(c => c.CartId);
+
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Customer)
+            .WithMany(c => c.Carts)
+            .HasForeignKey(c => c.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Variant)
+            .WithMany(v => v.Carts)
+            .HasForeignKey(c => c.VariantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Cart>(entity =>
+        {
+            // Tên bảng trong database là 'cart'
+            entity.ToTable("cart");
+
+            // Khóa chính
+            entity.HasKey(e => e.CartId)
+                  .HasName("PK_cart");
+
+            // Cột CartId
+            entity.Property(e => e.CartId)
+                  .HasColumnName("cart_id")
+                  .IsRequired();
+
+            // Cột CustomerId
+            entity.Property(e => e.CustomerId)
+                  .HasColumnName("customer_id")
+                  .IsRequired();
+
+            // Cột VariantId
+            entity.Property(e => e.VariantId)
+                  .HasColumnName("variant_id")
+                  .IsRequired();
+
+            // Cột Quantity
+            entity.Property(e => e.Quantity)
+                  .HasColumnName("quantity")
+                  .IsRequired();
+
+            // Cột DateAdded
+            entity.Property(e => e.DateAdded)
+                  .HasColumnName("date_added")
+                  .HasColumnType("datetime")
+                  .IsRequired();
+
+            // Thiết lập quan hệ với bảng Customer (giả sử quan hệ 1-n)
+            entity.HasOne(e => e.Customer)
+                  .WithMany(c => c.Carts) // Giả sử Customer có thuộc tính Carts là danh sách
+                  .HasForeignKey(e => e.CustomerId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // Thiết lập quan hệ với bảng Variant (giả sử quan hệ 1-n)
+            entity.HasOne(e => e.Variant)
+                  .WithMany(v => v.Carts) // Giả sử Variant có thuộc tính Carts là danh sách
+                  .HasForeignKey(e => e.VariantId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
 
         modelBuilder.Entity<Category>(entity =>
         {

@@ -21,10 +21,11 @@ namespace ecommerce_backend.Mappers
         public static Receipt ToReceiptFromCreate(this CreateReceiptDto receiptdto)
         {
             var receipt = new Receipt { 
-                ReceiptDate = receiptdto.ReceiptDate,
-                TotalPrice = receiptdto.TotalPrice
+                CreateDate = DateTime.Now,
+                ReceiptDate = receiptdto.ReceiptDate
             };
             receipt.ReceiptDetails = receiptdto.ReceiptDetails.Select(x => x.ToReceiptDetail(receipt.ReceiptId)).ToList();
+            receipt.TotalPrice = receipt.ReceiptDetails.Sum(rd => rd.UnitPrice * rd.Quantity);
             return receipt;
         }
     }

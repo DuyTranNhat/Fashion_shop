@@ -1,4 +1,5 @@
-﻿using ecommerce_backend.Dtos.Product;
+﻿using ecommerce_backend.Dtos.Attribute;
+using ecommerce_backend.Dtos.Product;
 using ecommerce_backend.Models;
 
 namespace ecommerce_backend.DataAccess.Repository.IRepository

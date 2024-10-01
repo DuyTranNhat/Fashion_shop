@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import Table from '~/Components/admin/Table/Table'
 import { ProductGet } from '~/Models/Product'
 import { ProductGetAPI } from '~/Services/ProductService'
@@ -17,10 +18,8 @@ const Product = () => {
             .then(res => {
                 if (res?.data) {
                     setProducts(res?.data)
-                    console.log(res?.data);
-
                 }
-            })
+            }).catch(error => toast.error(error))
     }, [])
 
     const configs = [

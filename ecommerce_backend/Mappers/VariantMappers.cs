@@ -20,6 +20,7 @@ namespace ecommerce_backend.Mappers
                 Quantity = variant.Quantity,
                 Status = variant.Status,
                 Images = variant.Images.Select(item => item.ToImageDto(variant.VariantId)).ToList(),
+                Values = variant.Values.Select(v=>v.ToVariantValueDto()).ToList()
             };
         }
         public static Variant ToVariantFromCreateDto(this CreateVariantDto createVariant,List<CreateImageDto> listCreateImageDto)
@@ -27,19 +28,16 @@ namespace ecommerce_backend.Mappers
 
             var variantModel = new Variant
             {
-                
                 ProductId = createVariant.ProductId,
                 VariantName = createVariant.VariantName,
                 ImportPrice = createVariant.importPrice,
                 SalePrice = createVariant.salePrice,
                 Quantity = 0,
-                Status = "out_of_stock",
-                
+                Status = "out_of_stock"
             };
 
             variantModel.Images =
                 listCreateImageDto.Select(item => item.ToImageModel(variantModel.VariantId)).ToList(); 
-
 
             return variantModel;
         }
