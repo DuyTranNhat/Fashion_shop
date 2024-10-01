@@ -20,7 +20,7 @@ namespace ecommerce_backend.DataAccess.Repository
 
         public async Task<Cart> UpdateAsync(int id, UpdateCartDto cartDto)
         {
-            var existingCart = await _db.Cart.FirstOrDefaultAsync(c => c.CartId == id);
+            var existingCart = await _db.Carts.FirstOrDefaultAsync(c => c.CartId == id);
             if (existingCart == null) return null;
             existingCart.Quantity = cartDto.Quantity;
             existingCart.DateAdded = cartDto.DateAdded;
