@@ -28,7 +28,6 @@ namespace ecommerce_backend.Mappers
 
             var variantModel = new Variant
             {
-                
                 ProductId = createVariant.ProductId,
                 VariantName = createVariant.VariantName,
                 ImportPrice = createVariant.importPrice,
@@ -39,7 +38,6 @@ namespace ecommerce_backend.Mappers
 
             variantModel.Images =
                 listCreateImageDto.Select(item => item.ToImageModel(variantModel.VariantId)).ToList(); 
-
 
             return variantModel;
         }

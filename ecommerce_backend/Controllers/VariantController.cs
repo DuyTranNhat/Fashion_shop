@@ -2,9 +2,12 @@
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Image;
 using ecommerce_backend.Dtos.NewFolder;
+using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Dtos.Variant;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
+using ecommerce_backend.Service;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce_backend.Controllers
@@ -14,11 +17,15 @@ namespace ecommerce_backend.Controllers
     public class VariantController : Controller
     {
 
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ImageService _imageService;
 
-        public VariantController(IUnitOfWork unitOfWork)
+        public VariantController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
+            _imageService = imageService;
         }
 
         //GetAll
@@ -72,8 +79,21 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var listImage = await ImageMapper.UploadImages("Assets\\Images\\",obj.listFile);
-            Variant variantModel = obj.ToVariantFromCreateDto(listImage);
+
+            List<CreateImageDto> listCreateImageDto = new List<CreateImageDto>();
+            if (obj.listFile!=null)
+            {
+                _imageService.setDirect("images/variants");
+                var listImagePath = obj.listFile.Select(async file =>
+                {
+                    var filePath = await _imageService.HandleImageUpload(file, null);
+                    return new CreateImageDto { ImageUrl = filePath };
+                });
+                var tmp = await Task.WhenAll(listImagePath);
+                listCreateImageDto = tmp.Select(x => new CreateImageDto { ImageUrl = x.ImageUrl }).ToList();
+            }
+
+            Variant variantModel = obj.ToVariantFromCreateDto(listCreateImageDto);
             _unitOfWork.Variant.Add(variantModel);
             _unitOfWork.Value.CreateVariantValue(variantModel, obj.Values);
             _unitOfWork.Save();
@@ -86,10 +106,22 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var variantModel = await _unitOfWork.Variant.Edit(id, updateVariant);
+            List<UpdateImageDto> listCreateImageDto = new List<UpdateImageDto>();
+            if (updateVariant.listFile != null)
+            {
+                _imageService.setDirect("images/variants");
+                var listImagePath = updateVariant.listFile.Select(async file =>
+                {
+                    var filePath = await _imageService.HandleImageUpload(file, null);
+                    return new CreateImageDto { ImageUrl = filePath };
+                });
+                var tmp = await Task.WhenAll(listImagePath);
+                listCreateImageDto = tmp.Select(x => new UpdateImageDto { ImageUrl = x.ImageUrl }).ToList();
+            }
+
+            var variantModel = await _unitOfWork.Variant.Edit(id, updateVariant, listCreateImageDto);
             if (variantModel == null)
                 return NotFound();
-
             return Ok(variantModel.ToGetVariantDto());
         }
 
