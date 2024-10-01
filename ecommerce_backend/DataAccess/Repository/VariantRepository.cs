@@ -19,6 +19,7 @@ namespace ecommerce_backend.DataAccess.Repository
         {
             _db = db;
         }
+      
         public async Task<Variant> Edit(int id, UpdateVariantDto obj)
         {
             var existingVariant = await _db.Variants.FirstOrDefaultAsync(item => item.VariantId == id);
@@ -26,7 +27,7 @@ namespace ecommerce_backend.DataAccess.Repository
                 return null;
 
             var images = _db.Images.Where(item => item.VariantId == id).ToList();
-            var listIFormFile = await ImageMapper.UploadImages("Assets\\Images\\", obj.listFile);
+            var listIFormFile = await ImageMapper.UploadListImages("Assets\\Images\\ProductImage", obj.listFile);
             var updateImageModels = new List<Models.Image>();
 
             if (listIFormFile == null) ;
@@ -38,6 +39,7 @@ namespace ecommerce_backend.DataAccess.Repository
             {
                 foreach (Models.Image item in images)
                 {
+                    if (File.Exists(item.ImageUrl)) File.Delete(item.ImageUrl);
                     _db.Images.Remove(item);
                     await _db.SaveChangesAsync();
                 }
@@ -51,6 +53,7 @@ namespace ecommerce_backend.DataAccess.Repository
 
             return existingVariant;
         }
+
 
 
 

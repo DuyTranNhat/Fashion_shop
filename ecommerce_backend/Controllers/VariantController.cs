@@ -72,7 +72,8 @@ namespace ecommerce_backend.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var listImage = await ImageMapper.UploadImages("Assets\\Images\\",obj.listFile);
+            /*string path = Path.Combine("..", "ecommerce_frontend", "public", "assets", "imgs", "sliders");*/
+            var listImage = await ImageMapper.UploadListImages("Assets\\Images\\ProductImage",obj.listFile);
 
             var variantModel = obj.ToVariantFromCreateDto(listImage);
 
