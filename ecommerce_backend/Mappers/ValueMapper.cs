@@ -24,6 +24,7 @@ namespace ecommerce_backend.Mappers
             };
         }
 
+
         public static VariantValueDto ToVariantValueDto(this Value value)
         {
             return new VariantValueDto

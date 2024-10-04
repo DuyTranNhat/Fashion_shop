@@ -61,7 +61,7 @@ const Product = () => {
             <div className="col-12">
               <h1 className='py-3' >Product Management</h1>
 
-                <div className="custom-container bg-light rounded h-100 p-4">
+                <div className="custom-container rounded h-100 p-4">
                     <div className='d-flex' >
                         <h6 className="mb-4">Product Sample List</h6>
                         <button className='btn btn-primary ms-auto'

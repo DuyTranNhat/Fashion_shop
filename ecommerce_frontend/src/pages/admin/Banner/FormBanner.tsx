@@ -34,7 +34,7 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
       setStatus(initialData.status ?? true); 
 
       if (isUpdate && initialData.image) {
-        const baseUrl = 'https://localhost:7000';
+        const baseUrl = 'https://localhost:7000/';
         setImagePreview(`${baseUrl}${initialData.image}`);
       }
     }
@@ -81,8 +81,8 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
 
   return (
     <form className="col-12" onSubmit={handleSubmit}>
-      <div className="bg-light rounded h-100 p-4">
-        <h6 className="mb-4">{isUpdate ? 'Update Slide' : 'Create Slide'}</h6>
+      <div className=" rounded h-100 custom-container m-4 p-4">
+        <h6 className="mb-4">{isUpdate ? 'Update Slide' : 'Create a new Slide for Variant'}</h6>
 
         <div className="form-floating mb-3">
           <input
@@ -117,9 +117,9 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
           {imagePreview && (
             <div className="mb-3">
               <img
+              style={{ height: '100%', maxHeight: '200px', objectFit: 'contain', borderRadius: "25px" }}
                 src={imagePreview}
                 alt="Current Slide"
-                style={{ width: '100%', maxHeight: '200px', objectFit: 'contain' }}
               />
             </div>
           )}

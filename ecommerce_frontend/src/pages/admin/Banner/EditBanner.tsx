@@ -35,8 +35,7 @@ const EditBanner: React.FC = () => {
     }
 
     return (
-        <div className="bg-light rounded h-100 p-4">
-            <h6 className="mb-4">Edit Banner</h6>
+        <div className="rounded h-100 p-4">
             <FormBanner
                 initialData={{
                     id: bannerData.slideId,             // Slide ID

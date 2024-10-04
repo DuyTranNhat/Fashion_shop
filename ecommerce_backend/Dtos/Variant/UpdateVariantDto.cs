@@ -10,11 +10,5 @@ namespace ecommerce_backend.Dtos.Variant
         [Required]
         [MaxLength(255)]
         public string VariantName { get; set; }
-        [Required]
-        [MaxLength(255)]
-        public string Status { get; set; }
-        [Required]
-        public List<IFormFile> listFile { get; set; }
-
     }
 }

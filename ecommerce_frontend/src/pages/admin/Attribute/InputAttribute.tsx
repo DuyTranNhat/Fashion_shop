@@ -21,7 +21,7 @@ const InputAttribute = () => {
     }
 
     return (
-            <div className="bg-light rounded h-100 p-4">
+            <div className="rounded h-100 p-4">
                 <h6 className="mb-4">Create a new attribue for variant</h6>
 
                 <FormAttrbute handleAttribute={handleAttribute}  />

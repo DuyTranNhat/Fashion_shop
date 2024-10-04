@@ -38,7 +38,7 @@ const EditAttribute = () => {
 
 
     return (
-        <div className="bg-light rounded h-100 p-4">
+        <div className="rounded h-100 p-4">
             <h6 className="mb-4">Update a new attribue for variant</h6>
 
             {attribute

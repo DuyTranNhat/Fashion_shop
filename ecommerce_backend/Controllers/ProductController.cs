@@ -43,8 +43,8 @@ namespace ecommerce_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier,Attributes");
-
+            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier,Attributes.Values");
+                                                                                      
             if (productModel == null)
                 return NotFound();
 
@@ -74,10 +74,11 @@ namespace ecommerce_backend.Controllers
 
             var existingProduct = await _unitOfWork.Product.Edit(id, updateProduct);
 
+
             if (existingProduct == null)
                 return NotFound();
 
-            return Ok(existingProduct.ToProductDto());
+            return Ok(existingProduct.ToGetProductDto());
         }
 
 

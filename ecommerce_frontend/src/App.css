@@ -14,11 +14,12 @@
 }
 
 .custom-container {
-  border: 2px solid #e0e0e0; /* Light gray border for a clean look */
+  
   border-radius: 8px !important; /* Rounded corners for a modern feel */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08); /* Soft shadow for depth */
+  box-shadow: 0 0 5px #999999;
   padding: 16px; /* Padding inside the container for better spacing */
-  background-color: #ffffff; /* White background for a clean appearance */
+  background: #fff !important;
 }
 
 .custom-container--right {
@@ -188,10 +189,6 @@
   transform: rotate(-180deg);
 }
 
-.sidebar .navbar .dropdown-item {
-  padding-left: 25px;
-  border-radius: 0 30px 30px 0;
-}
 
 .content .navbar .navbar-nav .nav-link {
   margin-left: 25px;
@@ -295,3 +292,190 @@
   background: var(--dark);
   border-color: var(--primary);
 }
+
+
+/*** Button Start ***/
+.btn {
+  font-weight: 600;
+  transition: .5s;
+}
+
+.btn-square {
+  width: 32px;
+  height: 32px;
+}
+
+.btn-sm-square {
+  width: 34px;
+  height: 34px;
+}
+
+.btn-md-square {
+  width: 44px;
+  height: 44px;
+}
+
+.btn-lg-square {
+  width: 56px;
+  height: 56px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-md-square,
+.btn-lg-square {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  border-radius: 50%;
+}
+
+.btn.btn-primary {
+  box-shadow: inset 0 0 0 0 var(--bs-primary);
+}
+
+.btn.btn-primary:hover {
+  box-shadow: inset 300px 0 0 0 var(--bs-light) !important;
+  color: var(--bs-primary) !important;
+}
+
+.btn.btn-light {
+  box-shadow: inset 0 0 0 0 var(--bs-primary);
+}
+
+.btn.btn-light:hover {
+  box-shadow: inset 300px 0 0 0 var(--bs-primary);
+  color: var(--bs-light) !important;
+}
+
+.btn-hover {
+  transition: 0.5s;
+}
+
+.btn-hover:hover {
+  color: var(--bs-secondary) !important;
+}
+
+
+/*** Navbar ***/
+.navbar-light .navbar-nav .nav-link {
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  margin-right: 25px;
+  padding: 35px 0px;
+  color: var(--bs-dark) !important;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  transition: .5s;
+}
+
+.sticky-top.navbar-light .navbar-nav .nav-link {
+  padding: 20px 0;
+  color: var(--dark) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+  color: var(--bs-primary) !important;
+}
+
+.navbar-light .navbar-brand img {
+  max-height: 50px;
+  transition: .5s;
+}
+
+.sticky-top.navbar-light .navbar-brand img {
+  max-height: 45px;
+}
+
+.navbar .dropdown-toggle::after {
+  border: none;
+  content: "\f107";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+
+/*** Service Start ***/
+.service .service-item {
+  box-shadow: 0 0 45px rgba(0, 0, 0, .2) ;
+}
+
+.service .service-item .service-img {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.service .service-item .service-img img {
+  transition: 0.5s;
+}
+
+.service .service-item .service-img::before {
+  width: 100%;
+  height: 0;
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  transition: 0.5s;
+  z-index: 5;
+  
+}
+
+.service .service-item:hover .service-img::before {
+  height: 100%;
+  background: rgba(21, 185, 217, .3);
+}
+
+.service .service-item .service-img:hover img {
+  transform: scale(1.3);
+}
+
+.service .service-item .service-content {
+  position: relative;
+  z-index: 2;
+
+}
+
+.service .service-item .service-content::before {
+  width: 100%;
+  height: 8px;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background: rgba(21, 185, 217, .5);
+  transition: 0.5s;
+  z-index: 3;
+}
+
+.service .service-item:hover .service-content::before {
+  background: rgba(21, 185, 217, .5);
+  height: 100%;
+}
+
+.service .service-item .service-content .service-content-inner {
+  transition: 0.5s;
+}
+
+
+.service .service-item:hover .service-content .service-content-inner {
+  position: relative;
+  color: var(--bs-white) !important;
+  z-index: 9;
+}
+.service .service-item:hover .service-content .service-content-inner h5 {
+  color: var(--bs-secondary);
+}
+
+/*** Service End ***/

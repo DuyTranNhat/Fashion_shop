@@ -22,6 +22,7 @@ const EditProduct = () => {
               description: data.description,
               categoryId: data.categoryDto.categoryId,
               supplierId: data.supplierDto.supplierId,
+              attributes: data.attributes
             });
           }
         })
@@ -34,6 +35,8 @@ const EditProduct = () => {
 
   const handleProduct = (form: ProductFormInput) => {
     if (id) {
+      console.log(123);
+      
       ProductUpdateAPI(id, form)
         .then(res => {
           if(res?.status == 200) {
@@ -45,8 +48,8 @@ const EditProduct = () => {
   }
 
   return (
-    <div className="bg-light rounded h-100 p-4">
-      <h6 className="mb-4">Add a new model product</h6>
+    <div className=" rounded h-100 p-4 custom-container m-4">
+      <h6 className="mb-4">Edit a new model product</h6>
       {product
         ? <FormProduct handleProduct={handleProduct} product={product!} />
         : <p>Loading supplier data...</p>}

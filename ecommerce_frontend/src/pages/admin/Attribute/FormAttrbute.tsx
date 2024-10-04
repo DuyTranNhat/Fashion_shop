@@ -85,6 +85,9 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
       </div>
 
       {/* Value Array Inputs */}
+      { 
+        
+      }
       <div className="mb-3">
         <h6 className='mb-4'>Values</h6>
         {fields.map((field, index) => (

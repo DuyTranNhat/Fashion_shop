@@ -9,6 +9,7 @@ const InputProduct = () => {
     const navigate = useNavigate();
 
     const handleProduct = (formInput: ProductFormInput) => {
+        
         ProductPostAPI(formInput)
             .then(res => {
                 if (res?.status == 201) {
@@ -19,7 +20,7 @@ const InputProduct = () => {
     }
 
     return (
-            <div className="bg-light rounded h-100 p-4">
+            <div className="rounded h-100 p-4 m-4 custom-container">
                 <h6 className="mb-4">Add a new model product</h6>
 
                 <FormProduct handleProduct={handleProduct} />

@@ -16,6 +16,10 @@ import { Slide } from 'react-toastify';
 import Banner from '~/pages/admin/Banner/Banner';
 import InputBanner from '~/pages/admin/Banner/InputBanner';
 import EditBanner from '~/pages/admin/Banner/EditBanner';
+import Variant from '~/pages/admin/variant/Variant';
+import VariantImages from '~/pages/admin/variant/Images/VariantImages';
+import InputVariant from '~/pages/admin/variant/InputVariant';
+import EditVariant from '~/pages/admin/variant/EditVariant';
 
 
 const router = createBrowserRouter([
@@ -75,6 +79,23 @@ const router = createBrowserRouter([
                 path: "banner/edit/:id",
                 element: <EditBanner />
             },
+            {
+                path: "variants",
+                element: <Variant />
+            },
+            {
+                path: "variantImgages/:id",
+                element: <VariantImages />
+            },
+            {
+                path: "variant/create",
+                element: <InputVariant />
+            },
+            {
+                path: "variant/update/:id",
+                element: <EditVariant />
+            },
+            
         ],
     },
     {

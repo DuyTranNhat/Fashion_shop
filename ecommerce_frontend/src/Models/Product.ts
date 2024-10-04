@@ -1,3 +1,5 @@
+import { CreateProuctAttributeDto } from "~/pages/admin/Product/FormProduct";
+import { AttributeGet } from "./Attribute";
 import { CategoryGet } from "./Category";
 import { SupplierGet } from "./Supplier";
 
@@ -7,6 +9,7 @@ export type ProductGet = {
     description: string;
     categoryDto: CategoryGet;
     supplierDto: SupplierGet;
+    attributes: AttributeGet[];
 }
 
 export type ProductPost = {
@@ -14,6 +17,8 @@ export type ProductPost = {
     supplierId: number;
     name: string;
     description: string;
+    attributes: CreateProuctAttributeDto[];
+
 }
 
 export type ProductPut = {

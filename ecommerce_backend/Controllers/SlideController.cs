@@ -70,7 +70,7 @@ namespace ecommerce_backend.Controllers
             if (slideDto.ImageFile != null)
             {
                 _imageService.setDirect("images/slides");
-                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile, null); // No existing image
+                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile); // No existing image
             }
 
             // Create a new slide entity and save
@@ -105,7 +105,8 @@ namespace ecommerce_backend.Controllers
             if (slideDto.ImageFile != null)
             {
                 _imageService.setDirect("images/slides");
-                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile, existingSlide.Image);
+                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile);
+                _imageService.DeleteOldImage(existingSlide.Image);
             }
 
 

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const AdminSidebar = () => {
     const navigate = useNavigate()
     return (
-        <div className="custom-container--right sidebar pe-4 pb-3">
+        <div className="custom-container--right sidebar pb-3">
             <nav className="navbar navbar-light pl-0">
                 <a href="index.html" className="navbar-brand mx-4 mb-3">
                     <h3 className="text-primary"><i className="fa fa-hashtag me-2"></i>DASHMIN</h3>
@@ -26,7 +26,7 @@ const AdminSidebar = () => {
                         <div className="dropdown-menu bg-transparent border-0">
                             <a onClick={() => navigate("/admin/products")}  className="dropdown-item">Module Product</a>
                             <a onClick={() => navigate("/admin/attributes")} className="dropdown-item">attributes' Variant</a>
-                            <a href="typography.html" className="dropdown-item">Variant</a>
+                            <a onClick={() => navigate("/admin/variants")} className="dropdown-item">Variant</a>
                         </div>
                     </div>
                     <a onClick={() => navigate("/admin/suppliers")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Supplier</a>

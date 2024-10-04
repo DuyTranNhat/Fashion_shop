@@ -21,7 +21,7 @@ namespace ecommerce_backend.DataAccess.Repository
 
         public async Task<Product> Edit(int id, updateProductDto obj)
         {
-            var existingProduct = await _db.Products.FirstOrDefaultAsync(item => item.ProductId == id);
+            var existingProduct = await _db.Products.Include(item => item.Attributes).FirstOrDefaultAsync(item => item.ProductId == id);
             if (existingProduct == null)
                 return null;
 
@@ -29,6 +29,12 @@ namespace ecommerce_backend.DataAccess.Repository
             existingProduct.SupplierId = obj.SupplierId;
             existingProduct.Name = obj.Name;
             existingProduct.Description = obj.Description;
+            existingProduct.Attributes.Clear();
+            obj.Attributes.ToList().ForEach(a =>
+            {
+                var attribute = _db.Attributes.FirstOrDefault(x => x.AttributeId == a.AttributeId);
+                existingProduct.Attributes.Add(attribute);
+            });
 
             _db.SaveChanges();
             return existingProduct;

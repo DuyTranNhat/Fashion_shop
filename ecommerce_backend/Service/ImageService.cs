@@ -7,7 +7,7 @@ namespace ecommerce_backend.Service
 {
     public class ImageService
     {
-        private readonly string _uploadsFolder;
+        private string _uploadsFolder;
         private string _currentDirect = "images/variants";
 
         public ImageService()
@@ -18,8 +18,9 @@ namespace ecommerce_backend.Service
         public void setDirect(string direct)
         {
             _currentDirect = direct;
+            _uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", _currentDirect);
         }
-        public async Task<string> HandleImageUpload(IFormFile imageFile, string existingImageUrl)
+        public async Task<string> HandleImageUpload(IFormFile imageFile)
         {
             // Generate a unique file name for the new image
             var uniqueFileName = Guid.NewGuid() + "_" + imageFile.FileName;
@@ -30,9 +31,6 @@ namespace ecommerce_backend.Service
             {
                 await imageFile.CopyToAsync(fileStream);
             }
-
-            // Delete the old image file if it exists
-            DeleteOldImage(existingImageUrl);
 
             // Return the relative URL to the new image
             return Path.Combine(_currentDirect, uniqueFileName);

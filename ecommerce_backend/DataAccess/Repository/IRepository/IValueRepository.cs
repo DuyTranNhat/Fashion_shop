@@ -5,7 +5,7 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
 {
     public interface IValueRepository : IRepository<Value>
     {
-        void CreateVariantValue(Variant variant, ICollection<CreateVariantValueDto> variantValue);
+        //void CreateVariantValue(Variant variant, ICollection<CreateVariantValueDto> variantValue);
 
     }
 }

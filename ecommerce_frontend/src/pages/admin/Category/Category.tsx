@@ -62,7 +62,7 @@ const Category = () => {
     }
 
     return (
-        <div className='container-fluid pt-4 px-4' >
+        <div className='container-fluid custom-container pt-4 my-4' >
             <h1>Category RecursiveTable</h1>
             <RecursiveTable configs={configs} data={catgories} />
         </div>
