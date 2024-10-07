@@ -13,9 +13,7 @@ namespace ecommerce_backend.Dtos.Customer
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
-        [Required]
         public string? Phone { get; set; }
-        [Required]
         public string? Address { get; set; }
 
         public string? ImageUrl { get; set; }

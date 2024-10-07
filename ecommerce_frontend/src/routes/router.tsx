@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import AdminLayout from '../layouts/AdminLayout';
-import CustomerLayout from '../layouts/CustomerLayout';
+import AdminLayout from '../layouts/AdminLayout/AdminLayout';
+import CustomerLayout from '../layouts/CustomerLayout/CustomerLayout';
 import Product from '../pages/admin/Product/Product';
-import Shop from '../pages/customer/Shop';
+import Shop from '../pages/customer/Shop/Shop';
 import Category from '../pages/admin/Category/Category';
-import Supplier from '~/pages/admin/Supplier/Supplier'; 
+import Supplier from '~/pages/admin/Supplier/Supplier';
 import InputSupplier from '~/pages/admin/Supplier/InputSupplier';
 import EditSupplier from '~/pages/admin/Supplier/EditSupplier';
 import InputProduct from '~/pages/admin/Product/InputProduct';
@@ -12,7 +12,6 @@ import EditProduct from '~/pages/admin/Product/EditProduct';
 import Attribute from '~/pages/admin/Attribute/Attribute';
 import InputAttribute from '~/pages/admin/Attribute/InputAttribute';
 import EditAttribute from '~/pages/admin/Attribute/EditAttribute';
-import { Slide } from 'react-toastify';
 import Banner from '~/pages/admin/Banner/Banner';
 import InputBanner from '~/pages/admin/Banner/InputBanner';
 import EditBanner from '~/pages/admin/Banner/EditBanner';
@@ -20,91 +19,151 @@ import Variant from '~/pages/admin/variant/Variant';
 import VariantImages from '~/pages/admin/variant/Images/VariantImages';
 import InputVariant from '~/pages/admin/variant/InputVariant';
 import EditVariant from '~/pages/admin/variant/EditVariant';
-
+import Home from '~/pages/customer/Home/Home';
+import Login from '~/pages/customer/Login/Login';
+import LoginLayout from '~/layouts/LoginLayout/LoginLayout';
+import '~/App.css'
+import Register from '~/pages/customer/Register/Register';
+import ProtectedRouteAdmin from './ProtectedRouteAdmin';
 
 const router = createBrowserRouter([
     {
+        
         path: "/admin",
         element: <AdminLayout />,
         children: [
             {
+                
                 path: "products",
-                element: <Product />,
+                element: <ProtectedRouteAdmin>
+                    <Product />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "categories",
-                element: <Category />,
+                element: <ProtectedRouteAdmin>
+                    <Category />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "suppliers",
-                element: <Supplier />,
+                element: <ProtectedRouteAdmin>
+                    <Supplier />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "supplier/create",
-                element: <InputSupplier />,
+                element: <ProtectedRouteAdmin>
+                    <InputSupplier />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "supplier/edit/:id",
-                element: <EditSupplier />,
+                element: <ProtectedRouteAdmin>
+                    <EditSupplier />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "product/create",
-                element: <InputProduct />,
+                element: <ProtectedRouteAdmin>
+                    <InputProduct />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "product/edit/:id",
-                element: <EditProduct />,
+                element: <ProtectedRouteAdmin>
+                    <EditProduct />
+                </ProtectedRouteAdmin>,
             },
             {
                 path: "attributes",
-                element: <Attribute />
+                element: <ProtectedRouteAdmin>
+                    <Attribute />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "attribue/create",
-                element: <InputAttribute />
+                element: <ProtectedRouteAdmin>
+                    <InputAttribute />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "attribute/edit/:id",
-                element: <EditAttribute />
+                element: <ProtectedRouteAdmin>
+                    <EditAttribute />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "slider",
-                element: <Banner />
+                element: <ProtectedRouteAdmin>
+                    <Banner />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "slider/create",
-                element: <InputBanner />
+                element: <ProtectedRouteAdmin>
+                    <InputBanner />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "banner/edit/:id",
-                element: <EditBanner />
+                element: <ProtectedRouteAdmin>
+                    <EditBanner />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "variants",
-                element: <Variant />
+                element: <ProtectedRouteAdmin>
+                    <Variant />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "variantImgages/:id",
-                element: <VariantImages />
+                element: <ProtectedRouteAdmin>
+                    <VariantImages />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "variant/create",
-                element: <InputVariant />
+                element: <ProtectedRouteAdmin>
+                    <InputVariant />
+                </ProtectedRouteAdmin>
             },
             {
                 path: "variant/update/:id",
-                element: <EditVariant />
+                element: <ProtectedRouteAdmin>
+                    <EditVariant />
+                </ProtectedRouteAdmin>
             },
-            
+
         ],
     },
     {
-        path: "/",
+        path: "",
         element: <CustomerLayout />,
         children: [
             {
+                path: "",
+                element: <Home />,
+            },
+            {
                 path: "shop",
                 element: <Shop />,
+            }
+
+        ],
+    },
+    {
+        path: "/access",
+        element: <LoginLayout />,
+        children: [
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "register",
+                element: <Register />,
             }
         ],
     },

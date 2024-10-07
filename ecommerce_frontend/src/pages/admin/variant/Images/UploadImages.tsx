@@ -15,11 +15,8 @@ const UploadImages = ({ handleUpload, handleImageChange, selectedImages }: Props
     };
 
     return (
-        <form onSubmit={handleSubmit} className='mb-4'>
+        <form onSubmit={handleSubmit} className='mb-4 d-flex flex-column'>
             <div className="">
-                <label htmlFor="fileImages" className="form-label">
-                    Upload Images
-                </label>
                 <input
                     type="file"
                     className="form-control"
@@ -30,7 +27,7 @@ const UploadImages = ({ handleUpload, handleImageChange, selectedImages }: Props
                     }}
                 />
             </div>
-            <button type="submit" className="mt-4 btn btn-primary">
+            <button type="submit" className="mt-4 btn admin-btn-primary ">
                 Upload Images
             </button>
         </form>

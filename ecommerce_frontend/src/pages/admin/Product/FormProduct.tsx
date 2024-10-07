@@ -206,7 +206,7 @@ const FormProduct = ({ handleProduct, product, isUpdate }: Props) => {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="mt-4 btn btn-primary">
+            <button type="submit" className="mt-4 admin-btn-primary ">
                 Submit
             </button>
         </form>

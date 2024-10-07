@@ -60,7 +60,7 @@ const Banner = () => {
                     className="rounded-circle img-fluid"
                     src={baseUrl + banner.imageUrl}
                     alt=""
-                    style={{ width: '40px', height: '40px' }}
+                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                 />
             ),
         },
@@ -99,7 +99,7 @@ const Banner = () => {
                     <div className='d-flex py-2'>
                         <h6 className="mb-4">Banner List</h6>
                         <button
-                            className='btn btn-primary ms-auto'
+                            className='admin-btn-primary ms-auto'
                             onClick={() => navigate("/admin/slider/create")}
                         >
                             Create a new slider

@@ -125,7 +125,7 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
           </button>
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="admin-btn-primary ">
             Submit
           </button>
         </div>

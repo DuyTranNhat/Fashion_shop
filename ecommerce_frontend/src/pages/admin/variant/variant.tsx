@@ -136,7 +136,7 @@ const Variant = () => {
                         <div className="rounded custom-container  h-100 p-4">
                             <div className='d-flex py-2' >
                                 <h6 className="mb-4">Variant List</h6>
-                                <button className='btn btn-primary ms-auto'
+                                <button className='admin-btn-primary     ms-auto'
                                     onClick={() => { navigate("/admin/variant/create") }}
                                 >
                                     Create a new Variant

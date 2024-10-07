@@ -36,7 +36,7 @@ public partial class FashionShopContext : DbContext
 
     public virtual DbSet<Receipt> Receipts { get; set; }
 
-    public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
+    public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }    
 
     public virtual DbSet<Slide> Slides { get; set; }
 
@@ -208,6 +208,11 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(50)
                 .HasColumnName("phone");
+
+            entity.Property(e => e.Role)
+                .IsRequired()            
+                .HasMaxLength(20)       
+                .HasDefaultValue("user");
         });
 
         modelBuilder.Entity<Image>(entity =>

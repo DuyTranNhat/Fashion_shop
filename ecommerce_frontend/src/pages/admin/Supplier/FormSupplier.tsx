@@ -112,7 +112,7 @@ const FormSupplier = ({ handleSupllier, supplier }: Props) => {
       </div>
 
       {/* Submit Button */}
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="admin-btn-primary ">
         Submit
       </button>
     </form>

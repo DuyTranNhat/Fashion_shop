@@ -82,7 +82,7 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
   return (
     <form className="col-12" onSubmit={handleSubmit}>
       <div className=" rounded h-100 custom-container m-4 p-4">
-        <h6 className="mb-4">{isUpdate ? 'Update Slide' : 'Create a new Slide for Variant'}</h6>
+        <h6 className="mb-4">{isUpdate ? 'Update Slide' : 'Create a new Slide'}</h6>
 
         <div className="form-floating mb-3">
           <input
@@ -163,7 +163,7 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
           </label>
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="admin-btn-primary ">
           {isUpdate ? 'Update Slide' : 'Create Slide'}
         </button>
       </div>

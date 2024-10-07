@@ -208,7 +208,7 @@ const FormVariant = ({ handleVariant, initialData, isUpdate }: Props) => {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="mt-4 btn btn-primary">
+            <button type="submit" className="mt-4 btn admin-btn-primary ">
                 Submit
             </button>
         </form>

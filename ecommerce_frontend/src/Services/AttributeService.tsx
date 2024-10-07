@@ -14,6 +14,15 @@ export const attributeGetAPI = async () => {
     }
 }
 
+export const attributeGetActiveAPI = async () => {
+    try {
+        const data = await axios.get<AttributeGet[]>(api + "/getAllActive");
+        return data;
+    } catch (error) {
+        handleError(error)
+    }
+}
+
 export const attributePostAPI = async (form: AttributeFormInput) => {
     try {
         const data = await axios.post<AttributePost[]>(api, form);

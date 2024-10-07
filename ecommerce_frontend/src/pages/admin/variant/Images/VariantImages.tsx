@@ -59,15 +59,13 @@ const VariantImages = () => {
 
     return (
         <div className="container-fluid service p-4" >
-            <div className="container py-5" style={{padding: "0 62px"}}>
+            <div className="container py-5 row flex-column" style={{padding: "0 62px"}}>
                 <div className="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
                     <h4 className="display-4 text-center mb-4">Variant Images Management</h4>
-                    <p className="mb-0">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat deleniti amet at atque sequi quibusdam cumque itaque repudiandae temporibus, eius nam mollitia voluptas maxime veniam necessitatibus saepe in ab? Repellat!
-                    </p>
+                  
                 </div>
 
-                <div className='d-flex' >
+                <div className='d-flex justify-content-center' >
 
                     <UploadImages handleImageChange={handleImageChange} handleUpload={handleUpload} selectedImages={selectedImages} />
                 </div>

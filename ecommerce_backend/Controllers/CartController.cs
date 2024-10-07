@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ecommerce_backend.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/controller")]
     public class CartController : Controller
     {
@@ -43,8 +44,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // Thêm một sản phẩm vào giỏ hàng
-        [HttpPost]
-        [Authorize(Roles = "customer")]
+        [HttpPost("addtoCart")]
         public async Task<IActionResult> AddToCart([FromBody] CreateCartDto cartDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -58,7 +58,6 @@ namespace ecommerce_backend.Controllers
 
         // cập nhật giỏ hàng
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "customer")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCartDto cartDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -69,7 +68,6 @@ namespace ecommerce_backend.Controllers
 
         // Xóa một sản phẩm trong giỏ hàng
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "customer")]
         public async Task<IActionResult> DeleteItem([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -82,7 +80,6 @@ namespace ecommerce_backend.Controllers
 
         // Xóa toàn bộ giỏ hàng
         [HttpDelete("clearCart/{customerId:int}")]
-        [Authorize(Roles = "customer")]
         public async Task<IActionResult> DeleteAll([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

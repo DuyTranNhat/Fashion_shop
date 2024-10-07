@@ -24,7 +24,7 @@ namespace ecommerce_backend.Controllers
             return Ok(attributeDtos);
         }
 
-        [HttpGet("getActive")]
+        [HttpGet("getAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
             var attributeModels = _unitOfWork.Attribute.GetAll(x=>x.Status, includeProperties: "Values");

@@ -88,7 +88,7 @@ const Attribute = () => {
                 <div className="custom-container rounded h-100 p-4">
                     <div className='d-flex' >
                         <h6 className="mb-4">Attribute List</h6>
-                        <button className='btn btn-primary ms-auto'
+                        <button className='admin-btn-primary ms-auto'
                             onClick={() => { navigate("/admin/attribue/create") }}
                         >
                             Create a new attribute

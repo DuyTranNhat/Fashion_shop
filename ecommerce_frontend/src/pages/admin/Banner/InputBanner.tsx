@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const InputBanner: React.FC = () => {
 
   return (
-    <div className="custom-container rounded m-4 h-100 p-4">
+    <div className="rounded m-4 h-100 p-4">
       <FormBanner />
     </div>
   );

@@ -22,7 +22,7 @@ const InputVariant = () => {
                 }
 
                 toast.success('Variant created successfully!');
-                navigate('admin/variants'); 
+                navigate('/admin/variants'); 
             }
         } catch (error) {
             toast.error('An error occurred while creating the variant.');
