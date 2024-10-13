@@ -77,7 +77,7 @@ namespace ecommerce_backend.Controllers
             if (existingProduct == null)
                 return NotFound();
 
-            return Ok(existingProduct.ToProductDto());
+            return Ok(existingProduct.ToGetProductDto());
         }
 
 

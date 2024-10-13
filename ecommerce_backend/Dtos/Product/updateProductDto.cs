@@ -1,4 +1,5 @@
-﻿using ecommerce_backend.Dtos.Category;
+﻿using ecommerce_backend.Dtos.Attribute;
+using ecommerce_backend.Dtos.Category;
 using ecommerce_backend.Dtos.Supplier;
 
 namespace ecommerce_backend.Dtos.Product
@@ -13,7 +14,8 @@ namespace ecommerce_backend.Dtos.Product
         public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
-        
+
+        public virtual ICollection<UpdateProductAttributeDto> Attributes { get; set; } = new List<UpdateProductAttributeDto>();
 
     }
 }
