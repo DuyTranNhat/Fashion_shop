@@ -2,6 +2,7 @@ import { CreateProuctAttributeDto } from "~/pages/admin/Product/FormProduct";
 import { AttributeGet } from "./Attribute";
 import { CategoryGet } from "./Category";
 import { SupplierGet } from "./Supplier";
+import { VariantGet } from "./Variant";
 
 export type ProductGet = {
     productId: number;
@@ -10,6 +11,7 @@ export type ProductGet = {
     categoryDto: CategoryGet;
     supplierDto: SupplierGet;
     attributes: AttributeGet[];
+    variants: VariantGet[]
 }
 
 export type ProductPost = {

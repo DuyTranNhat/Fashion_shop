@@ -14,7 +14,7 @@ namespace ecommerce_backend.Controllers
     [Route("api/[controller]")]
     public class SlideController : Controller
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;   
         private readonly IUnitOfWork _unitOfWork;
         private readonly ImageService _imageService;
 
@@ -70,7 +70,7 @@ namespace ecommerce_backend.Controllers
             if (slideDto.ImageFile != null)
             {
                 _imageService.setDirect("images/slides");
-                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile); // No existing image
+                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile); 
             }
 
             // Create a new slide entity and save

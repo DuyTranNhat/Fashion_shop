@@ -7,6 +7,8 @@ export type ImageGet = {
 export type ValueGet = {
     valueId: number;
     value1: string;
+    attributeID: number
+    attributeName: string
   }
   
 export type VariantGet = {

@@ -33,18 +33,33 @@ namespace ecommerce_backend.DataAccess.Repository
         }
 
 
-        public async Task<Customer> UpdateAsync(int id, UpdateCustomerDto customerDto)
+        public async Task<Customer> UpdateAsync(int id, UpdateCustomerDto customerDto, string urlImage)
         {
+            // Retrieve the existing customer by ID
             var existingCustomer = await _db.Customers.FirstOrDefaultAsync(x => x.CustomerId == id);
-            if (existingCustomer == null) return null;
-            existingCustomer.Name = customerDto.Name;
-            existingCustomer.Email = customerDto.Email;
-            existingCustomer.Phone = customerDto.Phone;
-            existingCustomer.Address = customerDto.Address;
-            existingCustomer.ImageUrl = customerDto.ImageUrl;
-            existingCustomer.Password = customerDto.Password;
+
+            // Check if the customer exists
+            if (existingCustomer == null)
+                return null;
+
+            // Update the customer's properties
+            existingCustomer.Name = customerDto.Name ?? existingCustomer.Name;  // Only update if not null
+            existingCustomer.Email = customerDto.Email ?? existingCustomer.Email;
+            existingCustomer.Phone = customerDto.Phone ?? existingCustomer.Phone;
+            existingCustomer.Address = customerDto.Address ?? existingCustomer.Address;
+
+            // Only update the image URL if a new image is provided
+            if (!string.IsNullOrEmpty(urlImage))
+            {
+                existingCustomer.ImageUrl = urlImage;
+            }
+
+            // Save the changes to the database
             await _db.SaveChangesAsync();
+
+            // Return the updated customer
             return existingCustomer;
         }
+
     }
 }

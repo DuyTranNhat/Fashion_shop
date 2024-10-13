@@ -51,6 +51,8 @@ export const UserProvider = ({ children }: Props) => {
                         name: res?.data.name,
                         email: res?.data.email,
                         role: res?.data.role,
+                        customerId: res?.data.customerId,
+
                     }
 
                     localStorage.setItem("user", JSON.stringify(UserObj));
@@ -72,6 +74,7 @@ export const UserProvider = ({ children }: Props) => {
                         name: res?.data.name,
                         email: res?.data.email,
                         role: res?.data.role,
+                        customerId: res?.data.customerId,
                     }
 
 

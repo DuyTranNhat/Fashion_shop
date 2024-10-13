@@ -25,6 +25,9 @@ import LoginLayout from '~/layouts/LoginLayout/LoginLayout';
 import '~/App.css'
 import Register from '~/pages/customer/Register/Register';
 import ProtectedRouteAdmin from './ProtectedRouteAdmin';
+import VariantDetails from '~/pages/customer/VariantDetails/VariantDetails';
+import Cart from '~/pages/customer/Cart/Cart';
+import Profile from '~/pages/customer/Profile/Profile';
 
 const router = createBrowserRouter([
     {
@@ -135,6 +138,7 @@ const router = createBrowserRouter([
                     <EditVariant />
                 </ProtectedRouteAdmin>
             },
+            
 
         ],
     },
@@ -149,8 +153,23 @@ const router = createBrowserRouter([
             {
                 path: "shop",
                 element: <Shop />,
-            }
-
+            },
+            {
+                path: "variantDetails/variant/:idVariant/product/:idProduct",
+                element: <VariantDetails />,
+            },
+            {
+                path: "cart",
+                element: <ProtectedRouteAdmin>
+                    <Cart />
+                </ProtectedRouteAdmin>
+            },
+            {
+                path: "profile",
+                element: <ProtectedRouteAdmin>
+                    <Profile />
+                </ProtectedRouteAdmin>
+            },
         ],
     },
     {

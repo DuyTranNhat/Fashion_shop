@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const handleError = (error: any) => {
-  const navigate = useNavigate()
   if (axios.isAxiosError(error)) {
     var err = error.response;
     if (Array.isArray(err?.data.errors)) {
@@ -16,7 +15,9 @@ export const handleError = (error: any) => {
       }
     } else if (err?.data) {
       toast.warning(err.data);
-    } else if (err?.status == 401) {
+      toast.warning(err.data?.message);
+    }
+    else if (err?.status == 401) {
       toast.warning("Please login");
       window.history.pushState({}, "Login", "/access/login");
     } else if (err?.status === 403) {

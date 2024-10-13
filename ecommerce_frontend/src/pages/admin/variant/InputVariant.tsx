@@ -13,7 +13,7 @@ const InputVariant = () => {
 
             if (response && response.data) {
                 const variantId = response.data; 
-                console.log(response.data);
+                (response.data);
                 
 
                 if (images && images.length > 0 && variantId) {

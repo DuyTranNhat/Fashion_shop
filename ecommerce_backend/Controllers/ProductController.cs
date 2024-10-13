@@ -38,17 +38,18 @@ namespace ecommerce_backend.Controllers
 
         //GetById
         [HttpGet("getByID/{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)    
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier,Attributes.Values");
+            var productModel = _unitOfWork.Product.Get(item => item.ProductId == id, includeProperties: "Category,Supplier,Attributes.Values,Variants.VariantValues.Value,Variants.Images");
+            var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
                                                                                       
             if (productModel == null)
                 return NotFound();
 
-            return Ok(productModel.ToGetProductDto());
+            return Ok(productModel.ToGetProductDto(attributes));
         }
 
         //create product

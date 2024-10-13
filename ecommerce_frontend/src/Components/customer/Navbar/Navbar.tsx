@@ -58,11 +58,11 @@ const Navbar = () => {
                                 <a href="contact.html" className="nav-item nav-link">Contact</a>
                             </div>
                             <div className="navbar-nav ml-auto py-0 d-none d-lg-block">
-                                <a href="" className="btn px-0">
+                                <a href=""  className="btn px-0">
                                     <i className="fas fa-heart text-primary"></i>
                                     <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px;" }}>0</span>
                                 </a>
-                                <a href="" className="btn px-0 ml-3">
+                                <a href="" onClick={() => navigate("/cart")} className="btn px-0 ml-3">
                                     <i className="fas fa-shopping-cart text-primary"></i>
                                     <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px;" }}>0</span>
                                 </a>

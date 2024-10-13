@@ -31,6 +31,10 @@ const AdminSidebar = () => {
                             <a onClick={() => navigate("/admin/variants")} className="dropdown-item no-color-change">Variant</a>
                         </div>
                     </div>
+                    <a onClick={() => navigate("/admin/products")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Module Product</a>
+                    <a onClick={() => navigate("/admin/attributes")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Attributes</a>
+                    <a onClick={() => navigate("/admin/variants")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Variant</a>
+
                     <a onClick={() => navigate("/admin/suppliers")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-keyboard me-2"></i>Supplier</a>
                     <a onClick={() => navigate("/admin/categories")} style={{cursor:"pointer"}} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Categories</a>
                     <a href="chart.html" className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>

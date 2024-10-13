@@ -190,7 +190,8 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
             entity.Property(e => e.Address)
                 .HasColumnType("text")
-                .HasColumnName("address");
+                .HasColumnName("address").HasColumnType("nvarchar(255)");
+
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)

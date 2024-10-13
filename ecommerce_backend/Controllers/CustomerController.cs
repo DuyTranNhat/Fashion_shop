@@ -1,7 +1,9 @@
 using System.Runtime.InteropServices;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Customer;
+using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Mappers;
+using ecommerce_backend.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,13 @@ namespace ecommerce_backend.Controllers
     [Route("api/[controller]")]
     public class CustomerController : Controller
     {
+        private readonly ImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CustomerController(IUnitOfWork unitOfWork)
+        public CustomerController(IUnitOfWork unitOfWork, ImageService imageService)
         {
             _unitOfWork = unitOfWork;
+            _imageService = imageService;
         }
 
         // Lấy tất cả các khách hàng
@@ -29,7 +33,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // lấy khách hàng theo id
-        [HttpGet("{id:int}")]
+        [HttpGet("GetById/{id:int}")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -38,6 +42,32 @@ namespace ecommerce_backend.Controllers
             if (customerModel == null) return NotFound("Customer not found");
             return Ok(customerModel.ToCustomerDto());
         }
+
+        [HttpPut("updateProfile/{id:int}")]
+        public async Task<IActionResult> updateProfile([FromRoute] int id,[FromForm] UpdateCustomerDto customerDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var customerExisting = _unitOfWork.Customer.Get(customer => customer.CustomerId == id);
+
+            if (customerExisting == null) return NotFound("Customer not found");
+
+
+            string imageUrl = customerExisting.ImageUrl;
+
+            if (customerDto.Image != null)
+            {
+                _imageService.setDirect("images/customerAvar");
+                imageUrl = await _imageService.HandleImageUpload(customerDto.Image); 
+                _imageService.DeleteOldImage(customerExisting.ImageUrl);
+            }
+
+
+            await _unitOfWork.Customer.UpdateAsync(id, customerDto, imageUrl);
+
+            return Ok(customerExisting);
+        }
+
+
 
         // lấy khách hàng theo id kèm theo lịch sử mua hàng
         [Authorize]
@@ -80,18 +110,6 @@ namespace ecommerce_backend.Controllers
             var customers = await _unitOfWork.Customer.SearchAsync(keyword);
             if (customers == null || !customers.Any()) return NotFound("Customer not found");
             return Ok(customers);
-        }
-
-        // cập nhật thông tin khách hàng
-        [Authorize(Roles = "customer")]
-        [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCustomerDto customerDto)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerModel = await _unitOfWork.Customer.UpdateAsync(id, customerDto);
-            if (customerModel == null) return NotFound("Customer not found");
-            return Ok(customerModel.ToCustomerDto());
         }
     }
 }

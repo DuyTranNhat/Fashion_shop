@@ -4,7 +4,7 @@ type Props = {
 };
 
 const Table = ({ configs, data }: Props) => {
-    const renderedRows = data.map((company : any, index : number) => {
+    const renderedRows = data.map((company: any, index: number) => {
         return (
             <tr className="" key={company.cik}>
                 {configs.map((config: any) => {
@@ -13,9 +13,8 @@ const Table = ({ configs, data }: Props) => {
             </tr>
         );
     });
-    
-    const renderedHeaders = configs.map((config: any) => {
 
+    const renderedHeaders = configs.map((config: any) => {
         return (
             <th
                 className="p-4 text-xs font-medium text-gray-500 uppercase tracking-wider  align-items-center"
@@ -25,20 +24,18 @@ const Table = ({ configs, data }: Props) => {
             </th>
         );
     });
-    
-    return (
-                <table className="table">
-                    <thead>
-                        <tr className="" >
-                            {renderedHeaders}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {renderedRows} {/* Gọi hàm renderRows */}
-                    </tbody>
-                </table>
-            
 
+    return (
+        <table className="table">
+            <thead>
+                <tr className="" >
+                    {renderedHeaders}
+                </tr >
+            </thead >
+            <tbody>
+                {renderedRows}
+            </tbody>
+        </table >
     );
 
 };

@@ -1,5 +1,6 @@
 ﻿using ecommerce_backend.Dtos.Value;
 using ecommerce_backend.Models;
+using System;
 
 namespace ecommerce_backend.Mappers
 {
@@ -14,15 +15,37 @@ namespace ecommerce_backend.Mappers
                 Status = true
             };
         }
-        public static ValueDto ToValueDto(this Value value)
+        public static ValueDto ToValueDto(this Value value, IEnumerable<Models.Attribute> attributes)
         {
             return new ValueDto
             {
                 ValueId = value.ValueId,
                 Value1 = value.Value1,
-                Status = value.Status
+                Status = value.Status,
+                AttributeID = attributes.FirstOrDefault(a => a.Values.Any(v => v.ValueId == value.ValueId)).AttributeId,
+                AttributeName = attributes.FirstOrDefault(a => a.Values.Any(v => v.ValueId == value.ValueId)).Name,
             };
         }
+
+        public static ValueDto ToValueDto(this Value value)
+        {
+
+            return new ValueDto
+            {
+                ValueId = value.ValueId,
+                Value1 = value.Value1,
+            };
+        }
+
+        //public static ValueDto ToValueDto(this Value value)
+        //{
+
+        //    return new ValueDto
+        //    {
+        //        ValueId = value.ValueId,
+        //        Value1 = value.Value1,
+        //    };
+        //}
 
 
         public static VariantValueDto ToVariantValueDto(this Value value)

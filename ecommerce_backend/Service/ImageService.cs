@@ -22,19 +22,23 @@ namespace ecommerce_backend.Service
         }
         public async Task<string> HandleImageUpload(IFormFile imageFile)
         {
-            // Generate a unique file name for the new image
+            if (!Directory.Exists(_uploadsFolder))
+            {
+                Directory.CreateDirectory(_uploadsFolder);
+            }
+
             var uniqueFileName = Guid.NewGuid() + "_" + imageFile.FileName;
+
             var filePath = Path.Combine(_uploadsFolder, uniqueFileName);
 
-            // Save the new image to the specified directory
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);
             }
 
-            // Return the relative URL to the new image
             return Path.Combine(_currentDirect, uniqueFileName);
         }
+
 
         public void DeleteOldImage(string oldImageUrl)
         {

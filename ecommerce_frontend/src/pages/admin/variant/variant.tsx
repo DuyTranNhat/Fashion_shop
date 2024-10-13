@@ -5,13 +5,14 @@ import Table from '~/Components/admin/Table/Table';
 import { VariantGet } from '~/Models/Variant';
 import { variantGetAPI } from '~/Services/VariantService'
 import { RiProhibitedLine } from "react-icons/ri";
+import { toast } from 'react-toastify';
 
 const baseUrl = 'https://localhost:7000';
 
 
 const Variant = () => {
     const navigate = useNavigate();
-    const [variants, setVariants] = useState<VariantGet[]>()
+    const [variants, setVariants] = useState<VariantGet[]>([])
 
 
     useEffect(() => {
@@ -20,10 +21,8 @@ const Variant = () => {
                 if (res?.data) {
                     setVariants(res?.data)
                 }
-            }).catch(error => console.log(error))
+            }).catch(error => toast.error(error))
     }, [])
-
-    console.log(variants);
 
 
     const configs = [
@@ -128,27 +127,26 @@ const Variant = () => {
 
 
     return (
-        variants ?
-            (
-                <div className='container-fluid pt-4 px-4' >
-                    <h1 className='py-3' >Variant Management</h1>
-                    <div className="col-12">
-                        <div className="rounded custom-container  h-100 p-4">
-                            <div className='d-flex py-2' >
-                                <h6 className="mb-4">Variant List</h6>
-                                <button className='admin-btn-primary     ms-auto'
-                                    onClick={() => { navigate("/admin/variant/create") }}
-                                >
-                                    Create a new Variant
+        variants
+            ? (<div className='container-fluid pt-4 px-4' >
+                <h1 className='py-3' >Variant Management</h1>
+                <div className="col-12">
+                    <div className="rounded custom-container  h-100 p-4">
+                        <div className='d-flex py-2' >
+                            <h6 className="mb-4">Variant List</h6>
+                            <button className='admin-btn-primary     ms-auto'
+                                onClick={() => { navigate("/admin/variant/create") }}
+                            >
+                                Create a new Variant
 
-                                </button>
-                            </div>
-                            <div className="table-responsive"></div>
-                            <Table data={variants} configs={configs} />
+                            </button>
                         </div>
+                        <div className="table-responsive"></div>
+                        <Table data={variants} configs={configs} />
                     </div>
                 </div>
-            ) : <></>
+            </div>)
+            : <>Loading</>
     )
 }
 

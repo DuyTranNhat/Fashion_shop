@@ -29,7 +29,7 @@ const Product = () => {
         },
         {
             label: "Product's Name",
-            render: (product: ProductGet) => <p style={{width: '500px'}} >{product.name}</p>,
+            render: (product: ProductGet) => <p style={{ width: '500px' }} >{product.name}</p>,
         },
         {
             label: "Product's Category",
@@ -53,13 +53,13 @@ const Product = () => {
             }
         }
     ]
-    
+
 
     return (
         <div className=' container-fluid pt-4 px-4' >
 
             <div className="col-12">
-              <h1 className='py-3' >Product Management</h1>
+                <h1 className='py-3' >Product Management</h1>
 
                 <div className="custom-container rounded h-100 p-4">
                     <div className='d-flex' >

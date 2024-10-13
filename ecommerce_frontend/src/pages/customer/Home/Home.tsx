@@ -19,21 +19,14 @@ const Home = () => {
                     setBanners(res?.data)
                 }
             }).catch(err => toast.error(err))
-    }, [])
 
-    useEffect(() => {
         variantGetAPI()
             .then(res => {
                 if (res?.data) {
                     setVariants(res?.data)
-                    console.log(res?.data);
-
                 }
-            })
+            }).catch(err => toast.error(err))
     }, [])
-
-
-
 
     return (
         <div>
@@ -103,7 +96,7 @@ const Home = () => {
                     </div>
                 </div>
 
-                : <></>}
+                : <>Loading</>}
         </div>
     )
 }

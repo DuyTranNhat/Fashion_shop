@@ -1,4 +1,5 @@
 export type UserProfileToken = {
+    customerId: number
     role: string;
     email: string;
     name: string;
@@ -6,6 +7,7 @@ export type UserProfileToken = {
   };
 
   export type UserProfile = {
+    customerId: number
     role: string;
     email: string;
     name: string;

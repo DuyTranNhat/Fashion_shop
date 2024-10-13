@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { VariantGet } from '~/Models/Variant';
 
 export type Props = {
@@ -9,8 +10,10 @@ export type Props = {
 const baseUrl = 'https://localhost:7000/';
 
 const VariantItem = ({ col, variant } : Props) => {
+    const navigate = useNavigate()
+
     return (
-        <div className={`col-lg-${col} col-md-6 col-sm-6 pb-1`}>
+        <div onClick={() => navigate(`/variantDetails/variant/${variant.variantId}/product/${variant.productId}`)} className={`col-lg-${col} col-md-6 col-sm-6 pb-1`}>
             <div className="product-item bg-light mb-4">
                 <div className="product-img position-relative overflow-hidden">
                     <img className="img-fluid w-100" src={baseUrl + variant.images[0].imageUrl} alt="" />

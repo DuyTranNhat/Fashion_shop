@@ -9,7 +9,7 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        public Task<Customer> UpdateAsync(int id, UpdateCustomerDto customerDto);
+        public Task<Customer> UpdateAsync(int id, UpdateCustomerDto customerDto, string urlImage);
         public Task<IEnumerable<Customer>> SearchAsync(string keyword);
     }
 }

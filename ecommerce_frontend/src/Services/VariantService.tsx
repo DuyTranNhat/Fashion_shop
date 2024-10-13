@@ -64,8 +64,6 @@ export const ImageDeleteAPI = async (idImage: string, idVariant: string) => {
 
 
 export const upLoadImagesAPI = async (images: FileList | null, variantId: number) => {
-    console.log(variantId);
-
     try {
         if (images && images.length > 0) {
             const formData = new FormData();

@@ -24,6 +24,43 @@ namespace ecommerce_backend.Mappers
                 Values = variant.VariantValues.Select(v => v.Value.ToValueDto()).ToList(),
             };
         }
+        public static GetVariantDto ToGetVariantDto(this Variant variant, IEnumerable<Models.Attribute> attributes)
+        {
+
+            return new GetVariantDto
+            {
+                VariantId = variant.VariantId,
+                ProductId = variant.ProductId,
+                VariantName = variant.VariantName,
+                importPrice = variant.ImportPrice,
+                salePrice = variant.SalePrice,
+                Quantity = variant.Quantity,
+                Status = variant.Status,
+                Images = variant.Images.Select(item => item.ToImageDto(variant.VariantId)).ToList(),
+                Values = variant.VariantValues.Select(v => v.Value.ToValueDto(attributes)).ToList(),
+            };
+        }
+
+
+        public static GetVariantDto ToGetVariantDto(this Variant variant, bool primaryStatus)
+        {
+
+            return new GetVariantDto
+            {
+                VariantId = variant.VariantId,
+                ProductId = variant.ProductId,
+                VariantName = variant.VariantName,
+                importPrice = variant.ImportPrice,
+                salePrice = variant.SalePrice,
+                Quantity = variant.Quantity,
+                Status = variant.Status,
+                Images = variant.Images.Select(item => item.ToImageDto(variant.VariantId)).ToList(),
+                Values = variant.VariantValues.Select(v => v.Value.ToValueDto()).ToList(),
+            };
+        }
+
+
+
         public static Variant ToVariantFromCreateDto(this CreateVariantDto createVariant)
         {
 

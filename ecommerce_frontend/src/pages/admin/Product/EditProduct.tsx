@@ -35,8 +35,6 @@ const EditProduct = () => {
 
   const handleProduct = (form: ProductFormInput) => {
     if (id) {
-      console.log(123);
-      
       ProductUpdateAPI(id, form)
         .then(res => {
           if(res?.status == 200) {

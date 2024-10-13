@@ -29,7 +29,7 @@ namespace ecommerce_backend.Controllers
 
         // tạo khách hàng
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] CreateCustomerDto customerDto)
+        public async Task<IActionResult> Register(  [FromBody] CreateCustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
@@ -41,6 +41,7 @@ namespace ecommerce_backend.Controllers
             _unitOfWork.Save();
             string token = _tokenService.CreateToken(customerModel, customerModel.Role);
             return Ok(new {
+                customerModel.CustomerId,
                 customerModel.Email,
                 customerModel.Name,
                 customerModel.Role,
@@ -61,6 +62,7 @@ namespace ecommerce_backend.Controllers
             string token = _tokenService.CreateToken(customerModel, customerModel.Role);
             return Ok(new
             {
+                customerModel.CustomerId,
                 customerModel.Email,
                 customerModel.Name,
                 customerModel.Role,

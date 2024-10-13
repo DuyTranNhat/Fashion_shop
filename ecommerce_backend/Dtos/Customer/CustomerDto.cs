@@ -14,8 +14,5 @@ namespace ecommerce_backend.Dtos.Customer
         public string? Address { get; set; }
         public string? ImageUrl { get; set; }
         public string Password { get; set; } = null!;
-        public virtual ICollection<OrderDto> Orders { get; set; } = new List<OrderDto>();
-        public virtual ICollection<ProductReviewDto> ProductReviews { get; set; } = new List<ProductReviewDto>();
-        public virtual ICollection<CartDto> Carts { get; set; } = new List<CartDto>();
     }
 }

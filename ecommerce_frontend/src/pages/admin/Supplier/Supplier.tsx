@@ -15,11 +15,6 @@ const Supplier = () => {
         getSuppliers()
     }, [])
 
-    console.log(suppliers);
-
-
-
-
     const getSuppliers = () => {
         supplierGetAPI()
             .then(res => {

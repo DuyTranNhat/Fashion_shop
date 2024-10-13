@@ -35,7 +35,6 @@ namespace ecommerce_backend.Mappers
                 Address = customerModel.Address,
                 ImageUrl = customerModel.ImageUrl,
                 Password = customerModel.Password,
-                Orders = customerModel.Orders.Select(order => order.ToOrderDto()).ToList()
             };
         }
 
@@ -50,7 +49,6 @@ namespace ecommerce_backend.Mappers
                 Address = customerModel.Address,
                 ImageUrl = customerModel.ImageUrl,
                 Password = customerModel.Password,
-                ProductReviews = customerModel.ProductReviews.Select(review => review.ToProductReviewDto()).ToList()
             };
         }
 
@@ -65,7 +63,6 @@ namespace ecommerce_backend.Mappers
                 Address = customerModel.Address,
                 ImageUrl = customerModel.ImageUrl,
                 Password = customerModel.Password,
-                Carts = customerModel.Carts.Select(c => c.ToCartDto()).ToList()
             };
         }
 

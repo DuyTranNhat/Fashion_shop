@@ -4,6 +4,7 @@ import { useAuth } from '~/Context/useAuth'
 
 const Header = () => {
     const { isLoggedIn, logout, user } = useAuth()
+    const navigate = useNavigate()
 
     return (
         <div className="container-fluid">
@@ -24,7 +25,7 @@ const Header = () => {
                                     <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{user?.name}</button>
                                     <div className="dropdown-menu dropdown-menu-right">
                                         <button onClick={logout} className="dropdown-item" type="button">Logout</button>
-                                        <button className="dropdown-item" type="button">Profile</button>
+                                        <button onClick={() => navigate("/profile")} className="dropdown-item" type="button">Profile</button>
                                     </div>
                                 </div>
                             )
@@ -40,20 +41,7 @@ const Header = () => {
                         }
 
                         <div className="btn-group mx-2">
-                            <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                            <div className="dropdown-menu dropdown-menu-right">
-                                <button className="dropdown-item" type="button">EUR</button>
-                                <button className="dropdown-item" type="button">GBP</button>
-                                <button className="dropdown-item" type="button">CAD</button>
-                            </div>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                            <div className="dropdown-menu dropdown-menu-right">
-                                <button className="dropdown-item" type="button">FR</button>
-                                <button className="dropdown-item" type="button">AR</button>
-                                <button className="dropdown-item" type="button">RU</button>
-                            </div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/219/219986.png" style={{height: "36px", width: "36px"}} alt="" />
                         </div>
                     </div>
                     <div className="d-inline-flex align-items-center d-block d-lg-none">

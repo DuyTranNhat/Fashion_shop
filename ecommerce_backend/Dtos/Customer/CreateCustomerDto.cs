@@ -9,17 +9,17 @@ namespace ecommerce_backend.Dtos.Customer
     public class CreateCustomerDto
     {
         [Required]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; }
         public string? Phone { get; set; }
         public string? Address { get; set; }
 
         public string? ImageUrl { get; set; }
         [Required]
         
-        public string Password { get; set; } = null!;
+        public string Password { get; set; }
 
     }
 }
