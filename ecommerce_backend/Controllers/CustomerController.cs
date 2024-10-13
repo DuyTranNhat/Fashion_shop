@@ -4,6 +4,7 @@ using ecommerce_backend.Dtos.Customer;
 using ecommerce_backend.Dtos.Slide;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Service;
+using ecommerce_backend.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,13 @@ namespace ecommerce_backend.Controllers
     {
         private readonly ImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICustomerService _customerService;
 
-        public CustomerController(IUnitOfWork unitOfWork, ImageService imageService)
+        public CustomerController(IUnitOfWork unitOfWork, ImageService imageService, ICustomerService customerService)
         {
             _unitOfWork = unitOfWork;
             _imageService = imageService;
+            _customerService = customerService;
         }
 
         // Lấy tất cả các khách hàng
@@ -38,9 +41,13 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerModel = _unitOfWork.Customer.Get(customer => customer.CustomerId == id);
-            if (customerModel == null) return NotFound("Customer not found");
-            return Ok(customerModel.ToCustomerDto());
+            try
+            {
+                var customer =  await _customerService.GetByIdAsync(id);
+                return Ok(customer);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("updateProfile/{id:int}")]

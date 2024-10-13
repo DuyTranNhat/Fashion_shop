@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Cart;
 using ecommerce_backend.Mappers;
+using ecommerce_backend.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,12 @@ namespace ecommerce_backend.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICartService _cartService;
 
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, ICartService cartService)
         {
             _unitOfWork = unitOfWork;
+            _cartService = cartService;
         }
 
         // Lấy tất cả giỏ hàng
@@ -47,6 +50,23 @@ namespace ecommerce_backend.Controllers
             if (cartModel == null) return NotFound("Cart item not found");
             return Ok(cartModel.ToCartDto(attributes));
         }
+
+        // Lấy chi tiết giỏ hàng của một cus
+        [HttpGet("getByCusId/{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetByCustomerId([FromRoute] int customerId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try
+            {
+                var cart = await _cartService.GetByCustomerIdAsync(customerId);
+                return Ok(cart);
+            }
+            catch (BadHttpRequestException ex){
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
 
