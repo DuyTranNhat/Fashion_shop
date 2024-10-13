@@ -11,5 +11,5 @@ public partial class Image
 
     public string ImageUrl { get; set; } = null!;
 
-    public virtual Variant Variant { get; set; } = null!;
+    public virtual Variant Variant { get; set; } = null!;   
 }

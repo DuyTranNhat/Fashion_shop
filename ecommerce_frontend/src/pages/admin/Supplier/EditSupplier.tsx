@@ -42,7 +42,7 @@ const EditSupplier = () => {
   };
 
   return (
-    <div className="bg-light rounded h-100 p-4">
+    <div className="rounded h-100 p-4 custom-container">
       <h6 className="mb-4">Edit Supplier</h6>
       {supplier ? (
         <FormSupplier handleSupllier={handleEditSubmit} supplier={supplier} />

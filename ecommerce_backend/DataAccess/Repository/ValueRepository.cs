@@ -13,13 +13,10 @@ namespace ecommerce_backend.DataAccess.Repository
         {
             _db = db;
         }
-        public void CreateVariantValue(Variant variant, ICollection<CreateVariantValueDto> variantValue)
-        {
-            variantValue.ToList().ForEach(v =>
-            {
-                var value = _db.Values.Include(v=>v.Attribute).FirstOrDefault(value => value.ValueId == v.ValueId);
-                variant.Values.Add(value);
-            });
-        }
+
+        //public void CreateVariantValue(Variant variant, ICollection<CreateVariantValueDto> variantValue)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

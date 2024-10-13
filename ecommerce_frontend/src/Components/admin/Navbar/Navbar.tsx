@@ -1,13 +1,16 @@
 import React from 'react'
+import { useAuth } from '~/Context/useAuth'
 
 const Navbar = () => {
+    const  { isLoggedIn, logout, user } = useAuth()
+
   return (
     <nav className="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0 justify-content-between">
                 <a href="index.html" className="navbar-brand d-flex d-lg-none me-4">
-                    <h2 className="text-primary mb-0"><i className="fa fa-hashtag"></i></h2>
+                    <h2 className="admin-primary-text mb-0"><i className="fa fa-hashtag"></i></h2>
                 </a>
                 <a href="#" className="sidebar-toggler flex-shrink-0">
-                    <i className="fa fa-bars"></i>
+                    <i className="fa fa-bars admin-primary-text"></i>
                 </a>
                 <form className="d-none d-md-flex ms-4">
                     <input className="form-control border-0" type="search" placeholder="Search"/>
@@ -78,13 +81,16 @@ const Navbar = () => {
                     </div>
                     <div className="nav-item dropdown">
                         <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img className="rounded-circle me-lg-2" src="img/user.jpg" alt="" style={{width: "40px", height: "40px"}}/>
-                            <span className="d-none d-lg-inline-flex">John Doe</span>
+                            <img className="rounded-circle me-lg-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSADESsnqLTB7q95kJhJXXqRra6IqT3zbBhRA&s" alt="" style={{width: "40px", height: "40px"}}/>
+                            <span className="d-none d-lg-inline-flex">{user?.email   }</span>
                         </a>
-                        <div className="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <div className="shadow dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" className="dropdown-item">My Profile</a>
                             <a href="#" className="dropdown-item">Settings</a>
-                            <a href="#" className="dropdown-item">Log Out</a>
+                            {
+                                isLoggedIn() && <a onClick={logout} className="dropdown-item">Log Out</a>
+                            }
+                            
                         </div>
                     </div>
                 </div>

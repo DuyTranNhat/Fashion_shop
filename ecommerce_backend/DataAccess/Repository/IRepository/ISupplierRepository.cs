@@ -8,6 +8,5 @@ namespace ecommerce_backend.DataAccess.Repository.IRepository
         public Task<Supplier> Update(int id, UpdateSupplierDtos obj);
         public  Task<Supplier> UpdateStatus(int id);
         public Task<Supplier> GetById(int id);
-
     }
 }

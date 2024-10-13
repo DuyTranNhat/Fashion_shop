@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using ecommerce_backend.Service;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,8 +43,6 @@ builder.Services.AddSwaggerGen(options => {
         new string[] { } 
     }});
 });
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddDbContext<FashionShopContext>(options =>
 {
@@ -106,6 +105,8 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseExceptionHandler("/error");
 
 app.MapControllers();
 

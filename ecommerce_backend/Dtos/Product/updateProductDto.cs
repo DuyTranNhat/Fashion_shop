@@ -14,7 +14,6 @@ namespace ecommerce_backend.Dtos.Product
         public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
-
         public virtual ICollection<UpdateProductAttributeDto> Attributes { get; set; } = new List<UpdateProductAttributeDto>();
 
     }

@@ -35,7 +35,9 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Data\" />
+    <Folder Include="Exception\" />
     <Folder Include="wwwroot\images\slides\" />
+    <Folder Include="wwwroot\images\variants\" />
   </ItemGroup>
 
 </Project>

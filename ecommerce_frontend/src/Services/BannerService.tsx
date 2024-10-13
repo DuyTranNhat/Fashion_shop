@@ -35,7 +35,6 @@ export const bannerPostAPI = async (formData: FormData) => {
 
 export const bannerUpdateAPI = async (id: number, formData: FormData) => {
     try {
-        console.log(formData);
        const data = await axios.put(api + '/update/' + id, formData)
       return data;
     } catch (error) {

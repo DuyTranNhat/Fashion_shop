@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ecommerce_backend.Controllers
 {
     [ApiController]
-    [Route("api/controller")]
+    [Authorize]
+    [Route("api/Cart")]
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,9 +27,11 @@ namespace ecommerce_backend.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
-            var carts = _unitOfWork.Cart.GetAll();
-            return Ok(carts);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var carts = _unitOfWork.Cart.GetAll(includeProperties: "Variant.Images,Variant.VariantValues");
+            var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
+            var cartsMapper = carts.Select(c => c.ToCartDto(attributes));
+            return Ok(cartsMapper);
         }
 
         // Lấy giỏ hàng theo id
@@ -37,57 +40,112 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var cartModel = _unitOfWork.Cart.Get(c => c.CartId == id);
-            if(cartModel == null) return NotFound("Cart item not found");
-            return Ok(cartModel.ToCartDto());
+            var cartModel = _unitOfWork.Cart.Get(c => c.CartId == id, includeProperties: "Variant.Images,Variant.VariantValues");
+
+            var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
+
+            if (cartModel == null) return NotFound("Cart item not found");
+            return Ok(cartModel.ToCartDto(attributes));
         }
 
+
+
         // Thêm một sản phẩm vào giỏ hàng
-        [HttpPost]
-        [Authorize(Roles = "customer")]
+        [HttpPost("addtoCart")]
         public async Task<IActionResult> AddToCart([FromBody] CreateCartDto cartDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if(_unitOfWork.Customer.Get(c => c.CustomerId == cartDto.CustomerId) == null) return NotFound(new {message = "Customer not found"});
-            if(_unitOfWork.Variant.Get(v => v.VariantId == cartDto.VariantId) == null) return NotFound(new { message = "variant not found" });
-            var cartModel = cartDto.ToCartFromCreate();
-            _unitOfWork.Cart.Add(cartModel);
-            _unitOfWork.Save();
-            return CreatedAtAction(nameof(AddToCart), new { id = cartModel.CartId }, cartModel);
-        }
+            if (_unitOfWork.Customer.Get(c => c.CustomerId == cartDto.CustomerId) == null) return NotFound(new { message = "Customer not found" });
+            if (_unitOfWork.Variant.Get(v => v.VariantId == cartDto.VariantId) == null) return NotFound(new { message = "variant not found" });
 
-        // cập nhật giỏ hàng
-        [HttpPut("{id:int}")]
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCartDto cartDto)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var cartModel = await _unitOfWork.Cart.UpdateAsync(id, cartDto);
-            if(cartModel == null) return NotFound("Cart item not found");
-            return Ok(cartModel.ToCartDto());
+
+
+
+            var existingCart = await _unitOfWork.Cart.UpdateAsync(cartDto);
+
+            if (existingCart != null)
+            {
+                return CreatedAtAction(nameof(AddToCart), new { id = existingCart.CartId }, existingCart);
+            }
+
+            else
+            {
+                var cartModel = cartDto.ToCartFromCreate();
+                _unitOfWork.Cart.Add(cartModel);
+                _unitOfWork.Save();
+                return CreatedAtAction(nameof(AddToCart), new { id = cartModel.CartId }, cartModel);
+            }
         }
 
         // Xóa một sản phẩm trong giỏ hàng
-        [HttpDelete("{id:int}")]
-        [Authorize(Roles = "customer")]
+        [HttpDelete("removeCartItem/{id:int}")]
         public async Task<IActionResult> DeleteItem([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var cartModel = _unitOfWork.Cart.Get(c => c.CartId == id);
-            if(cartModel == null) return NotFound("Cart item not found");
+            if (cartModel == null) return NotFound("Cart item not found");
             _unitOfWork.Cart.Remove(cartModel);
             _unitOfWork.Save();
-            return Ok(new { message = "Cart item deleted successfully." });
+            return Ok(new { message = "Remove successfully" });
         }
+
+        [HttpPost("increaseQuantity/{cartId:int}")]
+        public async Task<IActionResult> IncreaseQuantity([FromRoute] int cartId)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                Cart? existingCart = await _unitOfWork.Cart.increaseQuantity(cartId);
+                if (existingCart == null) return BadRequest("Item not found!");
+                var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
+                return CreatedAtAction(nameof(GetById), new { id = existingCart.CartId }, existingCart.ToCartDto(attributes));
+            }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", details = ex.Message });
+            }
+
+        }
+
+
+        [HttpPost("decreaseQuantity/{cartId:int}")]
+        public async Task<IActionResult> DecreaseQuantity([FromRoute] int cartId)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
+                Cart? existingCart = await _unitOfWork.Cart.decreaseQuantity(cartId);
+
+                if (existingCart == null) return BadRequest("Item not found!");
+
+                var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
+
+                return CreatedAtAction(nameof(GetById), new { id = existingCart.CartId }, existingCart.ToCartDto(attributes));
+
+            }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", details = ex.Message });
+            }
+        }
+
 
         // Xóa toàn bộ giỏ hàng
         [HttpDelete("clearCart/{customerId:int}")]
-        [Authorize(Roles = "customer")]
         public async Task<IActionResult> DeleteAll([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(c => c.CustomerId == id);
-            if(customerModel == null) return NotFound("Customer not found"); 
+            if (customerModel == null) return NotFound("Customer not found");
             var cartItems = _unitOfWork.Cart.GetAll(c => c.CustomerId == id);
             _unitOfWork.Cart.RemoveRange(cartItems);
             _unitOfWork.Save();

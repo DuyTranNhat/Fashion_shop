@@ -17,7 +17,7 @@ public partial class Variant
 
     public decimal ImportPrice { get; set; }
 
-    public decimal SalePrice { get; set; }
+    public decimal SalePrice { get; set; }  
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
@@ -27,6 +27,8 @@ public partial class Variant
 
     public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; } = new List<ReceiptDetail>();
 
-    public virtual ICollection<Value> Values { get; set; } = new List<Value>();
     public virtual ICollection<Cart> Carts { get; set; }
+    public virtual ICollection<Value> Values { get; set; } = new List<Value>();
+    public virtual ICollection<VariantValue> VariantValues { get; set; } = new List<VariantValue>();
+
 }

@@ -2,12 +2,14 @@
 using ecommerce_backend.Dtos.Supplier;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace ecommerce_backend.Controllers
 {
+    [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/[controller]")] 
     public class SupplierController : Controller

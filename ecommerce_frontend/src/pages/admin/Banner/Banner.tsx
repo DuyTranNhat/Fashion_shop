@@ -7,7 +7,7 @@ import Table from '~/Components/admin/Table/Table';
 import { BannerGet } from '~/Models/Banner';
 import { bannerDeleteAPI, bannerGetAPI } from '~/Services/BannerService';
 
-const baseUrl = 'https://localhost:7000'; // Replace with your server's URL
+const baseUrl = 'https://localhost:7000/'; 
 
 const Banner = () => {
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Banner = () => {
                     className="rounded-circle img-fluid"
                     src={baseUrl + banner.imageUrl}
                     alt=""
-                    style={{ width: '40px', height: '40px' }}
+                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                 />
             ),
         },
@@ -95,11 +95,11 @@ const Banner = () => {
         <div className='container-fluid pt-4 px-4'>
             <h1 className='py-3'>Banner Management</h1>
             <div className="col-12">
-                <div className="bg-light rounded h-100 p-4">
+                <div className="custom-container rounded h-100 p-4">
                     <div className='d-flex py-2'>
                         <h6 className="mb-4">Banner List</h6>
                         <button
-                            className='btn btn-primary ms-auto'
+                            className='admin-btn-primary ms-auto'
                             onClick={() => navigate("/admin/slider/create")}
                         >
                             Create a new slider

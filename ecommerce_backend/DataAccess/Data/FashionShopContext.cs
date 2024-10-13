@@ -36,7 +36,7 @@ public partial class FashionShopContext : DbContext
 
     public virtual DbSet<Receipt> Receipts { get; set; }
 
-    public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
+    public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }    
 
     public virtual DbSet<Slide> Slides { get; set; }
 
@@ -47,6 +47,7 @@ public partial class FashionShopContext : DbContext
     public virtual DbSet<Variant> Variants { get; set; }
 
     public virtual DbSet<Cart> Cart { get; set; }
+    public virtual DbSet<VariantValue> VariantValue { get; set; }
 
 
     /*
@@ -64,7 +65,7 @@ public partial class FashionShopContext : DbContext
             entity.ToTable("attributes");
 
             entity.Property(e => e.AttributeId).HasColumnName("attribute_id");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Name)    
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
@@ -189,7 +190,8 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
             entity.Property(e => e.Address)
                 .HasColumnType("text")
-                .HasColumnName("address");
+                .HasColumnName("address").HasColumnType("nvarchar(255)");
+
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -207,6 +209,11 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(50)
                 .HasColumnName("phone");
+
+            entity.Property(e => e.Role)
+                .IsRequired()            
+                .HasMaxLength(20)       
+                .HasDefaultValue("user");
         });
 
         modelBuilder.Entity<Image>(entity =>
@@ -487,21 +494,146 @@ public partial class FashionShopContext : DbContext
 
         modelBuilder.Entity<Value>(entity =>
         {
-            entity.HasKey(e => e.ValueId).HasName("PK__values__0FECE2821D7362CC");
+            entity.HasKey(e => e.ValueId)
+                .HasName("PK__values__0FECE2821D7362CC");
 
             entity.ToTable("values");
 
-            entity.Property(e => e.ValueId).HasColumnName("value_id");
-            entity.Property(e => e.AttributeId).HasColumnName("attribute_id");
-            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.ValueId)
+                .HasColumnName("value_id");
+
+            entity.Property(e => e.AttributeId)
+                .HasColumnName("attribute_id");
+
+            entity.Property(e => e.Status)
+                .HasColumnName("status");
+
             entity.Property(e => e.Value1)
                 .HasMaxLength(255)
-                .HasColumnName("value");
+                .HasColumnName("value")
+                .IsRequired(); // Có thể thêm điều này nếu Value1 không thể null
 
-            entity.HasOne(d => d.Attribute).WithMany(p => p.Values)
+
+
+            entity.HasOne(d => d.Attribute)
+                .WithMany(p => p.Values)
                 .HasForeignKey(d => d.AttributeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__values__attribut__5070F446");
+
+             entity.HasMany(v => v.VariantValues)
+                 .WithOne(v => v.Value)
+                 .HasForeignKey(v => v.ValueId);
+        });
+
+         modelBuilder.Entity<Variant>(entity =>
+        {
+            entity.HasKey(e => e.VariantId).HasName("PK__variants__EACC68B74AB80E0C");
+
+            entity.ToTable("variants");
+
+            entity.Property(e => e.VariantId).HasColumnName("variant_id");
+            entity.Property(e => e.ImportPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("import_price");
+            entity.Property(e => e.SalePrice)
+               .HasColumnType("decimal(10, 2)")
+               .HasColumnName("sale_price");
+
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.SalePrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("sale_price");
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("status");
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("variant_name");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__variants__produc__4CA06362");
+
+        });
+
+
+        modelBuilder.Entity<VariantValue>(entity =>
+        {
+            // Define composite primary key
+            entity.HasKey(e => new { e.VariantId, e.ValueId })
+                  .HasName("PK__variant_values");
+
+            // Map to the correct table
+            entity.ToTable("variant_values");
+
+            // Define properties
+            entity.Property(e => e.VariantId)
+                  .HasColumnName("variant_id");
+
+            entity.Property(e => e.ValueId)
+                  .HasColumnName("value_id");
+
+            // Configure relationships
+            entity.HasOne(e => e.Variant)
+                  .WithMany(v => v.VariantValues) // Assuming the Variant class has a collection of VariantValue
+                  .HasForeignKey(e => e.VariantId)
+                  .OnDelete(DeleteBehavior.Cascade) // Change as needed
+                  .HasConstraintName("FK__variant_values__variant_id");
+
+            entity.HasOne(e => e.Value)
+                  .WithMany(v => v.VariantValues) // Assuming the Value class has a collection of VariantValue
+                  .HasForeignKey(e => e.ValueId)
+                  .OnDelete(DeleteBehavior.Cascade) // Change as needed
+                  .HasConstraintName("FK__variant_values__value_id");
+        });
+
+
+
+        modelBuilder.Entity<Variant>(entity =>
+        {
+            entity.HasKey(e => e.VariantId).HasName("PK__variants__EACC68B74AB80E0C");
+
+            entity.ToTable("variants");
+
+            entity.Property(e => e.VariantId).HasColumnName("variant_id");
+
+            entity.Property(e => e.ImportPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("import_price");
+
+            entity.Property(e => e.SalePrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("sale_price");
+
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("status");
+
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("variant_name");
+
+            entity.HasOne(d => d.Product)
+                .WithMany(p => p.Variants)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__variants__produc__4CA06362");
+
+            entity.HasMany(d => d.Images)
+                .WithOne(p => p.Variant)
+                .HasForeignKey(p => p.VariantId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__images__variant__5EBF139D");
         });
 
         modelBuilder.Entity<Variant>(entity =>
@@ -536,26 +668,10 @@ public partial class FashionShopContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__variants__produc__4CA06362");
-
-            entity.HasMany(d => d.Values).WithMany(p => p.Variants)
-                .UsingEntity<Dictionary<string, object>>(
-                    "VariantValue",
-                    r => r.HasOne<Value>().WithMany()
-                        .HasForeignKey("ValueId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__variant_v__value__5AEE82B9"),
-                    l => l.HasOne<Variant>().WithMany()
-                        .HasForeignKey("VariantId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__variant_v__varia__59FA5E80"),
-                    j =>
-                    {
-                        j.HasKey("VariantId", "ValueId").HasName("PK__variant___DA32A69F2CDC2B0D");
-                        j.ToTable("variant_values");
-                        j.IndexerProperty<int>("VariantId").HasColumnName("variant_id");
-                        j.IndexerProperty<int>("ValueId").HasColumnName("value_id");
-                    });
         });
+
+
+
 
         OnModelCreatingPartial(modelBuilder);
     }

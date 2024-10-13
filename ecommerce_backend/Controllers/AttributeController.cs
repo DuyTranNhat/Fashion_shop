@@ -24,7 +24,7 @@ namespace ecommerce_backend.Controllers
             return Ok(attributeDtos);
         }
 
-        [HttpGet("getActive")]
+        [HttpGet("getAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
             var attributeModels = _unitOfWork.Attribute.GetAll(x=>x.Status, includeProperties: "Values");
@@ -35,6 +35,7 @@ namespace ecommerce_backend.Controllers
             var attributeDtos = attributeModels.Select(x => x.ToAttributeDto());
             return Ok(attributeDtos);
         }
+
 
         [HttpGet("getByID/{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)

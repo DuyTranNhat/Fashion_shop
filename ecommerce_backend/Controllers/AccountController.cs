@@ -29,7 +29,7 @@ namespace ecommerce_backend.Controllers
 
         // tạo khách hàng
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] CreateCustomerDto customerDto)
+        public async Task<IActionResult> Register(  [FromBody] CreateCustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
@@ -39,7 +39,14 @@ namespace ecommerce_backend.Controllers
             customerModel.Password = hashedPassword;
             _unitOfWork.Customer.Add(customerModel);
             _unitOfWork.Save();
-            return Ok(customerModel);
+            string token = _tokenService.CreateToken(customerModel, customerModel.Role);
+            return Ok(new {
+                customerModel.CustomerId,
+                customerModel.Email,
+                customerModel.Name,
+                customerModel.Role,
+                token
+            });
         }
 
         // Khách hàng đăng nhập
@@ -52,11 +59,13 @@ namespace ecommerce_backend.Controllers
             var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
             if (customerModel == null) return NotFound();
             if (!BCrypt.Net.BCrypt.EnhancedVerify(customerDto.Password, customerModel.Password)) return Unauthorized("Invalid password.");
-            string token = _tokenService.CreateToken(customerModel, customerDto.Role);
+            string token = _tokenService.CreateToken(customerModel, customerModel.Role);
             return Ok(new
             {
-                customerDto.Email,
-                customerDto.Role,
+                customerModel.CustomerId,
+                customerModel.Email,
+                customerModel.Name,
+                customerModel.Role,
                 token
             });
         }

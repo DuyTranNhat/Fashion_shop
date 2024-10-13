@@ -18,6 +18,12 @@
         IOrderDetailRepository OrderDetail { get; }
         ICartRepository Cart { get; }
         IValueRepository Value { get; }
+        public IVariantValueRepository VariantValue { get; set; }
         void Save();
+        void Rollback();
+        void BeginTransaction();
+        public void Commit();
+
+   
     }
 }

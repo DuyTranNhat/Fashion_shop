@@ -1,12 +1,15 @@
 ﻿using ecommerce_backend.DataAccess.Data;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ecommerce_backend.DataAccess.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly FashionShopContext _db;
+        private IDbContextTransaction _transaction;
+
         public IAttributeRepository Attribute { get; set; }
         public ISlideRepository Slide { get; set; }
         public IReceiptRepository Receipt { get; set; }
@@ -22,6 +25,9 @@ namespace ecommerce_backend.DataAccess.Repository
         public IOrderDetailRepository OrderDetail { get; private set; }
         public ICartRepository Cart { get; private set; }
         public IValueRepository Value { get; set; }
+        public IVariantValueRepository VariantValue { get; set; }
+
+
 
         public UnitOfWork(FashionShopContext db)
         {
@@ -41,12 +47,30 @@ namespace ecommerce_backend.DataAccess.Repository
             OrderDetail = new OrderDetailRepository(_db);
             Cart = new CartRepository(_db);
             Value = new ValueRepository(_db);
+            VariantValue = new VariantValueRepository(_db);
         }
 
 
         public void Save()
         {
             _db.SaveChanges();
+        }
+
+        public void BeginTransaction()
+        {
+            _transaction = _db.Database.BeginTransaction(); // Bắt đầu transaction
+        }
+
+        public void Commit()
+        {
+            _transaction?.Commit(); // Commit transaction
+            _transaction?.Dispose(); // Giải phóng tài nguyên
+        }
+
+        public void Rollback()
+        {
+            _transaction?.Rollback(); // Rollback transaction
+            _transaction?.Dispose(); // Giải phóng tài nguyên
         }
     }
 }

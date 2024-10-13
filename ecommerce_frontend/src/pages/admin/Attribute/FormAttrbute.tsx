@@ -85,6 +85,9 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
       </div>
 
       {/* Value Array Inputs */}
+      { 
+        
+      }
       <div className="mb-3">
         <h6 className='mb-4'>Values</h6>
         {fields.map((field, index) => (
@@ -122,7 +125,7 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
           </button>
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="admin-btn-primary ">
             Submit
           </button>
         </div>

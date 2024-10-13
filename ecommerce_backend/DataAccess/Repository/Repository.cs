@@ -53,7 +53,7 @@ namespace ecommerce_backend.DataAccess.Repository
             if (filter != null)
             {
                 query = query.Where(filter);
-            }
+            }   
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties

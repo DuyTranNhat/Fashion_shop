@@ -13,5 +13,7 @@ namespace ecommerce_backend.Dtos.Value
         [MaxLength(255)]
         public string Value1 { get; set; } = null!;
         public bool Status { get; set; }
+        public int AttributeID { get; set; }
+        public string AttributeName { get; set; }   
     }
 }

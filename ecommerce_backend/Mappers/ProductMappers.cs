@@ -29,6 +29,23 @@ namespace ecommerce_backend.Mappers
             };
         }
 
+        public static ProductDto ToGetProductDto(this Product productModel, IEnumerable<Models.Attribute> attributes)
+        {
+            return new ProductDto
+            {
+                ProductId = productModel.ProductId,
+                CategoryId = productModel.CategoryId,
+                SupplierId = productModel.SupplierId,
+                Name = productModel.Name,
+                Description = productModel.Description,
+                CategoryDto = productModel.Category?.ToCategoryDto(),
+                SupplierDto = productModel.Supplier?.ToSupplierDto(),
+                Attributes = productModel.Attributes.Select(a => a.ToAttributeDto()).ToList(),
+                Variants =  productModel.Variants.Select(variant => variant.ToGetVariantDto(attributes)).ToList()
+
+            };
+        }
+
         public static ProductDto ToGetProductDto(this Product productModel)
         {
             return new ProductDto
@@ -40,7 +57,9 @@ namespace ecommerce_backend.Mappers
                 Description = productModel.Description,
                 CategoryDto = productModel.Category?.ToCategoryDto(),
                 SupplierDto = productModel.Supplier?.ToSupplierDto(),
-                Attributes = productModel.Attributes.Select(a => a.ToAttributeDto()).ToList()
+                Attributes = productModel.Attributes.Select(a => a.ToAttributeDto()).ToList(),
+                Variants = productModel.Variants.Select(variant => variant.ToGetVariantDto()).ToList()
+
             };
         }
 

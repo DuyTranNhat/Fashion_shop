@@ -1,6 +1,7 @@
 ﻿using ecommerce_backend.Dtos.Attribute;
 using ecommerce_backend.Dtos.Category;
 using ecommerce_backend.Dtos.Supplier;
+using ecommerce_backend.Dtos.Variant;
 using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Dtos.Product
@@ -22,5 +23,6 @@ namespace ecommerce_backend.Dtos.Product
         public virtual SupplierDto? SupplierDto { get; set; }
 
         public virtual ICollection<AttributeDto> Attributes { get; set; } = new List<AttributeDto>();
+        public virtual ICollection<GetVariantDto> Variants { get; set; } = new List<GetVariantDto>();
     }
 }

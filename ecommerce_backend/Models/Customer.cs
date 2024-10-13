@@ -12,6 +12,7 @@ public partial class Customer
     public string Email { get; set; } = null!;
 
     public string? Phone { get; set; }
+    public string Role { get; set; }
 
     public string? Address { get; set; }
 

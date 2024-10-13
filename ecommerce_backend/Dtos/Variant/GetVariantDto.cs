@@ -24,6 +24,6 @@ namespace ecommerce_backend.Dtos.Variant
 
         public virtual List<ImageDto> Images { get; set; }
 
-        public virtual List<VariantValueDto> Values { get; set; } = new List<VariantValueDto>();
+        public virtual List<ValueDto> Values { get; set; } = new List<ValueDto>();
     }
 }
