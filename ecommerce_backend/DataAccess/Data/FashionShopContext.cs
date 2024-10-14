@@ -552,6 +552,7 @@ public partial class FashionShopContext : DbContext
             entity.Property(e => e.VariantName)
                 .HasMaxLength(255)
                 .IsUnicode(false)
+                .HasColumnType("nvarchar(255)")
                 .HasColumnName("variant_name");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Variants)

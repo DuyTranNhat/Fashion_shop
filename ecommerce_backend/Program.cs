@@ -11,6 +11,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using ecommerce_backend.Service;
 using Microsoft.AspNetCore.Diagnostics;
+using ecommerce_backend.Service.IService;
+using System.Net;
+using ecommerce_backend.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +54,14 @@ builder.Services.AddDbContext<FashionShopContext>(options =>
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ImageService>();
+
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddTransient<IVariantService, VariantService>();
 
 // Thêm các dịch vụ như Authentication và JWT Bearer
 builder.Services.AddAuthentication(options =>
@@ -79,7 +89,6 @@ builder.Services.AddAuthorization(options => {
     options.AddPolicy("Customer", policy => policy.RequireClaim("role", "customer"));
 });
 
-builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
@@ -106,7 +115,20 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseExceptionHandler("/error");
+app.UseExceptionHandler(config =>
+{
+    config.Run(async context =>
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+        var exception = context.Features.Get<IExceptionHandlerFeature>();
+
+        if (exception?.Error is NotFoundException)
+        {
+            await context.Response.WriteAsync(exception.Error.Message);
+        }
+        });
+});
+
 
 app.MapControllers();
 

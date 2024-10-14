@@ -38,7 +38,6 @@ namespace ecommerce_backend.DataAccess.Repository
 
         public void Update(Category obj)
         {
-
             dbSet.Update(obj);
         }
 

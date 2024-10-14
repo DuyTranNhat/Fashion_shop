@@ -2,32 +2,32 @@
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Models;
 using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Threading.Tasks;
 
 namespace ecommerce_backend.DataAccess.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly FashionShopContext _db;
         private IDbContextTransaction _transaction;
 
-        public IAttributeRepository Attribute { get; set; }
-        public ISlideRepository Slide { get; set; }
-        public IReceiptRepository Receipt { get; set; }
-        public ICategoryRepository Category { get; private set; }
-        public ISupplierRepository Supplier { get; private set; }
-        public IProductRepository Product { get; private set; }
-        public IVariantRepository Variant { get; private set; }
-        public IImageRepository Image { get; private set; }
-        public ICustomerRepository Customer { get; private set; }
-        public IMarketingCampaignRepository MarketingCampaign { get; private set; }
-        public IOrderRepository Order { get; private set; }
-        public IProductReviewRepository ProductReview { get; private set; }
-        public IOrderDetailRepository OrderDetail { get; private set; }
-        public ICartRepository Cart { get; private set; }
-        public IValueRepository Value { get; set; }
-        public IVariantValueRepository VariantValue { get; set; }
-
-
+        public IAttributeRepository Attribute { get; }
+        public ISlideRepository Slide { get; }
+        public IReceiptRepository Receipt { get; }
+        public ICategoryRepository Category { get; }
+        public ISupplierRepository Supplier { get; }
+        public IProductRepository Product { get; }
+        public IVariantRepository Variant { get; }
+        public IImageRepository Image { get; }
+        public ICustomerRepository Customer { get; }
+        public IMarketingCampaignRepository MarketingCampaign { get; }
+        public IOrderRepository Order { get; }
+        public IProductReviewRepository ProductReview { get; }
+        public IOrderDetailRepository OrderDetail { get; }
+        public ICartRepository Cart { get; }
+        public IValueRepository Value { get; }
+        public IVariantValueRepository VariantValue { get; }
 
         public UnitOfWork(FashionShopContext db)
         {
@@ -50,27 +50,62 @@ namespace ecommerce_backend.DataAccess.Repository
             VariantValue = new VariantValueRepository(_db);
         }
 
-
         public void Save()
         {
             _db.SaveChanges();
         }
 
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
+        }
+
         public void BeginTransaction()
         {
-            _transaction = _db.Database.BeginTransaction(); // Bắt đầu transaction
+            _transaction = _db.Database.BeginTransaction();
         }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            _transaction = await _db.Database.BeginTransactionAsync();
+            return _transaction;
+        }
+
 
         public void Commit()
         {
-            _transaction?.Commit(); // Commit transaction
-            _transaction?.Dispose(); // Giải phóng tài nguyên
+            _transaction?.Commit();
+            _transaction?.Dispose();
+        }
+
+        public async Task CommitAsync()
+        {
+            if (_transaction != null)
+            {
+                await _transaction.CommitAsync();
+                await _transaction.DisposeAsync();
+            }
         }
 
         public void Rollback()
         {
-            _transaction?.Rollback(); // Rollback transaction
-            _transaction?.Dispose(); // Giải phóng tài nguyên
+            _transaction?.Rollback();
+            _transaction?.Dispose();
+        }
+
+        public async Task RollbackAsync()
+        {
+            if (_transaction != null)
+            {
+                await _transaction.RollbackAsync();
+                await _transaction.DisposeAsync();
+            }
+        }
+
+        public void Dispose()
+        {
+            _transaction?.Dispose();
+            _db.Dispose();
         }
     }
 }

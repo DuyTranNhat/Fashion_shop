@@ -98,7 +98,7 @@ const VariantDetails = () => {
                 addCartAPI(cartPost)
                     .then(res => {
                         if (res?.status === 201)
-                            toast.success("toast.success(`${quantity} item(s) added to the cart!`)")
+                            toast.success(`Add ${quantity} items!`)
                     }).catch(error => toast.success(error))
             } else { navigate("/access/login") }
         } else {

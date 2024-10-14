@@ -5,6 +5,6 @@ namespace ecommerce_backend.Service.IService
 {
     public interface ICartService
     {
-        public Task<CartDto> GetByCustomerIdAsync(int customerId);
+        Task<CartDto> GetByCustomerIdAsync(int customerId);
     }
 }

@@ -157,19 +157,5 @@ namespace ecommerce_backend.Controllers
                 return StatusCode(500, new { message = "An error occurred", details = ex.Message });
             }
         }
-
-
-        // Xóa toàn bộ giỏ hàng
-        [HttpDelete("clearCart/{customerId:int}")]
-        public async Task<IActionResult> DeleteAll([FromRoute] int id)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerModel = _unitOfWork.Customer.Get(c => c.CustomerId == id);
-            if (customerModel == null) return NotFound("Customer not found");
-            var cartItems = _unitOfWork.Cart.GetAll(c => c.CustomerId == id);
-            _unitOfWork.Cart.RemoveRange(cartItems);
-            _unitOfWork.Save();
-            return Ok(new { message = "Cart cleared successfully." });
-        }
     }
 }

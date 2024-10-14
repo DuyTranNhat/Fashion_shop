@@ -8,10 +8,10 @@ namespace ecommerce_backend.Service.IService
 {
     public interface IOrderService
     {
-        public Task<IEnumerable<OrderDto>> GetAllOrderAsync();
+        public Task<IEnumerable<OrderDto>> GetAllOrderAsync(int customerId);
         public Task<OrderDto> GetByIdWithOrderDetailAsync(int orderId);
-        public Task<CheckOutDto> CheckOut(int customerId);
-        //public Task<OrderDto> CreateOrderAsync(CreateOrderDto orderDto);
+        public Task<CheckOutDto> GerDetailsByID(int customerId);
+        public Task<OrderDto> createOrderAsync(int idCustomer, CreateOrderDto orderDto);
         //public Task<OrderDto> PayOrder([FromRoute] int id, [FromBody] UpdateOrderDto orderDto);
 
     }

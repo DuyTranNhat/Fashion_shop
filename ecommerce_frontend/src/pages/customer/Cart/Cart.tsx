@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import CartList from '~/Components/customer/Cart/CartList'
 import { CartGet } from '~/Models/Cart'
@@ -6,6 +7,7 @@ import { CartGetAPI, decreaseQuantityAPI, increaseQuantityAPI, removeCartAPI } f
 
 const Cart = () => {
     const [cartList, setCartList] = useState<CartGet[]>([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         CartGetAPI()
@@ -18,7 +20,7 @@ const Cart = () => {
 
     const handleDecrease = (idCart: number) => {
         decreaseQuantityAPI(idCart)
-            .then((res : any) => {
+            .then((res: any) => {
                 if (res?.status === 201) {
                     const data: CartGet = res?.data;
                     setCartList(prev => {
@@ -52,13 +54,13 @@ const Cart = () => {
 
     const handleRemoveCart = (idCart: number) => {
         removeCartAPI(idCart)
-        .then(res => {
-            if(res?.status === 200) {
-                toast.success(res?.data.message)
-                const newCartList = cartList.filter(item => item.cartId !== idCart)
-                setCartList(newCartList)
-            }
-        }).catch(error => toast.error(error))
+            .then(res => {
+                if (res?.status === 200) {
+                    toast.success(res?.data.message)
+                    const newCartList = cartList.filter(item => item.cartId !== idCart)
+                    setCartList(newCartList)
+                }
+            }).catch(error => toast.error(error))
     }
 
     return (
@@ -119,10 +121,15 @@ const Cart = () => {
                                     }, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </h5>
                             </div>
-                            <button className="btn btn-block btn-primary font-weight-bold my-3 py-3">Checkout (COD)</button>
+                            <button
+                                onClick={() => navigate("/checkout")}
+                                className="btn btn-block btn-primary font-weight-bold my-3 py-3
+                                ">
+                                Checkout (COD)
+                            </button>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>

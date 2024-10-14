@@ -68,8 +68,17 @@ namespace ecommerce_backend.DataAccess.Repository
             });
         }
 
+        public Task DecreaseQuantity(int variantID, int quantityDecreased)
+        {
+            throw new NotImplementedException();
+        }
 
+        public async Task UpdateQuantity(int variantID, int quantityDecreased)
+        {
+            Variant variant = _db.Variants.FirstOrDefault(v => v.VariantId == variantID);
+            variant.Quantity -= quantityDecreased;
 
-
+            await _db.SaveChangesAsync();
+        }
     }
 }

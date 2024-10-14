@@ -40,14 +40,10 @@ namespace ecommerce_backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            try
-            {
+            
                 var customer =  await _customerService.GetByIdAsync(id);
                 return Ok(customer);
-            } catch (Exception ex) {
-                return BadRequest(ex.Message);
-            }
+         
         }
 
         [HttpPut("updateProfile/{id:int}")]

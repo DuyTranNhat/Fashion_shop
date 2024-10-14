@@ -9,12 +9,12 @@ namespace ecommerce_backend.Mappers
 {
     public static class OrderMapper
     {
-        public static OrderDto ToOrderDto(this Order order)
+        public static OrderDto ToOrderDto(this Order order, string customerName)
         {
             return new OrderDto
             {
                 OrderId = order.OrderId,
-                CustomerId = order.CustomerId,
+                CustomerName = customerName,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
@@ -26,12 +26,12 @@ namespace ecommerce_backend.Mappers
             };
         }
 
-        public static OrderDto ToOrderDtoWithOrderDetails(this Order order)
+        public static OrderDto ToOrderDtoWithOrderDetails(this Order order, string customerName)
         {
             return new OrderDto
             {
                 OrderId = order.OrderId,
-                CustomerId = order.CustomerId,
+                CustomerName = customerName,    
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
@@ -44,18 +44,33 @@ namespace ecommerce_backend.Mappers
             };
         }
 
-        public static Order ToOrderFromCreate(this CreateOrderDto orderDto)
+        public static Order ToOrderFromCreate(this CreateOrderDto orderDto, int customerID)
         {
             return new Order
             {
-                CustomerId = orderDto.CustomerId,
-                OrderDate = orderDto.OrderDate,
-                TotalAmount = orderDto.TotalAmount,
-                Status = orderDto.Status,
+                CustomerId = customerID,
+                OrderDate = DateTime.Now,
+                Status = "pending",
                 Address = orderDto.Address,
                 Phone = orderDto.Phone,
                 PaymentMethod = orderDto.PaymentMethod,
                 ShippingService = orderDto.ShippingService,
+                Notes = orderDto.Notes
+            };
+        }
+
+        public static Order ToOrderFromCreate(this CreateOrderDto orderDto, decimal totalAmount, int customerID)
+        {
+            return new Order
+            {
+                CustomerId = customerID,
+                OrderDate = DateTime.Now,
+                TotalAmount = totalAmount,
+                Status = "Pending",
+                Address = orderDto.Address,
+                Phone = orderDto.Phone,
+                PaymentMethod = orderDto.PaymentMethod ?? "COD",
+                ShippingService = orderDto.ShippingService ?? "GRAB",
                 Notes = orderDto.Notes
             };
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ecommerce_backend.DataAccess.Repository;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Order;
+using ecommerce_backend.Exceptions;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
 using ecommerce_backend.Service.IService;
@@ -28,10 +29,10 @@ namespace ecommerce_backend.Controllers
         // Lấy tất cả hóa đơn
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int customerId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var orders = await _orderService.GetAllOrderAsync();
+            var orders = await _orderService.GetAllOrderAsync(customerId);
             return Ok(orders);
         }
 
@@ -53,13 +54,13 @@ namespace ecommerce_backend.Controllers
         }
 
         // checkout
-        [HttpGet("checkout/{customerId:int}")]
+        [HttpGet("historyOrderByID/{customerId:int}")]
         [Authorize(Roles = "customer")]
-        public async Task<IActionResult> CheckOut([FromRoute] int customerId)
+        public async Task<IActionResult> getHistoryOrderByID([FromRoute] int customerId)
         {
             try
             {
-                var checkoutDto = _orderService.CheckOut(customerId);
+                var checkoutDto = _orderService.GetByIdWithOrderDetailAsync(customerId);
                 return Ok(checkoutDto);
             }
             catch (BadHttpRequestException ex) {
@@ -69,20 +70,26 @@ namespace ecommerce_backend.Controllers
         }
 
 
-        //// Tạo một hóa đơn
-        //[HttpPost]
-        //[Authorize(Roles = "customer")]
-        //public async Task<IActionResult> Create([FromBody] CreateOrderDto orderDto)
-        //{
-        //    if(!ModelState.IsValid) return BadRequest(ModelState);
-        //    try
-        //    {
-        //        var order = _orderService.CreateOrderAsync(orderDto);
-        //        return CreatedAtAction(nameof(GetAll), new { id = order.OrderId }, orderModel);
-        //    } catch (BadHttpRequestException ex) {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        [Authorize]
+        [HttpPost("Checkout/customerID/{idCustomer:int}")]
+        public async Task<IActionResult> Checkout([FromRoute] int idCustomer,[FromForm] CreateOrderDto createOrderDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var orders = await _orderService.createOrderAsync(idCustomer, createOrderDto);
+                return Ok(orders);
+            }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
 
         // Cập nhật trạng thái đơn hàng
         [HttpPut("{id:int}")]

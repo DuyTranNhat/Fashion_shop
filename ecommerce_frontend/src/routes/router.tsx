@@ -28,6 +28,7 @@ import ProtectedRouteAdmin from './ProtectedRouteAdmin';
 import VariantDetails from '~/pages/customer/VariantDetails/VariantDetails';
 import Cart from '~/pages/customer/Cart/Cart';
 import Profile from '~/pages/customer/Profile/Profile';
+import Checkout from '~/pages/customer/Checkout/Checkout';
 
 const router = createBrowserRouter([
     {
@@ -169,6 +170,10 @@ const router = createBrowserRouter([
                 element: <ProtectedRouteAdmin>
                     <Profile />
                 </ProtectedRouteAdmin>
+            },
+            {
+                path: "checkout",
+                element: <Checkout />,
             },
         ],
     },

@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 const baseUrl = 'https://localhost:7000/';
 
 const Profile = () => {
-    const [customer, setCustomer] = useState<Customer>();
     const { user } = useAuth();
+    const [customer, setCustomer] = useState<Customer>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [image, setImage] = useState<File | null>(null);
     const [formData, setFormData] = useState({  

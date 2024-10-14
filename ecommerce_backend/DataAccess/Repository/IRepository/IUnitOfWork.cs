@@ -1,6 +1,8 @@
-﻿namespace ecommerce_backend.DataAccess.Repository.IRepository
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace ecommerce_backend.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         ICategoryRepository Category { get; }
         ISupplierRepository Supplier { get; }
@@ -10,7 +12,6 @@
         IAttributeRepository Attribute { get; }
         ISlideRepository Slide { get; }
         IReceiptRepository Receipt { get; }
-        //IProductRepository Category { get; }
         ICustomerRepository Customer { get; }
         IMarketingCampaignRepository MarketingCampaign { get; }
         IOrderRepository Order { get; }
@@ -18,12 +19,18 @@
         IOrderDetailRepository OrderDetail { get; }
         ICartRepository Cart { get; }
         IValueRepository Value { get; }
-        public IVariantValueRepository VariantValue { get; set; }
-        void Save();
-        void Rollback();
-        void BeginTransaction();
-        public void Commit();
+        IVariantValueRepository VariantValue { get; }  // Không cần `public`
 
-   
+        // Sync transaction methods
+        void Save();
+        void BeginTransaction();
+        void Commit();
+        void Rollback();
+
+        // Async transaction methods
+        Task SaveAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
+        Task CommitAsync();
+        Task RollbackAsync();
     }
 }
