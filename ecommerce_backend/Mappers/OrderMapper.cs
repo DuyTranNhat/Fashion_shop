@@ -26,24 +26,6 @@ namespace ecommerce_backend.Mappers
             };
         }
 
-        public static OrderDto ToOrderDtoWithOrderDetails(this Order order, string customerName)
-        {
-            return new OrderDto
-            {
-                OrderId = order.OrderId,
-                CustomerName = customerName,    
-                OrderDate = order.OrderDate,
-                TotalAmount = order.TotalAmount,
-                Status = order.Status,
-                Address = order.Address,
-                Phone = order.Phone,
-                PaymentMethod = order.PaymentMethod,
-                ShippingService = order.ShippingService,
-                Notes = order.Notes,
-                OrderDetails = order.OrderDetails.Select(o => o.ToOrderDetailDto()).ToList()
-            };
-        }
-
         public static Order ToOrderFromCreate(this CreateOrderDto orderDto, int customerID)
         {
             return new Order
@@ -58,6 +40,43 @@ namespace ecommerce_backend.Mappers
                 Notes = orderDto.Notes
             };
         }
+
+        public static OrderDto ToOrderDetailsDto(this Order order, IEnumerable<OrderDetail> orderDetails, IEnumerable<Models.Attribute> attributes)
+        {
+            return new OrderDto
+            {
+                OrderId = order.OrderId,
+                CustomerName = order.Customer.Name,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
+                Address = order.Address,
+                Phone = order.Phone,
+                PaymentMethod = order.PaymentMethod,
+                ShippingService = order.ShippingService,
+                Notes = order.Notes,
+                OrderDetails = orderDetails.Select(od => od.ToOrderDetailDto(attributes)).ToList()
+            };
+        }
+
+        public static OrderDto ToOrderDetailsWithoutImagesDto(this Order order, IEnumerable<OrderDetail> orderDetails, IEnumerable<Models.Attribute> attributes)
+        {
+            return new OrderDto
+            {
+                OrderId = order.OrderId,
+                CustomerName = order.Customer.Name,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
+                Status = order.Status,
+                Address = order.Address,
+                Phone = order.Phone,
+                PaymentMethod = order.PaymentMethod,
+                ShippingService = order.ShippingService,
+                Notes = order.Notes,
+                OrderDetails = orderDetails.Select(od => od.ToOrderDetailDto(attributes)).ToList()
+            };
+        }
+
+        
 
         public static Order ToOrderFromCreate(this CreateOrderDto orderDto, decimal totalAmount, int customerID)
         {

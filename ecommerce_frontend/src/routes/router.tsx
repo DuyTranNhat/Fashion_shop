@@ -29,6 +29,7 @@ import VariantDetails from '~/pages/customer/VariantDetails/VariantDetails';
 import Cart from '~/pages/customer/Cart/Cart';
 import Profile from '~/pages/customer/Profile/Profile';
 import Checkout from '~/pages/customer/Checkout/Checkout';
+import CompletedCheckout from '~/pages/customer/Checkout/CompletedCheckout';
 
 const router = createBrowserRouter([
     {
@@ -174,6 +175,10 @@ const router = createBrowserRouter([
             {
                 path: "checkout",
                 element: <Checkout />,
+            },
+            {
+                path: "completedCheckout/:idOrder",
+                element: <CompletedCheckout />,
             },
         ],
     },

@@ -39,11 +39,15 @@ namespace ecommerce_backend.Service
 
         public async Task<OrderDto> GetByIdWithOrderDetailAsync(int orderId)
         {
+            var order = _unitOfWork.Order.Get(o => o.OrderId == orderId, 
+                includeProperties: "OrderDetails.Variant.VariantValues.Value,Customer") 
+                ?? throw new BadHttpRequestException("Not found an order id");
 
-            var order = _unitOfWork.Order.Get(o => o.OrderId == orderId, includeProperties: "OrderDetails");
-            var customer = _unitOfWork.Customer.Get(c => c.CustomerId == orderId);
-            if (order == null) throw new BadHttpRequestException("Not found an order id");
-            return order.ToOrderDto(customer.Name);
+            var attributes = _unitOfWork.Attribute.GetAll(includeProperties: "Values");
+
+            var orderDTO = order.ToOrderDetailsWithoutImagesDto(order.OrderDetails, attributes);
+            return orderDTO;
+
         }
 
         public async Task<CheckOutDto> GerDetailsByID(int customerId)

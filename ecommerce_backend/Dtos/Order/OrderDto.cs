@@ -28,6 +28,6 @@ namespace ecommerce_backend.Dtos.Order
         public string? ShippingService { get; set; }
 
         public string? Notes { get; set; }
-        public virtual ICollection<OrderDetailDto> OrderDetails { get; set; } = new List<OrderDetailDto>();
+        public  List<OrderDetailDto> OrderDetails { get; set; }
     }
 }

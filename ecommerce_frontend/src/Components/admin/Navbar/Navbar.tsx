@@ -17,11 +17,11 @@ const Navbar = () => {
                 </form>
                 <div className="navbar-nav align-items-center ms-auto">
                     <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i className="fa fa-envelope me-lg-2"></i>
                             <span className="d-none d-lg-inline-flex">Message</span>
                         </a>
-                        <div className="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <div className="shadow dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" className="dropdown-item">
                                 <div className="d-flex align-items-center">
                                     <img className="rounded-circle" src="img/user.jpg" alt="" style={{width: "40px", height: "40px"}}/>
@@ -56,11 +56,11 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i className="fa fa-bell me-lg-2"></i>
                             <span className="d-none d-lg-inline-flex">Notificatin</span>
                         </a>
-                        <div className="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <div className="shadow dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" className="dropdown-item">
                                 <h6 className="fw-normal mb-0">Profile updated</h6>
                                 <small>15 minutes ago</small>
@@ -80,7 +80,7 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
                             <img className="rounded-circle me-lg-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSADESsnqLTB7q95kJhJXXqRra6IqT3zbBhRA&s" alt="" style={{width: "40px", height: "40px"}}/>
                             <span className="d-none d-lg-inline-flex">{user?.email   }</span>
                         </a>

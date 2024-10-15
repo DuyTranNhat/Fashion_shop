@@ -9,13 +9,13 @@ namespace ecommerce_backend.Mappers
 {
     public static class OrderDetailMapper 
     {
-        public static OrderDetailDto ToOrderDetailDto(this OrderDetail orderDetailModel)
+        public static OrderDetailDto ToOrderDetailDto(this OrderDetail orderDetailModel, IEnumerable<Models.Attribute> attributes)
         {
             return new OrderDetailDto
             {
                 OrderDetailId = orderDetailModel.OrderDetailId,
                 OrderId = orderDetailModel.OrderId,
-                VariantId = orderDetailModel.VariantId,
+                Variant = orderDetailModel.Variant.ToVariantDtoWithoutImages(attributes),
                 Quantity = orderDetailModel.Quantity,
                 Price = orderDetailModel.Price,
             };

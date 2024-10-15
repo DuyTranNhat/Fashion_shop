@@ -13,7 +13,7 @@ namespace ecommerce_backend.Dtos.Variant
 
         public int ProductId { get; set; }
 
-        public string VariantName { get; set; } = null!;
+        public string VariantName { get; set; }
 
         public decimal importPrice { get; set; }
         public decimal salePrice { get; set; }

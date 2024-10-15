@@ -33,16 +33,6 @@ namespace ecommerce_backend.Controllers
         }
 
         // Lấy chi tiết hóa đơn theo id
-        [HttpGet("{id:int}")]
-        [Authorize]
-        public async Task<IActionResult> GetById([FromRoute] int id)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var orderdetailModel = _unitOfWork.OrderDetail.Get(o => o.OrderDetailId == id);
-            if(orderdetailModel == null) return NotFound();
-            return Ok(orderdetailModel.ToOrderDetailDto());
-        }
-
         // tạo chi tiết hóa đơn
         [HttpPost]
         [Authorize(Roles = "customer")]

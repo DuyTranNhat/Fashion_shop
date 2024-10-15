@@ -38,7 +38,7 @@ namespace ecommerce_backend.Controllers
 
 
         // Lấy hóa đơn theo id kèm theo chi tiết hóa đơn
-        [HttpGet("orderdetails/{id:int}")]
+        [HttpGet("getByID/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetByIdWithOrderDetail([FromRoute] int id)
         {
@@ -53,22 +53,6 @@ namespace ecommerce_backend.Controllers
             }
         }
 
-        // checkout
-        [HttpGet("historyOrderByID/{customerId:int}")]
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> getHistoryOrderByID([FromRoute] int customerId)
-        {
-            try
-            {
-                var checkoutDto = _orderService.GetByIdWithOrderDetailAsync(customerId);
-                return Ok(checkoutDto);
-            }
-            catch (BadHttpRequestException ex) {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
 
         [Authorize]
         [HttpPost("Checkout/customerID/{idCustomer:int}")]
@@ -78,7 +62,7 @@ namespace ecommerce_backend.Controllers
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var orders = await _orderService.createOrderAsync(idCustomer, createOrderDto);
-                return Ok(orders);
+                return Ok(orders.OrderId);
             }
             catch (BadHttpRequestException ex)
             {
