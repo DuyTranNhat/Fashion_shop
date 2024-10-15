@@ -60,7 +60,8 @@ builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ISlideService, SlideService>();
 builder.Services.AddTransient<IVariantService, VariantService>();
 
 // Thêm các dịch vụ như Authentication và JWT Bearer

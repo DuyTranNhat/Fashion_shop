@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Customer;
 using ecommerce_backend.Dtos.Slide;
+using ecommerce_backend.Exceptions;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Service;
 using ecommerce_backend.Service.IService;
@@ -14,14 +15,12 @@ namespace ecommerce_backend.Controllers
     [Route("api/[controller]")]
     public class CustomerController : Controller
     {
-        private readonly ImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerService _customerService;
 
-        public CustomerController(IUnitOfWork unitOfWork, ImageService imageService, ICustomerService customerService)
+        public CustomerController(IUnitOfWork unitOfWork, ICustomerService customerService)
         {
             _unitOfWork = unitOfWork;
-            _imageService = imageService;
             _customerService = customerService;
         }
 
@@ -31,7 +30,7 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> GetAll()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customers = _unitOfWork.Customer.GetAll().ToList();
+            var customers = await _customerService.GetAllAsync();
             return Ok(customers);
         }
 
@@ -40,34 +39,28 @@ namespace ecommerce_backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            
+            try
+            {
                 var customer =  await _customerService.GetByIdAsync(id);
                 return Ok(customer);
-         
+            } catch (BadHttpRequestException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
         [HttpPut("updateProfile/{id:int}")]
         public async Task<IActionResult> updateProfile([FromRoute] int id,[FromForm] UpdateCustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerExisting = _unitOfWork.Customer.Get(customer => customer.CustomerId == id);
-
-            if (customerExisting == null) return NotFound("Customer not found");
-
-
-            string imageUrl = customerExisting.ImageUrl;
-
-            if (customerDto.Image != null)
+            try
             {
-                _imageService.setDirect("images/customerAvar");
-                imageUrl = await _imageService.HandleImageUpload(customerDto.Image); 
-                _imageService.DeleteOldImage(customerExisting.ImageUrl);
+                var customerExisting = await _customerService.updateProfileAsync(id, customerDto);
+                return Ok(customerExisting);
+            } catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
-
-
-            await _unitOfWork.Customer.UpdateAsync(id, customerDto, imageUrl);
-
-            return Ok(customerExisting);
         }
 
 
@@ -110,9 +103,15 @@ namespace ecommerce_backend.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] string keyword)
         {
-            var customers = await _unitOfWork.Customer.SearchAsync(keyword);
-            if (customers == null || !customers.Any()) return NotFound("Customer not found");
-            return Ok(customers);
+            try
+            {
+                var customers = await _customerService.SearchAsync(keyword);
+                return Ok(customers);
+            } catch (NoContentException ex)
+            {
+                return NoContent();
+            }
+            
         }
     }
 }

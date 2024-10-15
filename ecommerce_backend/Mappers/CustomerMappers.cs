@@ -76,6 +76,7 @@ namespace ecommerce_backend.Mappers
                 Address = customerDto.Address,
                 ImageUrl = customerDto.ImageUrl,
                 Password = customerDto.Password,
+                Role = "customer"
             };
         }
     }
