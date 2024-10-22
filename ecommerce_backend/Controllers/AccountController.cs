@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Customer;
+using ecommerce_backend.Exceptions;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Service;
+using ecommerce_backend.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,35 +20,27 @@ namespace ecommerce_backend.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ITokenService _tokenService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IUnitOfWork unitOfWork, ITokenService tokenService)
+        public AccountController(IAccountService accountService)
         {
-            _unitOfWork = unitOfWork;
-            _tokenService = tokenService;
+            _accountService = accountService;
         }
 
         // tạo khách hàng
         [HttpPost("register")]
-        public async Task<IActionResult> Register(  [FromBody] CreateCustomerDto customerDto)
+        public async Task<IActionResult> Register([FromBody] CreateCustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
-            if(customerModel != null) return BadRequest("User already exists");
-            customerModel = customerDto.ToCustomerFromCreateDto();
-            string hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(customerModel.Password, 13);
-            customerModel.Password = hashedPassword;
-            _unitOfWork.Customer.Add(customerModel);
-            _unitOfWork.Save();
-            string token = _tokenService.CreateToken(customerModel, customerModel.Role);
-            return Ok(new {
-                customerModel.CustomerId,
-                customerModel.Email,
-                customerModel.Name,
-                customerModel.Role,
-                token
-            });
+            try
+            {
+                var customerModel = await _accountService.Register(customerDto);
+                return Ok(customerModel);
+            } catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
         }
 
         // Khách hàng đăng nhập
@@ -54,20 +48,18 @@ namespace ecommerce_backend.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginCustomerDto customerDto)
         {
-            if (customerDto == null) return BadRequest("Invalid login data.");
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var customerModel = _unitOfWork.Customer.Get(customer => customer.Email == customerDto.Email);
-            if (customerModel == null) return NotFound();
-            if (!BCrypt.Net.BCrypt.EnhancedVerify(customerDto.Password, customerModel.Password)) return Unauthorized("Invalid password.");
-            string token = _tokenService.CreateToken(customerModel, customerModel.Role);
-            return Ok(new
+            try
             {
-                customerModel.CustomerId,
-                customerModel.Email,
-                customerModel.Name,
-                customerModel.Role,
-                token
-            });
+                var customerModel = await _accountService.Login(customerDto);
+                return Ok(customerModel);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            } catch (BadHttpRequestException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
         }
     }
 }

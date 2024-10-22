@@ -1,10 +1,6 @@
-﻿using ecommerce_backend.DataAccess.Repository.IRepository;
-using ecommerce_backend.Dtos.Product;
-using ecommerce_backend.Dtos.Slide;
-using ecommerce_backend.Mappers;
-using ecommerce_backend.Models;
-using ecommerce_backend.Service;
-using Microsoft.AspNetCore.Hosting;
+﻿using ecommerce_backend.Dtos.Slide;
+using ecommerce_backend.Exceptions;
+using ecommerce_backend.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce_backend.Controllers
@@ -13,34 +9,41 @@ namespace ecommerce_backend.Controllers
     [Route("api/[controller]")]
     public class SlideController : Controller
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;   
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ImageService _imageService;
+        private readonly ISlideService _slideService;   
 
-        public SlideController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService)
+        public SlideController(ISlideService slideService)
         {
-            _unitOfWork = unitOfWork;
-            _webHostEnvironment = webHostEnvironment;
-            _imageService = imageService;
+            _slideService = slideService;
         }
 
       
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] string keyword)
         {
-            keyword = keyword.Trim();
-            if (string.IsNullOrWhiteSpace(keyword)) return BadRequest();
-            var slideModels = _unitOfWork.Slide.handleSearch(keyword);
-            if (slideModels == null) return NoContent();
-            var slideDtos = slideModels.Select(item => item.ToSlideDto());
-            return Ok(slideDtos);
+            try
+            {
+                var slideDtos = await _slideService.SearchAsync(keyword);
+                return Ok(slideDtos);
+            }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            } catch (NoContentException)
+            {
+                return NoContent();
+            }
         }
         [HttpGet("filter")]
         public async Task<IActionResult> Filter([FromQuery] string status)
         {
-            var slideModels = _unitOfWork.Slide.GetAll(x => x.Status == Boolean.Parse(status));
-            var slideDtos = slideModels.Select(item => item.ToSlideDto());
-            return Ok(slideDtos);
+            try
+            {
+                var slides = await _slideService.FilterAsync(status);
+                return Ok(slides);
+            } catch (NoContentException)
+            {
+                return NoContent();
+            }
         }
 
         [HttpPut]
@@ -48,35 +51,25 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> UpdateStatus([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var slide = _unitOfWork.Slide.UpdateStatus(id);
-            if (slide == null) return NotFound();
-            _unitOfWork.Save();
-            return Ok(slide.ToSlideDto());
+            try
+            {
+                var slide = await _slideService.UpdateStatusAsync(id);
+                return Ok(slide);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] SlideRequestDto slideDto)
         {
-            // Validate the incoming model state
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // Handling the image file
-            string imageUrl = null;
-            if (slideDto.ImageFile != null)
-            {
-                _imageService.setDirect("images/slides");
-                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile); 
-            }
-
-            // Create a new slide entity and save
-            var newSlide = slideDto.ToSlideFromCreate(imageUrl);
-            _unitOfWork.Slide.Add(newSlide);
-            _unitOfWork.Save();
-
+            var newSlide = await _slideService.CreateAsync(slideDto);
             return CreatedAtAction(nameof(GetById), new { id = newSlide.SlideId }, new { message = "Slide created successfully" });
         }
 
@@ -84,87 +77,64 @@ namespace ecommerce_backend.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] UpdateSlideDto slideDto)
         {
-            // Validate the incoming model state
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Find the existing slide
-            var existingSlide = _unitOfWork.Slide.Get(s => s.SlideId == id);
-            if (existingSlide == null)
+            try
             {
-                return NotFound(new { message = "Slide not found" });
-            }
-
-            // Store the current image URL by default
-            string imageUrl = existingSlide.Image;
-
-            // Handling the image file if provided
-            if (slideDto.ImageFile != null)
+                var existingSlide = await _slideService.UpdateAsync(id, slideDto);
+                return Ok(existingSlide);
+            } catch (NotFoundException ex)
             {
-                _imageService.setDirect("images/slides");
-                imageUrl = await _imageService.HandleImageUpload(slideDto.ImageFile);
-                _imageService.DeleteOldImage(existingSlide.Image);
-            }
-
-
-
-            // Update the existing slide entity with the new data
-            _unitOfWork.Slide.Update(id, slideDto, imageUrl);
-
-            // Save the updated slide using the Unit of Work
-            _unitOfWork.Save();
-
-            return Ok(new { message = "Slide updated successfully", slideId = existingSlide.SlideId });
+                return NotFound(new { message = ex.Message });
+            } 
         }
 
 
 
 
         [HttpGet("getById/{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            // Fetch the slide from the database using the ID
-            var slide = _unitOfWork.Slide.Get(s => s.SlideId == id);
-            if (slide == null) // Check if slide exists and is active
+            if (!ModelState.IsValid)
             {
-                return NotFound(new { message = "Slide not found" });
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var slide = await _slideService.GetByIdAsync(id);
+                return Ok(slide);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
 
-            return Ok(slide.ToSlideDto());
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            // Fetch all slides from the database that are active
-            var slides = _unitOfWork.Slide.GetAll().Where(s => s.Status).ToList();
-
-            // Map the Slide entities to SlideDto
-            var slideDtos = slides.Select(slide => slide.ToSlideDto()).ToList();
-
-            return Ok(slideDtos);
+            var slides = await _slideService.GetAllAsync();
+            return Ok(slides);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // Find the existing slide
-            var existingSlide = _unitOfWork.Slide.Get(s => s.SlideId == id);
-            if (existingSlide == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound(new { message = "Slide not found" });
+                return BadRequest(ModelState);
             }
-
-            // Delete the old image file if it exists
-            _imageService.DeleteOldImage(existingSlide.Image);
-
-            // Remove the slide from the database
-            _unitOfWork.Slide.Remove(existingSlide);
-            _unitOfWork.Save(); // Assuming SaveAsync is an async method in your unit of work
-
-            return NoContent();
+            try
+            {
+                await _slideService.DeleteAsync(id);
+                return NoContent();
+            } catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }            
         }
     }
 }
