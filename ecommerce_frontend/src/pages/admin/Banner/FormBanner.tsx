@@ -64,13 +64,13 @@ const FormBanner: React.FC<FormBannerProps> = ({ initialData, isUpdate = false, 
         const res = await bannerUpdateAPI(initialData.id, formData);
         if (res?.status === 200) {
           toast.success('Slide updated successfully');
-          navigate('/admin/slider');
+          navigate('/banner');
         }
       } else {
         const res = await bannerPostAPI(formData);
         if (res?.status === 201) {
           toast.success('Slide created successfully');
-          navigate('/admin/slider');
+          navigate('/banner');
         }
       }
       if (onSuccess) onSuccess();

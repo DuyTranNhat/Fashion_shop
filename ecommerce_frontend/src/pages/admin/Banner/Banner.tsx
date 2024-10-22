@@ -7,7 +7,7 @@ import Table from '~/Components/admin/Table/Table';
 import { BannerGet } from '~/Models/Banner';
 import { bannerDeleteAPI, bannerGetAPI } from '~/Services/BannerService';
 
-const baseUrl = 'https://localhost:7000/'; 
+const baseUrl = 'https://localhost:7000/';
 
 const Banner = () => {
     const navigate = useNavigate();
@@ -67,6 +67,20 @@ const Banner = () => {
         {
             label: "Description",
             render: (banner: BannerGet) => banner.description,
+        },
+        {
+            label: "supplier's Status",
+            render: (supplier: BannerGet) =>
+            (
+                <td>
+                    <div className="form-check form-switch">
+                        <input className="form-check-input " type="checkbox" id="flexSwitchCheckDefault"
+                            // onChange={() => onStatusChange(supplier.supplierId)}
+                            checked={supplier.status} />
+                    </div>
+                </td>
+            )
+            ,
         },
         {
             label: "Action",

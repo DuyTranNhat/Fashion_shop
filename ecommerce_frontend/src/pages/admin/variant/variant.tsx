@@ -14,16 +14,18 @@ const Variant = () => {
     const navigate = useNavigate();
     const [variants, setVariants] = useState<VariantGet[]>([])
 
-
+    
     useEffect(() => {
         variantGetAPI()
-            .then(res => {
-                if (res?.data) {
-                    setVariants(res?.data)
-                }
-            }).catch(error => toast.error(error))
+        
+        .then(res => {
+            if (res?.data) {
+                setVariants(res?.data)
+            }
+        }).catch(error => toast.error(error))
     }, [])
-
+    
+    console.log(variants);
 
     const configs = [
         {
@@ -123,8 +125,6 @@ const Variant = () => {
             ,
         },
     ]
-
-
 
     return (
         variants

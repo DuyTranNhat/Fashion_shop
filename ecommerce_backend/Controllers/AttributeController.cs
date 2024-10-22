@@ -16,6 +16,7 @@ namespace ecommerce_backend.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -64,6 +65,7 @@ namespace ecommerce_backend.Controllers
             _unitOfWork.Save();
             return CreatedAtAction(nameof(GetById), new { id = attributeModel.AttributeId }, attributeModel.ToAttributeDto());
         }
+
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateAttributeDto attributeDto)
         {
@@ -73,6 +75,7 @@ namespace ecommerce_backend.Controllers
             _unitOfWork.Save();
             return Ok(attributeModel.ToAttributeDto());
         }
+
         [HttpPut("updateStatus/{id}")]
         public async Task<IActionResult> ChangeStatus([FromRoute] int id)
         {

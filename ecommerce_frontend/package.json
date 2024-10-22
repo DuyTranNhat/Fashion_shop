@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@tippyjs/react": "^4.2.6",
     "axios": "^1.7.7",
     "jquery": "^3.7.1",
     "owl.carousel": "^2.3.4",

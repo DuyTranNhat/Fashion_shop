@@ -22,16 +22,13 @@ namespace ecommerce_backend.Controllers
         }
 
         //Get all Supplier 
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
         {
-            List<Supplier> SupplierList = _unitOfWork.Supplier.GetAll(
-            /*  c=> c.SupplierId == 10, includeProperties:"products"*/
-            ).ToList();
+            List<Supplier> SupplierList = _unitOfWork.Supplier.GetAll().ToList();
             return Ok(SupplierList);
         }
 
-        //Create Supplier
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSupplierDto supplierDto)
         {
@@ -48,9 +45,7 @@ namespace ecommerce_backend.Controllers
             return Ok(supplierModel);
         }
 
-        //Update Supplier 
-        [HttpPut]
-        [Route("{id:int}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSupplierDtos supplierDto)
         {   
             if (!ModelState.IsValid)
@@ -66,15 +61,12 @@ namespace ecommerce_backend.Controllers
             return Ok(supplierModel.ToSupplierDto());
         }
 
-        //Hide Supplier(update Status of Supplier)
-        [HttpPut]
-        [Route("updateStatus/{id:int}")]
+        [HttpPut("updateStatus/{id:int}")]
         public async Task<IActionResult> UpdateStatus([FromRoute] int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            // check containt Supplier 
+            
             var existingSupplier = await _unitOfWork.Supplier.UpdateStatus(id);
             if (existingSupplier == null)
             {

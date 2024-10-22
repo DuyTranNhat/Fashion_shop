@@ -7,6 +7,5 @@
         public int VariantId { get; set; }
 
         public string ImageUrl { get; set; }
-
     }
 }

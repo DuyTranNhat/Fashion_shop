@@ -1,7 +1,6 @@
 ﻿using ecommerce_backend.DataAccess.Repository.IRepository;
 using ecommerce_backend.Dtos.Product;
 using ecommerce_backend.Dtos.Slide;
-using ecommerce_backend.Extension;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
 using ecommerce_backend.Service;

@@ -32,6 +32,8 @@ const Shop = () => {
     });
   }, []);
 
+
+
   const handleFilterValues = (value: string, checked: boolean) => {
     if (checked) {
       setSelectedValues((prev) => [...prev, value]);

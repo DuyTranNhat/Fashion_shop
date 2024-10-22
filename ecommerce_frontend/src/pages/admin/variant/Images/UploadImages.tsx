@@ -7,8 +7,6 @@ type Props = {
 };
 
 const UploadImages = ({ handleUpload, handleImageChange, selectedImages }: Props) => {
-    // State to hold selected images
-
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault(); // Prevent default form submission
         handleUpload();

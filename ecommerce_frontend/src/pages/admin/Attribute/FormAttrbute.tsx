@@ -61,9 +61,9 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
   // Xử lý submit form
   const onSubmit = (data: AttributeFormInput) => {
     handleAttribute(data);
-  };
+  };  
 
-  // Hàm xử lý cập nhật status khi người dùng thay đổi checkbox
+  // Hàm xử lý cập nhật sta tus khi người dùng thay đổi checkbox
   const handleStatusChange = (index: number, checked: boolean) => {
     setValue(`values.${index}.status`, checked);
   };
@@ -96,7 +96,7 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
               type="text"
               className={`form-control ${errors.values?.[index]?.value1 ? 'is-invalid' : ''}`}
               placeholder={`Value ${index + 1}`}
-              {...register(`values.${index}.value1` as const)} // Đăng ký trường giá trị trong mảng
+              {...register(`values.${index}.value1` as const)}
             />
             {/* Checkbox để thay đổi trạng thái status */}
             <div className="form-check form-switch ms-2">
@@ -125,7 +125,7 @@ const FormAttribute = ({ handleAttribute, attribute }: Props) => {
           </button>
 
           {/* Submit Button */}
-          <button type="submit" className="admin-btn-primary ">
+          <button type="submit" className="admin-btn-primary">
             Submit
           </button>
         </div>

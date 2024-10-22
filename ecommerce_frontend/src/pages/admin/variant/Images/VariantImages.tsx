@@ -33,36 +33,36 @@ const VariantImages = () => {
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedImages(event.target.files);
     };
-    
+
     const handleUpload = () => {
         if (id) {
             upLoadImagesAPI(selectedImages, Number(id))
-            .then(res => {
-                if (res?.status == 200) {
-                    setImages(res?.data)
-                    toast.success("Images uploaded successfully!")
-                }
-            }).catch(error => toast.error(error))
+                .then(res => {
+                    if (res?.status == 200) {
+                        setImages(res?.data)
+                        toast.success("Images uploaded successfully!")
+                    }
+                }).catch(error => toast.error(error))
         }
     }
 
     const handleDelete = (idImage: number) => {
         if (id) {
             ImageDeleteAPI(idImage.toString(), id)
-            .then(res => {
-                if (res?.data) {
-                    setImages(res?.data)
-                }
-            }).catch(err => toast.error(err))
+                .then(res => {
+                    if (res?.data) {
+                        setImages(res?.data)
+                    }
+                }).catch(err => toast.error(err))
         }
     }
 
     return (
         <div className="container-fluid service p-4" >
-            <div className="container py-5 row flex-column" style={{padding: "0 62px"}}>
+            <div className="container py-5 row flex-column" style={{ padding: "0 62px" }}>
                 <div className="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
                     <h4 className="display-4 text-center mb-4">Variant Images Management</h4>
-                  
+
                 </div>
 
                 <div className='d-flex justify-content-center' >

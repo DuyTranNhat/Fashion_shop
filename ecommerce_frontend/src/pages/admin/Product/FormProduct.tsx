@@ -41,7 +41,7 @@ const validationSchema = yup.object().shape({
                 attributeId: yup.number().required('Attribute is required').min(1, 'Invalid attribute selection'),
             })
         )
-        .min(1, 'At least one value is required') // Bắt buộc ít nhất 1 giá trị
+        .min(1, 'At least one value is required') 
         .required(),
 });
 

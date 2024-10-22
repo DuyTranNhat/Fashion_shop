@@ -11,7 +11,6 @@ const EditBanner: React.FC = () => {
     const [bannerData, setBannerData] = useState<BannerGet | null>(null);
 
     useEffect(() => {
-        // Fetch the banner data by ID
         const fetchBanner = async () => {
             try {
                 if (id) {

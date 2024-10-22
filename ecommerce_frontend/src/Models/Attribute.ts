@@ -10,7 +10,7 @@ export type ValueGet = {
     value1: string,
     status: boolean
 }
-
+    
 export type AttributeUpdate = {
     name: string,
     values: VallueUpdate[]

@@ -30,6 +30,7 @@ namespace ecommerce_backend.DataAccess.Repository
 
             return slide;
         }
+
         public Slide? UpdateStatus(int id)
         {
             var slide = _db.Slides.FirstOrDefault(s => s.SlideId == id);

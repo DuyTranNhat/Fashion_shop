@@ -1,6 +1,6 @@
 import axios from "axios"
 import { toast } from "react-toastify";
-import { handleError } from "~/Helpers/ErrorHandler"
+import { handleError } from "~/Helpers/ErrorHandler"; 
 import { CartGet, CartPost } from "~/Models/Cart";
 
 

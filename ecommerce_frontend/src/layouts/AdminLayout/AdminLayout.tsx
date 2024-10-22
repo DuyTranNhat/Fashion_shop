@@ -12,7 +12,7 @@ const AdminLayout = () => {
             <div className="container-fluid position-relative bg-white d-flex p-0">
                 <Sidebar />
                 <div className="content">
-                    <Navbar />
+                    <Navbar />  
                     <Outlet />
                 </div>
             

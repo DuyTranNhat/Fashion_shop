@@ -7,8 +7,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
-import { WOW } from 'wowjs'
-import { useEffect } from "react";
+
 function App() {
   return (
     <>

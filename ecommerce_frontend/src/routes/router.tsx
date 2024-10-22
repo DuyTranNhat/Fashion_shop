@@ -111,7 +111,7 @@ const router = createBrowserRouter([
                 </ProtectedRouteAdmin>
             },
             {
-                path: "banner/edit/:id",
+                path: "banner/edit/:id",    
                 element: <ProtectedRouteAdmin>
                     <EditBanner />
                 </ProtectedRouteAdmin>

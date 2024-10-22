@@ -1,6 +1,6 @@
 import axios from "axios"
 import { handleError } from "~/Helpers/ErrorHandler"
-import { Customer } from "~/Models/Customer"
+import { Customer } from "~/Models/User"
 
 const api = "https://localhost:7000/api/Customer/"
 
@@ -8,7 +8,7 @@ export const customerGetAPI = async (idUser: number) => {
     try {
         const data = await axios.get<Customer>(api + "GetById/" + idUser)
         return data
-    } catch (error) {
+    } catch (   error) {
         handleError(error)
     }
 }

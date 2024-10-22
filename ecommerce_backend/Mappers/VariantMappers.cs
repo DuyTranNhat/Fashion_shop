@@ -91,7 +91,6 @@ namespace ecommerce_backend.Mappers
                 
             };
 
-
             return variantModel;
         }
 
@@ -105,10 +104,5 @@ namespace ecommerce_backend.Mappers
                 ImageUrl = img.ImageUrl
             };
         }
-
-
-
-
-
     }
 }

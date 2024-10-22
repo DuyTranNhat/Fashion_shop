@@ -55,8 +55,8 @@ builder.Services.AddDbContext<FashionShopContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<ImageService>();
 
+builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Carousel from '~/Components/customer/Carousel/Carousel'
-import Carousel2 from '~/Components/customer/Carousel/Carousel'
 import VariantList from '~/Components/customer/Variant/VariantList'
 import { BannerGet } from '~/Models/Banner'
 import { VariantGet } from '~/Models/Variant'
