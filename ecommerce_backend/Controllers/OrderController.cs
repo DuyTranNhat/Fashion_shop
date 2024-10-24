@@ -8,6 +8,7 @@ using ecommerce_backend.Dtos.Order;
 using ecommerce_backend.Exceptions;
 using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
+using ecommerce_backend.Service;
 using ecommerce_backend.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,12 @@ namespace ecommerce_backend.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly PaypalService _paypalService;
         private readonly IUnitOfWork _unitOfWork;
-        public OrderController(IUnitOfWork unitOfWork, IOrderService orderService, ICartService cartService, ICustomerService customerService)
+        public OrderController(IUnitOfWork unitOfWork, IOrderService orderService, ICartService
+            cartService, ICustomerService customerService, PaypalService paypalService)
         {
+            _paypalService = paypalService;
             _orderService = orderService;
             _unitOfWork = unitOfWork;
         }
@@ -84,6 +88,45 @@ namespace ecommerce_backend.Controllers
             var orderModel = _unitOfWork.Order.UpdateStatusAsync(id, orderDto);
             if( orderModel == null) return NotFound("Order not found");
             return Ok(orderModel);
+        }
+
+        [HttpPost("/checkout/create-paypal-order")]
+        public async Task<IActionResult> CreatePaypalOrder(CancellationToken cancellationToken)
+        {
+            // Thông tin đơn hàng gửi qua Paypal
+            var tongTien = "10"; // thêm ở đây
+            var donViTienTe = "USD";
+            var maDonHangThamChieu = "DH" + DateTime.Now.Ticks.ToString();
+
+            try
+            {
+                var response = await _paypalService.CreateOrder(tongTien, donViTienTe, maDonHangThamChieu);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var error = new { ex.GetBaseException().Message };
+                return BadRequest(error);
+            }
+        }
+        
+        [HttpPost("/checkout/capture-paypal-order/{orderId}")]
+        public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _paypalService.CaptureOrder(orderID);
+
+                // Lưu database đơn hàng của mình
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var error = new { ex.GetBaseException().Message };
+                return BadRequest(error);
+            }
         }
     }
 }

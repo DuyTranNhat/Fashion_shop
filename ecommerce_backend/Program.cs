@@ -55,7 +55,7 @@ builder.Services.AddDbContext<FashionShopContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddSingleton<PaypalService, PaypalService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -101,6 +101,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
+
 app.UseCors(x => x
     .WithOrigins("http://localhost:5173")
     .AllowAnyMethod()
@@ -112,7 +113,6 @@ app.UseCors("AllowReactLocalhost");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
